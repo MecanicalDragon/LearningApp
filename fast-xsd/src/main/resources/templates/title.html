@@ -1,0 +1,75 @@
+<html>
+<head>
+    <title>
+        Fast-XSD
+    </title>
+
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <link href="img/favicon.ico" rel="shortcut icon">
+
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+<br>
+<div class="container">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="row">
+
+                <!--Environment chooser-->
+                <div class="col-2 align-self-center">
+                    <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="environmentMenuButton"
+                                data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" style="width:130px; text-align:right;">
+                            Environment
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="environmentMenuButton">
+                            <button class="dropdown-item chooser" id="EU1">EU1</button>
+                            <button class="dropdown-item chooser" id="EU2">EU2</button>
+                            <button class="dropdown-item chooser" id="EU3">EU3</button>
+                            <button class="dropdown-item chooser" id="EU4">EU4</button>
+                            <button class="dropdown-item chooser" id="EU5">EU5</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2 text-center  align-self-center" id="dienst">
+                    <b>Dienst</b>
+                </div>
+
+                <div class="col-3 text-center  align-self-center" id="dienstauspraegung">
+                    <b>Dienstauspraegung</b>
+                </div>
+
+                <div class="btn-group col-3  align-self-center">
+                    <button class="btn btn-success mass-changer" id="allOn" style="width:100px;" disabled>All On
+                    </button>
+                    <button class="btn btn-danger mass-changer" id="allOff" style="width:100px;" disabled>All Off
+                    </button>
+                </div>
+
+                <div class="col-2 align-self-center">
+                    <button class="btn btn-info" type="button" id="joker">Tell a joke</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-body" id="list">
+        </div>
+    </div>
+    <div class="row justify-content-center" id="gif">
+    </div>
+</div>
+<!--Ajax requests-->
+<script src="js/ajax.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+
+    <title>Star Realms</title>
+    <link rel="icon" th:href="@{/static/img/favicon.ico}" type="image/x-icon">
+
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+    <link href="css/sr-table.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/angular175.js"></script>
+    <script src="js/ang-animate175.js"></script>
+
+</head>
+<body>
+<br>
+<div ng-app="sr" class="container sr-table" ng-controller="srCtrl">
+
+    <!--Start New Game row-->
+    <div ng-hide="gameStarted" class="row justify-content-center align-items-center" style="padding-top: 30%;"
+         id="startNewGameWindow">
+        <input type="text" ng-model="player1">
+        <button class="btn btn-success" ng-click="startNewGame()" id="startNewGameButton">Start new game</button>
+        <input type="text" ng-model="player2">
+    </div>
+    <div ng-show="gameStarted" id="table">
+        <div class="row justify-content-start align-items-start" style="height: 30%;" id="player1window">
+            <div style="width: 15%;" ng-repeat="card in player1pile">
+                <img src="img/{{card.url}}.jpg" ng-click="playCard()">
+            </div>
+            <div>
+                <br>
+                <p style="color: white;">{{player1}}</p>
+                <br>
+                <p style="color: white;">{{player1HP}}</p>
+            </div>
+        </div>
+        <div class="row justify-content-end align-items-center" style="height: 40%;" id="playground">
+            <div style="width: 15%;" ng-repeat="card in drawpile">
+                <img src="img/{{card.url}}.jpg">
+            </div>
+        </div>
+        <div class="row justify-content-start align-items-end" style="height: 30%;" id="player2window">
+            <div style="width: 15%;" ng-repeat="card in player2pile">
+                <img src="img/{{card.url}}.jpg" ng-click="playCard()">
+            </div>
+            <div>
+                <br>
+                <p style="color: white;">{{player2}}</p>
+                <br>
+                <p style="color: white;">{{player2HP}}</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    var SR_app = angular.module('sr', ['ngAnimate']);
+    SR_app.controller('srCtrl', function ($scope, $http) {
+        $scope.gameStarted = false;
+        $scope.player1 = "";
+        $scope.player2 = "";
+        $scope.player1HP;
+        $scope.player2HP;
+        $scope.player1pile = undefined;
+        $scope.player2pile = undefined;
+        $scope.startNewGame = function () {
+            $http.get("getNewDrawPile")
+                .then(function (response) {
+                    $scope.drawpile = response.data;
+                });
+            $http.get("getStartPile?player=1")
+                .then(function (response) {
+                    $scope.player1pile = response.data;
+                });
+            $http.get("getStartPile?player=2")
+                .then(function (response) {
+                    $scope.player2pile = response.data;
+                });
+            $http.get("getHP")
+                .then(function (response) {
+                    $scope.player1HP = response.data;
+                    $scope.player2HP = response.data;
+                });
+            $scope.gameStarted = true;
+        };
+        $scope.playCard = function () {
+
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+
+    <title>Angular examples</title>
+    <link rel="icon" th:href="@{/static/img/favicon.ico}" type="image/x-icon">
+
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/angular175.js"></script>
+
+    <!--CSS with angular statuses-->
+    <style>
+        .coloured {
+            background-color: #B7E9C2;
+        }
+
+        input.ng-invalid {
+            background-color: redz;
+        }
+
+        input.ng-empty {
+            background-color: white;
+        }
+
+        input.ng-not-empty {
+            background-color: lightblue;
+        }
+
+        input.ng-valid {
+            background-color: greenyellow;
+        }
+
+        /*Full list:*/
+
+        /*ng-empty*/
+        /*ng-not-empty*/
+        /*ng-touched*/
+        /*ng-untouched*/
+        /*ng-valid*/
+        /*ng-invalid*/
+        /*ng-dirty*/
+        /*ng-pending*/
+        /*ng-pristine*/
+    </style>
+
+</head>
+<body>
+<br>
+
+
+                <!--SERVICES AND FILTERS-->
+
+<div class="container">
+
+    <!--initialize angularJS-->
+    <div ng-app="app1" class="panel panel-danger">
+        <div class="panel-heading text-center">
+            <h1>{{ex}}</h1>
+        </div>
+
+        <!--initialize controller-->
+        <div ng-controller="app1Ctrl" class="panel-body">
+
+            <!--Variables binding-->
+            <div class="row text-center">
+
+                <!--bind input value to app data-->
+                <div class="col-4">Text : <input type="text" ng-model="textExample" placeholder="Enter text here"></div>
+
+                <!--init variables-->
+                <div ng-init="var1='first var';var2='second var'"></div>
+
+                <!--bind app data to html view-->
+                <div class="col-2">{{ex}}</div>
+                <div class="col-2" ng-bind="textExample"></div>
+                <div class="col-2" ng-bind="var1"></div>
+                <div class="col-2" ng-bind="var2"></div>
+            </div>
+
+            <!--bind app data to html view, using expression-->
+            <div class="row text-center coloured">
+                <div class="col-6">5+5 in angular expression = {{5+5}}</div>
+                <div class="col-2">{{textExample}}</div>
+                <div class="col-2">{{var1}}</div>
+                <div class="col-2">{{var2}}</div>
+            </div>
+
+            <!--example with controllers-->
+            <div class="row text-center">
+                <div class="col-3">
+                    First: <input type="text" ng-model="firstName">
+                </div>
+                <div class="col-3">
+                    Last: <input type="text" ng-model="lastName">
+                </div>
+                <div class="col-3">
+                    Full Name: {{firstName + " " + lastName}}
+                </div>
+                <div class="col-3">
+                    Full Name: {{fullName()}}
+                </div>
+            </div>
+
+            <!--repeating-->
+            <div class="row text-center coloured" ng-init="repeats=['one','two','three','four']">
+                <div class="col-3" ng-repeat="rep in repeats">{{rep}}</div>
+            </div>
+
+            <!--repeating with objects-->
+            <div class="row text-center" ng-init="repeatsO=[
+            {name:'Jani',country:'Norway'},
+            {name:'Hege',country:'Sweden'},
+            {name:'Kai',country:'Denmark'}]">
+                <div class="col-4" ng-repeat="repO in repeatsO">{{repO.name + ', ' + repO.country}}</div>
+            </div>
+
+            <!--Directive example-->
+            <div class="row text-center coloured">
+                <first-ang-directive class="col-3"></first-ang-directive>
+                <div class="col-3" first-ang-directive></div>
+                <div class="col-3 first-ang-directive2"></div>
+                <div class="col-3">
+                    <!-- directive: first-ang-directive3 -->
+                </div>
+            </div>
+
+            <!--Validation-->
+            <div class="row text-center">
+                <div class="col-3">
+                    <form name="myForm">
+                        Email:
+                        <input type="email" name="myAddress" ng-model="emailer" required>
+                        <span ng-show="myForm.myAddress.$error.email">Not a valid e-mail address</span>
+                    </form>
+                </div>
+                <div class="col-3">
+                    <p>Valid: {{myForm.myAddress.$valid}}</p>
+                </div>
+                <div class="col-3">
+                    <p>Dirty: {{myForm.myAddress.$dirty}}</p>
+                </div>
+                <div class="col-3">
+                    <p>Touched: {{myForm.myAddress.$touched}}.</p>
+                </div>
+            </div>
+
+            <!--Clicking-->
+            <div class="row text-center coloured">
+                <div class="col-3" ng-click="changeName1()">Click me!</div>
+                <div class="col-3" ng-click="changeName2()">Click me too!</div>
+                <div class="col-3">{{clickresult1}}</div>
+                <div class="col-3">{{clickresult2}}</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Controller can be excluded to external js files as common js scripts-->
+<script>
+    var app1 = angular.module('app1', []);
+
+    // init rootScope
+    app1.run(function ($rootScope) {
+        $rootScope.ex = "Angular example";
+    });
+
+    // Controller for app1
+    app1.controller('app1Ctrl', function ($scope) {
+        $scope.ex = "Controller scope";
+        $scope.firstName = "John";
+        $scope.lastName = "Doe";
+        $scope.fullName = function(){
+          return $scope.firstName + " " + $scope.lastName;
+        };
+        $scope.clickresult1 = "Watch me!";
+        $scope.clickresult2 = "Watch me too!";
+        $scope.changeName1 = function () {
+            if ($scope.clickresult1 = "Watch me!") {
+                $scope.clickresult1 = "I'd been changed!";
+            } else {
+                $scope.clickresult1 = "Watch me!";
+            }
+        };
+        $scope.changeName2 = function () {
+            if ($scope.clickresult2 = "Watch me too!") {
+                $scope.clickresult2 = "I'd been changed too!";
+            } else {
+                $scope.clickresult2 = "Watch me too!";
+            }
+        };
+    });
+
+    // Directive declaration
+    app1.directive("firstAngDirective", function () {
+        return {
+            template: "<p>Text from directive</p>"
+        };
+    });
+
+    // Directive declaration in 'class'
+    app1.directive("firstAngDirective2", function () {
+        return {
+            restrict: "C",  //required to invoke directive from class   //"A" - from attributes only, "E" - from elements only. Can be combined.
+            template: "<p>Text from class</p>"
+        };
+    });
+
+    // Directive declaration in comment
+    app1.directive("firstAngDirective3", function () {
+        return {
+            restrict: "M", //required to invoke directive from comment
+            replace: true, //makes directive visible
+            template: "<p>Text from comment</p>"
+        };
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+
+    <title>Learning App</title>
+    <link rel="icon" th:href="@{/static/img/favicon.ico}" type="image/x-icon">
+
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+<br>
+<header th:replace="header.html :: header"></header>
+<main class="container">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+            <h1>Learning app content</h1>
+        </div>
+
+        <!--Thymeleaf abilities-->
+        <div class="panel-body" id="list">
+
+            <!--Href-->
+            <div class="row text-center">
+                <div class="col-2">
+                <a th:href="@{/ang}">To angularJS</a>
+                </div>
+                <div class="col-2">
+                <a th:href="@{/playSR}">To StarRealms</a>
+                </div>
+                <div class="col-2">
+                    <a th:href="@{/vocabulary}">To vocabulary</a>
+                </div>
+            </div>
+
+            <!--Text from properties-->
+            <div class="row text-center">
+                <span th:text="#{messages.text}"/>
+            </div>
+
+            <!--Resource, if-else condition -->
+            <div class="row text-center">
+                <img th:src="@{/img/marker.png}" th:if="__${#locale}__ == 'en_US'">
+                <img th:src="@{/img/favicon.png}" th:if="__${#locale}__ != 'en_US'">
+            </div>
+
+            <!--Model attribute-->
+            <div class="row text-center" th:text="${textExample}">
+            </div>
+
+            <!--Selector-->
+            <div class="row text-center">
+                <div class="navbar-persistent">
+                    <ul class="nav navbar-nav navbar-nav-icons navbar-right">
+                        <li class="">
+                            <select id="language-select" class="form-select hidden" name="language">
+                                <option th:selected="__${#locale}__=='de'?'true':'false'" th:value="de">DE</option>
+                                <option th:selected="__${#locale}__=='en_US'?'true':'false'" th:value="en">EN</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--ForEach-->
+            <div class="row text-center">
+
+                <!--If-else-->
+                <div class="col-4">
+                    <div class="table" th:each="student: ${students}">
+                        <div class="tr">
+                            <td th:text="${student.age}"/>
+                            <td th:text="${student.name}"/>
+                            <td th:if="${student.sex} == true" th:text="Male"/>
+                            <td th:if="${student.sex} == false" th:text="Female"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!--If-unless-->
+                <div class="col-4">
+                    <div class="table" th:each="student: ${students}">
+                        <div class="tr">
+                            <td th:text="${student.age}"/>
+                            <td th:text="${student.name}"/>
+                            <td th:if="${student.sex} == true" th:text="Male"/>
+                            <td th:unless="${student.sex} == true" th:text="Female"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Switch-case-->
+                <div class="col-4">
+                    <div class="table" th:each="student: ${students}">
+                        <div class="tr">
+                            <td th:text="${student.age}"/>
+                            <td th:text="${student.name}"/>
+                            <td th:switch="${student.sex}">
+                                <span th:case="true" th:text="Male"/>
+                                <span th:case="false" th:text="Female"/>
+                            </td>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--User input-->
+            <div class="row text-center">
+                <form action="#" th:action="@{/newStudent}" th:object="${newStudent}" method="post">
+                    <table border="1">accordance
+                        <tr>
+                            <td><label th:text="#{messages.student.age}"/></td>
+                            <td><input type="number" th:field="*{age}"/></td>
+                            <td th:if="${#fields.hasErrors('age')}" th:text="Error!!1"></td>
+                            <td th:text="${#fields.errors('age')}"/>
+                        </tr>
+                        <tr>
+                            <td><label th:text="#{messages.student.name}"/></td>
+                            <td><input type="text" th:field="*{name}"/></td>
+                            <td th:text="${#fields.errors('name')}"/>
+                        </tr>
+                        <tr>
+                            <td><label th:text="#{messages.student.sex}"/></td>
+                            <td><input type="radio" name="stsex" th:field="*{sex}" value="true"/>
+                                <span>Male</span>
+                                <input type="radio" name="stsex" th:field="*{sex}" value="false" checked/>
+                                <span>Female</span>
+                            </td>
+                            <td th:text="${#fields.errors('sex')}"/>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="Submit"/></td>
+                        </tr>
+                        <span th:if="${errors != null}">Errors</span>
+                    </table>
+                </form>
+            </div>
+
+            <div class="row test-center">
+                <!--<span th:if="${newcomer != null}" th:text="${newcomer.age+newcomer.name+newcomer.sex}"></span>-->
+            </div>
+
+        </div>
+    </div>
+</main>
+<footer th:replace="footer.html :: footer"></footer>
+
+</body>
+</html>
