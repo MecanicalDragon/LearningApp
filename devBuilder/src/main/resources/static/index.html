@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Developer Builder</title>
+
+    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/tempus.css" rel="stylesheet" type="text/css">
+    <link href="css/fa470/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #valuesBody > tr,
+        #valuesBody > tr > td {
+            height: 26px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
+
+</head>
+<body>
+<br>
+<div class="container">
+    <div class="panel panel-success">
+        <div class="panel-heading text-center">
+            <h1>Developer Builder</h1>
+        </div>
+        <div class="panel-body" style="padding-top: 10px; padding-bottom: 10px" id="devBuilderbody">
+
+            <div class="row">
+                <div class="col-auto" style="padding-right: 0;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td>Ending</td>
+                            <td>Name</td>
+                            <td>Surname</td>
+                            <td>Birthday</td>
+                            <td>Age</td>
+                            <td>Skills</td>
+                            <td>Race</td>
+                        </tr>
+                        </thead>
+                        <tbody id="valuesBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <form onsubmit="setSkillsCount(event)">
+                    <div class="row" style="margin-top: 10px; margin-bottom: 15px;">
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Request ending:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input style="width: 45px" class="form-control" type="text" value="01" id="messageEnd"
+                                   placeholder="01" minlength="2" maxlength="2"/>
+                        </div>
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Skills count:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input style="width: 70px" class="form-control" type="number" value="5" id="skillsCount"
+                                   placeholder="5" min="1" max="10"/>
+                        </div>
+                        <div class="col-auto">
+                            <button id="submitSkills" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                        <div class="col-auto">
+                            <span style="position: relative; top: 10px;" id="reqresult"></span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px; margin-bottom: 15px;">
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Name:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-control" type="text" id="name" placeholder="Name"/>
+                        </div>
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Surname:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-control" type="text" id="surname" placeholder="Surname"/>
+                        </div>
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Race:</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-info dropdown-toggle" type="button" id="race"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Random
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="race" id="raceDD">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px; margin-bottom: 15px;">
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Birthday:</span>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="birthDate" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input"
+                                           data-target="#birthDate" id="birthDateInput"
+                                           placeholder="Current time"/>
+                                    <div class="input-group-append" data-target="#birthDate"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Age:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input style="width: 70px" class="form-control" type="number" value="30" id="age" min="1"
+                                   max="100"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <span id="joker" onmouseover="showJoke(this)" onmouseout="showJoke(this)">*developed by Stanislav.Tretyakov@t-systems.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+<!--All this is for date and time picking only-->
+<script type="text/javascript" src="js/jQuery341.js"></script>
+<script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/tempus.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#birthDate').datetimepicker();
+    });
+</script>
+
+<script>
+    let races = [];
+    let raceValue = "random";
+    document.addEventListener('DOMContentLoaded', function () {
+        let url = new URL(window.location.origin + '/devBuilder/getStartUpData');
+        let table = document.getElementById("valuesBody");
+        fetch(url).then(function (response) {
+            return response.json();
+        }).then(resp => {
+            if (resp.status === 200) {
+                let map = resp.requests;
+                for (let key in map) {
+                    table.innerHTML = table.innerHTML + "<tr><td>" + key + "</td><td>" + map[key].name
+                        + "</td><td>" + map[key].surname + "</td><td>" + map[key].bday + "</td><td>"
+                        + map[key].age + "</td><td>" + map[key].skillsCount + "</td><td>" + map[key].race + "</td></tr>";
+                }
+                fillDD(resp.raceTypes);
+            } else {
+                alert(resp);
+            }
+        });
+    });
+
+    const getJoke = function () {
+        let url = new URL(window.location.origin + '/devBuilder/getJoke');
+        fetch(url).then(function (response) {
+            return response.text();
+        }).then(resp => {
+            console.log(resp);
+        });
+    }
+
+    function showJoke(span) {
+        if (span.innerText === "*developed by Stanislav.Tretyakov@t-systems.com") {
+            span.innerText = "Get fresh joke into console :)"
+            span.style.cursor = "pointer";
+            span.onclick = getJoke;
+        } else {
+            span.innerText = "*developed by Stanislav.Tretyakov@t-systems.com"
+            span.style.cursor = "auto";
+            span.onclick = undefined;
+        }
+    }
+
+    function fillDD(array) {
+        races = array;
+        let dDown = document.getElementById("raceDD");
+        for (let i = 0; i < races.length; i++) {
+            dDown.innerHTML += "<a class='dropdown-item' style='cursor: pointer' onclick='pickDD(event)'>" + races[i] + "</a>"
+        }
+    }
+
+    function pickDD(event) {
+        let innerText = event.target.innerText;
+        raceValue = innerText;
+        document.getElementById("race").innerText = innerText;
+    }
+
+    function setSkillsCount(event) {
+        event.preventDefault();
+        let result = document.getElementById("reqresult");
+        if (result.innerText === "") {
+
+            let birth = document.getElementById("birthDateInput").value;
+            let age = document.getElementById("age").value;
+            let name = document.getElementById("name").value;
+            let surname = document.getElementById("surname").value;
+            let end = document.getElementById("messageEnd").value;
+            let skills = document.getElementById("skillsCount").value;
+            let race = raceValue;
+
+            let url = new URL(window.location.origin + '/devBuilder/setSkillsCount');
+
+            // let params = {
+            //     key: end,
+            //     name: name,
+            //     age: age,
+            //     surname: surname,
+            //     bday: birth,
+            //     race: raceValue,
+            //     skillsCount: skills
+            // };
+            // url.search = new URLSearchParams(params);
+
+            let requestFailed = false;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    key: end,
+                    name: name,
+                    age: age,
+                    surname: surname,
+                    bday: birth,
+                    race: race,
+                    skillsCount: skills
+                })
+            }).then(function (response) {
+                if (response.status !== 200) requestFailed = true;
+                return response.json();
+            }).then(function (resp) {
+                if (!requestFailed) {
+                    result.innerText = "New value has been set.";
+                    let table = document.getElementById("valuesBody");
+                    let exists = false;
+                    for (let i = 0; i < table.children.length; i++) {
+                        if (table.children[i].children[0].innerText === end) {
+                            table.children[i].children[1].innerText = name;
+                            table.children[i].children[2].innerText = surname;
+                            table.children[i].children[3].innerText = birth;
+                            table.children[i].children[4].innerText = age;
+                            table.children[i].children[5].innerText = skills;
+                            table.children[i].children[6].innerText = race;
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists) {
+                        table.innerHTML = table.innerHTML + "<tr><td>" + end + "</td><td>" + name + "</td><td>"
+                            + surname + "</td><td>" + birth + "</td><td>" + age + "</td><td>" + skills + "</td><td>"
+                            + race + "</td></tr>";
+                    }
+                } else {
+                    result.innerText = "Request has failed. Take a look into console.";
+                    if (resp.message.startsWith("Validation failed for object")) {
+
+                        // Use for…of to iterate over the values in an iterable, like an array
+                        // Use for…in to iterate over the properties of an object (the object keys)
+                        // You can also use for…in to iterate over the index values of an iterable like an array or a string
+
+                        for (x of resp.errors) {
+                            console.log(x.defaultMessage);
+                        }
+                    } else console.log(resp);
+                }
+                fade(result);
+            });
+        }
+    }
+
+    function fade(element) {
+        let op = 1;  // initial opacity
+        let timer = setInterval(function () {
+
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+
+            if (op <= 0.05) {
+                clearInterval(timer);
+                element.innerText = "";
+                element.style.opacity = 1;
+            }
+        }, 150);
+    }
+</script>
+</body>
+</html>

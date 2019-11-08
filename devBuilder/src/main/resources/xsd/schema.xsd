@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://schema.medrag.net"
+            targetNamespace="http://schema.medrag.net"
+            elementFormDefault="qualified"
+            version="1.00">
+
+    <xsd:element name="Developer">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Name" type="xsd:string"/>
+                <xsd:element name="Surname" type="xsd:string"/>
+                <xsd:element name="Age" type="xsd:nonNegativeInteger"/>
+                <xsd:element name="skillsCount" type="xsd:nonNegativeInteger"/>
+                <xsd:element name="Birthday" type="xsd:dateTime" minOccurs="0"/>
+                <xsd:element name="Race" type="RaceType"/>
+                <xsd:element name="Skills" type="SkillList"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="RaceType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Jew"/>
+            <xsd:enumeration value="Hohol"/>
+            <xsd:enumeration value="Vatnik"/>
+            <xsd:enumeration value="Pindos"/>
+            <xsd:enumeration value="Nigger"/>
+            <xsd:enumeration value="Jap"/>
+            <xsd:enumeration value="Fritz"/>
+            <xsd:enumeration value="Makaronnik"/>
+            <xsd:enumeration value="Lyagushatnik"/>
+            <xsd:enumeration value="Churka"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="SkillList">
+        <xsd:sequence>
+            <xsd:element name="Skill" type="Skill" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Skill">
+        <xsd:sequence>
+            <xsd:element name="Name" type="SkillName"/>
+            <xsd:element name="Level" type="SkillLevel"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="SkillLevel">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Null"/>
+            <xsd:enumeration value="Low"/>
+            <xsd:enumeration value="Amateur"/>
+            <xsd:enumeration value="Advanced"/>
+            <xsd:enumeration value="Pro"/>
+            <xsd:enumeration value="Godlike"/>
+            <xsd:enumeration value="BeyondGodlike"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="SkillName">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Java"/>
+            <xsd:enumeration value="Angular"/>
+            <xsd:enumeration value="React"/>
+            <xsd:enumeration value="Kotlin"/>
+            <xsd:enumeration value="Sharp"/>
+            <xsd:enumeration value="Rust"/>
+            <xsd:enumeration value="C++"/>
+            <xsd:enumeration value="Hibernate"/>
+            <xsd:enumeration value="Spring"/>
+            <xsd:enumeration value="SQL"/>
+            <xsd:enumeration value="RabbitMQ"/>
+            <xsd:enumeration value="ApacheMQ"/>
+            <xsd:enumeration value="Kafka"/>
+            <xsd:enumeration value="Docker"/>
+            <xsd:enumeration value="Kubernetes"/>
+            <xsd:enumeration value="OracleDB"/>
+            <xsd:enumeration value="MySQL"/>
+            <xsd:enumeration value="H2"/>
+            <xsd:enumeration value="Tomcat"/>
+            <xsd:enumeration value="Wildfly"/>
+            <xsd:enumeration value="EJB"/>
+            <xsd:enumeration value="HTML"/>
+            <xsd:enumeration value="CSS"/>
+            <xsd:enumeration value="Unity"/>
+            <xsd:enumeration value="JavaScript"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
