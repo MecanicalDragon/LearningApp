@@ -1,0 +1,64 @@
+plugins {
+    id "org.openapi.generator" version "4.2.0"
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+apply plugin: 'base'
+group = 'net.medrag'
+
+ext.inputSpec = "$rootDir/src/api/openapi-3.0.0.yml".toString()
+ext.outputDir = "$rootDir".toString()
+ext.apiDir = "${rootDir}/src/main/java/net/medrag/SwaggerTests/api".toString()
+ext.modelDir = "${rootDir}/src/main/java/net/medrag/SwaggerTests/model".toString()
+ext.operTools = "${rootDir}/src/main/java/org".toString()
+
+
+clean.doFirst {
+    delete(this.apiDir)
+    delete(this.modelDir)
+    delete(this.operTools)
+}
+
+task openApiGenerateWrapper {
+    openApiGenerate
+//    delete(this.operTools)
+
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = this.inputSpec
+    outputDir = this.outputDir
+    apiPackage = "net.medrag.SwaggerTests.api"
+    modelPackage = "net.medrag.SwaggerTests.model"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+}
+
+compileJava.dependsOn('openApiGenerate')
+
+group = 'net.medrag'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.springfox:springfox-swagger2:2.7.0'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.0'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
