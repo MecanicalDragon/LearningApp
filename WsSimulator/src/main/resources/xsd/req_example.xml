@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <sch:DeveloperRequest xmlns:sch="http://schemaTypes.medrag.net">
+            <sch:identifier>ident</sch:identifier>
+        </sch:DeveloperRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

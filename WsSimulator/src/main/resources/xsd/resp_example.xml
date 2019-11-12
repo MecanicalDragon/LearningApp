@@ -1,0 +1,21 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <sch:DeveloperResponse xmlns:sch="http://schemaTypes.medrag.net" xmlns:sch1="http://schema.medrag.net">
+            <sch:Developer>
+                <sch1:Name>string</sch1:Name>
+                <sch1:Surname>string</sch1:Surname>
+                <sch1:Age>30</sch1:Age>
+                <sch1:skillsCount>1</sch1:skillsCount>
+                <sch1:Birthday>2008-09-29T05:49:45</sch1:Birthday>
+                <sch1:Race>Pindos</sch1:Race>
+                <sch1:Skills>
+                    <sch1:Skill>
+                        <sch1:Name>Sharp</sch1:Name>
+                        <sch1:Level>BeyondGodlike</sch1:Level>
+                    </sch1:Skill>
+                </sch1:Skills>
+            </sch:Developer>
+        </sch:DeveloperResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

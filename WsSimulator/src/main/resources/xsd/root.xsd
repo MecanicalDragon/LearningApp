@@ -1,0 +1,28 @@
+<xsd:schema targetNamespace="http://schemaTypes.medrag.net"
+            elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0"
+            xmlns:types="http://schemaTypes.medrag.net"
+            xmlns:sch="http://schema.medrag.net"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://schema.medrag.net" schemaLocation="schema.xsd"/>
+
+    <xsd:element name="DeveloperRequest" type="types:DeveloperRequestType"/>
+    <xsd:element name="DeveloperResponse" type="types:DeveloperResponseType"/>
+
+    <xsd:complexType name="DeveloperRequestType">
+        <xsd:sequence>
+            <xsd:element type="xsd:string" name="identifier"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="DeveloperResponseType">
+        <xsd:sequence>
+            <xsd:element type="sch:Developer" name="Developer" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Fehler">
+        <xsd:sequence>
+            <xsd:element type="xsd:string" name="reason"/>
+            <xsd:element type="xsd:dateTime" name="timestamp"/>
+            <xsd:element type="xsd:string" name="comment"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

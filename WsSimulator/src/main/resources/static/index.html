@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebService Simulator</title>
+
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/tempus.css" rel="stylesheet" type="text/css">
+    <link href="css/fa470/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #reqsBody > tr,
+        #reqsBody > tr > td {
+            height: 36px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
+
+</head>
+<body>
+<br>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+            <h1>WebService Simulator</h1>
+        </div>
+        <div class="panel-body" style="padding-bottom: 10px; padding-top: 10px" id="body">
+
+            <div class="row">
+                <div class="col-auto" style="padding-right: 0;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td>Id</td>
+                            <td>Response</td>
+                            <td>Edit</td>
+                            <td>Remove</td>
+                        </tr>
+                        </thead>
+                        <tbody id="reqsBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <input class="form-control" type="text" value="" minlength="1" id="reqId"
+                               placeholder="ID"/>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-info" type="button" id="submit" onclick="sendXml(true)"
+                                title="Add with validation">Validate
+                        </button>
+                        <button class="btn btn-outline-warning" type="button" id="swv" onclick="sendXml(false)"
+                                title="Add without validation">!Validate
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                        <textarea class="form-control" minlength="1" id="xml" placeholder="xml response"
+                                  style="font-size: 14px; height: 200px"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="panel-footer">
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <span>*developed by Stanislav.Tretyakov@t-systems.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--All this is for date and time picking only-->
+<script type="text/javascript" src="js/jQuery341.js"></script>
+<script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/tempus.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let url = new URL(window.location.origin + '/getReqs');
+        let table = document.getElementById("reqsBody");
+        fetch(url).then(function (response) {
+            return response.status === 200 ? response.json() : [response.message]
+        }).then(resp => {
+            for (let el in resp) {
+                table.innerHTML = table.innerHTML + "<tr><td style='padding-top: 6px'>"
+                    + resp[el] + "</td><td>" + getShowButton(resp[el])
+                    + "</td><td>" + getUpdateButton(resp[el]) + "</td><td>"
+                    + getDeleteButton(resp[el]) + "</td></tr>";
+            }
+        });
+    });
+
+    function getDeleteButton(el) {
+        return '<button class="btn btn-outline-danger" style="padding-top: 0px; padding-bottom: 2px; margin-top: 3px"' +
+            ' type="button" onclick="deleteResp(\'' + el + '\')">Remove</button>'
+    }
+
+    function deleteResp(el) {
+        let url = new URL(window.location.origin + '/remove');
+        url.search = new URLSearchParams({id: el});
+        let requestFailed = false;
+        fetch(url, {
+            method: 'DELETE'
+        }).then(function (response) {
+            if (response.status === 200)
+                return response.text();
+            else {
+                requestFailed = true;
+                return response.message
+            }
+        }).then(resp => {
+            if (requestFailed) alert(resp);
+            else {
+                let table = document.getElementById("reqsBody");
+                for (let i = 0; i < table.children.length; i++) {
+                    if (table.children[i].children[0].innerText === resp) {
+                        table.removeChild(table.children[i]);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    function getShowButton(el) {
+        return '<button class="btn btn-outline-info" style="padding-top: 0px; padding-bottom: 2px; margin-top: 3px"' +
+            ' type="button" onclick="showResp(\'' + el + '\')">Show</button>'
+    }
+
+    function showResp(el) {
+        let url = new URL(window.location.origin + '/getResp');
+        url.search = new URLSearchParams({id: el});
+        fetch(url).then(function (response) {
+            return response.status === 200 ? response.text() : response.message
+        }).then(resp => {
+            document.getElementById("reqId").value = el;
+            document.getElementById("xml").value = resp;
+            document.getElementById("xml").style.height = "800px";
+            document.getElementById("reqId").setAttribute("readonly", "true");
+            document.getElementById("xml").setAttribute("readonly", "true");
+        });
+    }
+
+    function getUpdateButton(el) {
+        return '<button class="btn btn-outline-warning" style="padding-top: 0px; padding-bottom: 2px; margin-top: 3px"' +
+            ' type="button" onclick="updateResp(\'' + el + '\')">Update</button>'
+    }
+
+    function updateResp(el) {
+        let url = new URL(window.location.origin + '/getResp');
+        url.search = new URLSearchParams({id: el});
+        let failedRequest = false;
+        fetch(url).then(function (response) {
+            if (response.status === 200)
+                return response.text();
+            else {
+                failedRequest = true;
+                return response.message;
+            }
+        }).then(resp => {
+            if (failedRequest) alert(resp);
+            else {
+                document.getElementById("reqId").value = el;
+                document.getElementById("xml").value = resp;
+                document.getElementById("reqId").removeAttribute("readonly");
+                document.getElementById("xml").removeAttribute("readonly");
+            }
+        });
+
+    }
+
+    function sendXml(validate) {
+        let id = document.getElementById("reqId").value;
+        let xml = document.getElementById("xml").value;
+        if (id.toString().trim() !== "" && xml.toString().trim() !== "") {
+            let failedRequest = false;
+            let url = new URL(window.location.origin + '/addResp');
+            if (validate) url.search = new URLSearchParams({validate: validate});
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    req: id,
+                    xml: xml
+                })
+            }).then(function (response) {
+                if (response.status !== 200)
+                    failedRequest = true;
+                return response.text();
+            }).then(function (resp) {
+                if (failedRequest) {
+                    console.log(resp);
+                    alert(resp);
+                } else {
+                    let table = document.getElementById("reqsBody");
+                    table.innerHTML = table.innerHTML + "<tr><td style='padding-top: 6px'>"
+                        + resp + "</td><td>" + getShowButton(resp)
+                        + "</td><td>" + getUpdateButton(resp) + "</td><td>"
+                        + getDeleteButton(resp) + "</td></tr>";
+                    document.getElementById("reqId").value = "";
+                    document.getElementById("xml").value = "";
+                }
+            });
+        } else {
+            console.log("Fill the fields!");
+            alert("Fill the fields!");
+        }
+    }
+
+</script>
+
+</body>
+</html>
