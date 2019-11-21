@@ -11,7 +11,7 @@
     <groupId>net.medrag</groupId>
     <artifactId>WsSimulator</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>WsSimulator</name>
     <description>Simulator of WebService responses</description>
 

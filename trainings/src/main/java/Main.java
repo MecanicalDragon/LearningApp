@@ -5,16 +5,14 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * {@author} Stanislav Tretyakov
@@ -27,10 +25,12 @@ public class Main extends Student {
     public static void main(String[] args) {
 
 
-
-        
-
-
+//        for (int i = 0; i < 100; i++) {
+//            int y = new Random().nextInt();
+//            int z = y ^ y>>>16;
+//            int q = z & 15;
+//            System.out.println(q);
+//        }
 
 //        extendStudent();
 //        dateAndTime();

@@ -1,0 +1,10 @@
+version: '3'
+services:
+    sim:
+        build: .
+        container_name: WsSimulator
+        ports:
+            - "9009:9009"
+        volumes:
+            - d:\dock:/app/data
+    db:
