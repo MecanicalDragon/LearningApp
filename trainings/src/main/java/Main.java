@@ -25,13 +25,6 @@ public class Main extends Student {
     public static void main(String[] args) {
 
 
-//        for (int i = 0; i < 100; i++) {
-//            int y = new Random().nextInt();
-//            int z = y ^ y>>>16;
-//            int q = z & 15;
-//            System.out.println(q);
-//        }
-
 //        extendStudent();
 //        dateAndTime();
 //        interfaceInheritance();
@@ -57,6 +50,15 @@ public class Main extends Student {
 //        System.out.println("protected value of Student: " + s.protectedString);
 //        System.out.print("protected method of Student: ");
 //        s.protectedString();
+    }
+
+    private void bitOper(){
+        for (int i = 0; i < 100; i++) {
+            int y = new Random().nextInt();
+            int z = y ^ y >>> 16;
+            int q = z & 15;
+            System.out.println(q);
+        }
     }
 
     private static void dateAndTime() {

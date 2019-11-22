@@ -1,0 +1,48 @@
+<human>
+    <bodyPart name = "head" class = "head.Head">
+        <bodyPart name = "eye" class = "head.Eye">
+            <property name = "vigilance" value = "1"/>
+            <property name = "strabismus" value = "false"/>
+        </bodyPart>
+        <bodyPart name = "nose" class = "head.Nose">
+            <property name = "size" value = "MID"/>
+        </bodyPart>
+        <bodyPart name = "mouth" class = "head.Mouth">
+            <property name = "speech" value = "Оставайся, мальчик с нами - будешь нашим королём!"/>
+            <property name = "teethCount" value = "32"/>
+        </bodyPart>
+        <bodyPart name = "ear" class = "head.Ear">
+            <property name = "lopEared" value = "false"/>
+            <property name = "hearing" value = "5"/>
+        </bodyPart>
+        <property name = "leftEye" value = "head.Eye"/>
+        <property name = "rightEye" value = "head.Eye" mods = "vigilance=0=strabismus=true"/>
+        <property name = "mouth" value = "head.Mouth"/>
+        <property name = "nose" value = "head.Nose"/>
+        <property name = "leftEar" value = "head.Ear" mods = "lopEared=true=hearing=7"/>
+        <property name = "rightEar" value = "head.Ear"/>
+        <property name = "bold" value = "false"/>
+    </bodyPart>
+    <bodyPart name = "arm" class = "limbs.Arm">
+        <bodyPart name = "hand" class = "limbs.Hand">
+            <bodyPart name = "finger" class = "limbs.Finger">
+                <property name = "operable" value = "true"/>
+            </bodyPart>
+            <property name = "bigFinger" value = "limbs.Finger"/>
+            <property name = "showFinger" value = "limbs.Finger"/>
+            <property name = "midFinger" value = "limbs.Finger"/>
+            <property name = "littleFinger" value = "limbs.Finger"/>
+            <property name = "unnamedFinger" value = "limbs.Finger"/>
+        </bodyPart>
+        <bodyPart name = "cubit" class = "limbs.Cubit">
+            <property name = "mobile" value = "true"/>
+        </bodyPart>
+        <property name = "cubit" value = "limbs.Cubit"/>
+        <property name = "hand" value = "limbs.Hand"/>
+        <property name = "operable" value = "true"/>
+    </bodyPart>
+    <bodyPart name = "body" class = "Body">
+        <property name = "constitution" value = "ATHLETIC"/>
+        <property name = "tattoo" value = "ЛЕНИН! ПАРТИЯ! КОМСОМОЛ!"/>
+    </bodyPart>
+</human>

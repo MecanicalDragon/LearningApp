@@ -1,0 +1,12 @@
+<root>
+    <bean id="engine" class="oldLessons.reflection.Engine">
+        <properties name="power" value="230"/>
+    </bean>
+    <bean id="gearBox" class="oldLessons.reflection.Manual">
+        <properties name="count" value="2"/>
+    </bean>
+    <bean id="car" class="oldLessons.reflection.Car">
+        <properties name="engine" ref="engine"/>
+        <properties name="gearBox" ref="gearBox"/>
+    </bean>
+</root>
