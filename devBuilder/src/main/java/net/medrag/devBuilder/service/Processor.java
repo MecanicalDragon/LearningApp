@@ -2,9 +2,13 @@ package net.medrag.devBuilder.service;
 
 import net.medrag.devBuilder.model.Request;
 import net.medrag.devBuilder.model.StartUpData;
+import net.medrag.devBuilder.service.jms.JmsSender;
 import net.medrag.schema.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -25,9 +29,21 @@ public class Processor {
 
     private static Map<String, Request> RESPONSES = new LinkedHashMap<>();
 
+    @Value("${devBuilder.use.jms}")
+    private Boolean useJms;
+
+    private JmsSender jmsSender;
+
+    @Autowired
+    public Processor(JmsSender jmsSender) {
+        this.jmsSender = jmsSender;
+    }
+
     public String process(String taskid) {
 
         Developer developer = new Developer();
+        developer.setId(taskid);
+
         taskid = taskid.length() > 1 ? taskid.substring(taskid.length() - 2) : "00";
         Request request = RESPONSES.get(taskid);
         request = request == null ? new Request() : request;
@@ -38,7 +54,6 @@ public class Processor {
 
         int amount = request.getSkillsCount() < 1 ? new Random().nextInt(10) + 1 : request.getSkillsCount();
 
-        developer.setId(taskid);
         developer.setName(request.getName() == null ? "Anon" : request.getName());
         developer.setSurname(request.getSurname() == null ? "Random" : request.getSurname());
         developer.setRace(getRaceType(request.getRace()));
@@ -52,6 +67,10 @@ public class Processor {
             skill.setName(SkillName.values()[(int) (Math.random() * SkillName.values().length)]);   // Math.random() * (max - min) + min
             skill.setLevel(SkillLevel.values()[(int) (Math.random() * SkillLevel.values().length)]);
             developer.getSkills().getSkill().add(skill);
+        }
+
+        if (useJms) {
+            jmsSender.sendJms(developer);
         }
 
         return compileXml(developer);

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Thymeleaf Example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" th:href="@{/static/img/favicon.ico}" type="image/x-icon">
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/panels.css}">
+    <link rel="stylesheet" th:href="@{/css/pom/custom_components.css}">
+    <link rel="stylesheet" th:href="@{/css/pom/datepicker.min.css}">
+    <link rel="stylesheet" th:href="@{/css/pom/bcPicker.css}">
+
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+
+    <script th:inline="javascript">
+        var DATA = {
+            'LOCALE': [[${#locale}]],
+            'START': [[${periodData.start}]],
+            'END': [[${periodData.end}]],
+            'EMPTY_DATES': [[#{error.emptyDates}]],
+            'SUCCESS_RESPONSE': [[#{success.configurationSaved}]],
+            'SAVING_NEW_CONFIG': [[#{await.saveNewConfig}]]
+        };
+    </script>
+</head>
+<body>
+<header th:replace="fragments/header.html :: header"></header>
+
+<main id="wholeContent" class="main container">
+
+    <!--Config block-->
+    <div id="configs" style="display: none">
+        <h2 id="configPageHeader">
+            <span th:text="#{config.connections}"></span>
+            <a id="backFromConfigToTitle" href="#" onclick="showSelector()" th:text="#{button.back}">
+            </a>
+        </h2>
+        <form id="connConfig">
+            <div class="row content-2">
+                <div class="col-l-12 col-s-12">
+                    <table class="table bordered-table input-table">
+                        <thead>
+                        <tr id="configTableHeader">
+                            <th><span th:text="#{table.alias}" th:remove="tag"></span></th>
+                            <th><span th:text="#{table.alias}" th:remove="tag"></span></th>
+                            <th style="width: 170px"><span th:text="#{table.contract-No}" th:remove="tag"></span>
+                            </th>
+                            <th><span th:text="#{table.location}" th:remove="tag"></span></th>
+                            <th class="rotate" colspan="2"><span th:text="#{table.thre-d} + ' 1 (%)'"></span>
+                            </th>
+                            <th class="rotate" colspan="2"><span th:text="#{table.thre-d} + ' 2 (%)'"></span>
+                            </th>
+                            <th class="rotate" colspan="2"><span th:text="#{table.thre-d} + ' 3 (%)'"></span>
+                            </th>
+                            <th class="rotate" colspan="2"><span th:text="#{table.thre-d} + ' 4 (%)'"></span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="configTableBody">
+                        <tr th:each="sData, iter : ${someData}" th:if="${iter.index lt 10}"
+                            th:attr="data-id=${sData.id}">
+                            <td>
+                                <input type="text" class="form-input alias editable" th:value="${sData.alias}"
+                                       required="required" maxlength="255">
+                            </td>
+                            <td th:text="${sData.number}" class="leftPad5"></td>
+                            <td th:text="${sData.position}" class="leftPad5"></td>
+                            <td th:text="${sData.location}" class="leftPad5"></td>
+                            <td class="thresholdTd">
+                                <input type="number" class="form-input threshold editable" min="0" max="100"
+                                       data-type="T1"
+                                       th:value="${sData.t1.value}" required="required">
+                            </td>
+                            <td class="color-cell" th:title="#{help.color}">
+                                <a class="bcPicker_a imageAnchor" href="#">
+                                    <div class="color-picker"
+                                         th:attr="data-color=${sData.t1.color}"></div>
+                                </a>
+                            </td>
+                            <td class="thresholdTd">
+                                <input type="number" class="form-input threshold editable" min="0" max="100"
+                                       data-type="T2"
+                                       th:value="${sData.t2.value}" required="required">
+                            </td>
+                            <td class="color-cell" th:title="#{help.color}">
+                                <a class="bcPicker_a imageAnchor" href="#">
+                                    <div class="color-picker"
+                                         th:attr="data-color=${sData.t2.color}"></div>
+                                </a>
+                            </td>
+                            <td class="thresholdTd">
+                                <input type="number" class="form-input threshold editable" min="0" max="100"
+                                       data-type="T3"
+                                       th:value="${sData.t3.value}" required="required">
+                            </td>
+                            <td class="color-cell" th:title="#{help.color}">
+                                <a class="bcPicker_a imageAnchor" href="#">
+                                    <div class="color-picker"
+                                         th:attr="data-color=${sData.t3.color}"></div>
+                                </a>
+                            </td>
+                            <td class="thresholdTd">
+                                <input type="number" class="form-input threshold editable" min="0" max="100"
+                                       data-type="T4"
+                                       th:value="${sData.t4.value}" required="required">
+                            </td>
+                            <td class="color-cell" th:title="#{help.color}">
+                                <a class="bcPicker_a imageAnchor" href="#">
+                                    <div class="color-picker"
+                                         th:attr="data-color=${sData.t4.color}"></div>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-l-12 col-s-12">
+                    <div class="notification" style="margin-bottom: 0; margin-top: 18px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-l-12 col-s-12">
+                    <div style="text-align: right; margin-top: 20px; margin-bottom: 40px">
+                        <input type="hidden" id="account" th:attr="data-id=${accountId}"/>
+                        <a onclick="showSelector()" class="btn btn-brand btnAnchor" href="#">
+                            <span th:text="#{button.back}" th:remove="tag"></span>
+                        </a>
+                        <button id="confirmConfigChanges" type="submit" class="btn btn-brand btnAnchor">
+                            <span th:text="#{button.save}" th:remove="tag"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--Select block-->
+    <div id="dataSelector">
+        <form id="selectData" action="#" th:action="@{/}" th:object="${periodData}" method="post">
+
+            <!--            Select period block-->
+            <div class="modal fade" id="periodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel" th:text="#{index.selectPeriod}"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin-left: 85px">
+                                <div class="form-input-set">
+                                    <input type="text" id="period" class="form-input form-control"
+                                           th:placeholder="#{index.selectPeriod_hint}"
+                                           style="width: 300px">
+                                    <input type="hidden" th:field="*{start}">
+                                    <input type="hidden" th:field="*{end}">
+                                </div>
+                                <div data-range="true" data-multiple-dates-separator=" - " data-toggle-selected="false"
+                                     class="datepicker-here" style="margin-bottom: 15px"></div>
+                                <div class="form-input-set" style="width: 300px">
+                                    <label for="quickSelection" th:text="#{select.quickSelection}"></label>
+                                    <select name="select" id="quickSelection" class="form-select sr-combobox">
+                                        <option value="default">---</option>
+                                        <option value="lastYear" th:text="#{select.lastYear}"></option>
+                                        <option value="lastQuarter" th:text="#{select.lastQuarter}"></option>
+                                        <option value="lastMonth" th:text="#{select.lastMonth}"></option>
+                                        <option value="lastWeek" th:text="#{select.lastWeek}"></option>
+                                        <option value="yesterday" th:text="#{select.yesterday}"></option>
+                                        <option value="today" th:text="#{select.today}"></option>
+                                        <option value="thisWeek" th:text="#{select.thisWeek}"></option>
+                                        <option value="thisMonth" th:text="#{select.thisMonth}"></option>
+                                        <option value="thisQuarter" th:text="#{select.thisQuarter}"></option>
+                                        <option value="thisYear" th:text="#{select.thisYear}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tableBlock" style="margin-bottom: 20px">
+                <div class="row" style="margin-bottom: 10px; width: 930px">
+                    <div class="col-2">
+                        <input type="text" id="searchingBox" th:placeholder="#{table.search.box}"/>
+                    </div>
+                    <div class="col-auto align-self-end">
+                        <a data-toggle="modal" data-target="#periodModal" onmouseover="this.style.cursor='pointer';"
+                           onmouseout="this.style.cursor='default';">Show period</a>
+                    </div>
+                    <div class="col-auto align-self-end">
+                        <a id="configGear" onclick="showConfig()" href="#"
+                           th:text="#{index.configureConnectionMonitoring}">
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="width: 930px">
+                    <table class="table" id="connectionTable">
+                        <thead>
+                        <tr>
+                            <th style="padding: 0; padding-left: 2px;">
+                                <a href="#" id="saveRowsOrder" onclick="saveNewConnectionOrder(event)"
+                                   style="display: none;">
+                                    <img th:src="@{/img/save.png}" alt="save"
+                                         style="cursor: pointer; height: 30px;"
+                                         th:title="#{button.save}"/></a>
+                                <img th:src="@{/img/saved.png}" alt="saved" id="newOrderSaved"
+                                     style="display: none; height: 30px;"/>
+                            </th>
+                            <th>
+                                <span th:text="#{table.alias}" th:remove="tag"></span>
+                                <a href="#" id="ascDesc11" class="ascDesc" style="display: none;">&#8595</a>
+                                <a href="#" id="ascDesc12" class="ascDesc">&#8593</a>
+                            </th>
+                            <th>
+                                <span th:text="#{table.contractNo}" th:remove="tag"></span>
+                                <a href="#" id="ascDesc21" class="ascDesc" style="display: none;">&#8595</a>
+                                <a href="#" id="ascDesc22" class="ascDesc">&#8593</a>
+                            </th>
+                            <th style="width: 170px">
+                                <span th:text="#{table.contract-No}" th:remove="tag"></span>
+                                <a href="#" id="ascDesc31" class="ascDesc" style="display: none;">&#8595</a>
+                                <a href="#" id="ascDesc32" class="ascDesc">&#8593</a>
+                            </th>
+                            <th>
+                                <span th:text="#{table.location}" th:remove="tag"></span>
+                                <a href="#" id="ascDesc41" class="ascDesc" style="display: none;">&#8595</a>
+                                <a href="#" id="ascDesc42" class="ascDesc">&#8593</a>
+                            </th>
+                            <th><span th:text="#{table.threshold}"></span></th>
+                            <th><span th:text="#{table.saveAs}"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody id="someDataTableBody">
+                        <tr th:each="sData, innerIter : ${someData}" th:id="'connRow'+${sData.id}">
+                            <td style="padding: 2px;" draggable="true" ondragstart="drag(event)"
+                                ondragover="allowDrop(event)" ondrop="drop(event)">
+                                <a href="#" class="dragLink" onclick="navigate(this, event)">
+                                    <img th:src="@{/img/drag.png}" alt="Drag&Drop"
+                                         th:id="'dragDrop'+${sData.id}"
+                                         style="cursor: move; height: 30px; padding-right: 5px; border-radius: 5px;"
+                                         th:title="#{button.drag}"/></a>
+                                <div class="navi-console" th:id="'navic'+${sData.id}">
+                                    <a href="#" onclick="moveUp(this, event)" th:id="'moveUp'+${sData.id}">&#8593</a>
+                                    <a href="#" onclick="moveDown(this, event)"
+                                       th:id="'moveDown'+${sData.id}">&#8595</a>
+                                </div>
+                            </td>
+                            <td th:text="${sData.alias}"></td>
+                            <td th:text="${sData.number}"></td>
+                            <td th:text="${sData.position}"></td>
+                            <td th:text="${sData.location}"></td>
+                            <td style="min-width: 136px;">
+                                <label th:style="'background-color: '+${sData.t1.color} +
+                                    '; width: 25px; height: 25px; border: 2px; border-radius: 5px; text-align: center;'">
+                                        <span class="thresholdValue" th:text="${sData.t1.value}"
+                                              style="vertical-align: middle; font-weight: bold;"></span>
+                                </label>
+                                <label th:style="'background-color: '+${sData.t2.color} +
+                                    '; width: 25px; height: 25px; border: 2px; border-radius: 5px; text-align: center;'">
+                                        <span class="thresholdValue" th:text="${sData.t2.value}"
+                                              style="vertical-align: middle; font-weight: bold;"></span>
+                                </label>
+                                <label th:style="'background-color: '+${sData.t3.color} +
+                                    '; width: 25px; height: 25px; border: 2px; border-radius: 5px; text-align: center;'">
+                                        <span class="thresholdValue" th:text="${sData.t3.value}"
+                                              style="vertical-align: middle; font-weight: bold;"></span>
+                                </label>
+                                <label th:style="'background-color: '+${sData.t4.color} +
+                                    '; width: 25px; height: 25px; border: 2px; border-radius: 5px; text-align: center;'">
+                                        <span class="thresholdValue" th:text="${sData.t4.value}"
+                                              style="vertical-align: middle; font-weight: bold;"></span>
+                                </label>
+                            </td>
+                            <td style="padding: 2px; min-width: 72px;">
+                                <a href="#" th:onclick="${'asGraph(' + sData.id + ', event)'}" class="imageAnchor">
+                                    <img th:src="@{/img/graph.png}" alt="As graph"
+                                         style="cursor: pointer; height: 30px; border-radius: 5px;"
+                                         th:title="#{button.showAsGraph}"></a>
+                                <a href="#" th:onclick="${'asTable(' + sData.id + ', event)'}" class="imageAnchor">
+                                    <img th:src="@{/img/table.png}" alt="As table"
+                                         style="cursor: pointer; height: 30px; border-radius: 5px;"
+                                         th:title="#{button.showAsTable}"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--            Hidden page selector-->
+            <nav class="navbar" hidden>
+                <ul class="navbar-nav mr-auto" style="margin-right: 40px; padding-top: 0">
+                    <li class="pag"><a onclick="prevPage(10)" href="#" class="prevPageButton">
+                        <i class="icon icon-navigation-left" aria-hidden="true"
+                           th:title="#{table.pagination.left}"></i>10
+                    </a></li>
+                    <li class="pag"><a onclick="prevPage(5)" href="#" class="prevPageButton">
+                        <i class="icon icon-navigation-left" aria-hidden="true"
+                           th:title="#{table.pagination.left}"></i>5
+                    </a></li>
+                    <li class="pag"><a onclick="prevPage(1)" href="#" class="prevPageButton">
+                        <i class="icon icon-navigation-left" aria-hidden="true"
+                           th:title="#{table.pagination.left}"></i>
+                    </a></li>
+                    <li class="pag" id="currentPageLi" style="margin-top: 1px"></li>
+                    <li class="pag"><a onclick="nextPage(1)" href="#" class="nextPageButton">
+                        <i class="icon icon-navigation-right" aria-hidden="true"
+                           th:title="#{table.pagination.right}"></i>
+                    </a></li>
+                    <li class="pag"><a onclick="nextPage(5)" href="#" class="nextPageButton">
+                        5<i class="icon icon-navigation-right" aria-hidden="true"
+                            th:title="#{table.pagination.right}"></i>
+                    </a></li>
+                    <li class="pag"><a onclick="nextPage(10)" href="#" class="nextPageButton">
+                        10<i class="icon icon-navigation-right" aria-hidden="true"
+                             th:title="#{table.pagination.right}"></i>
+                    </a></li>
+                </ul>
+            </nav>
+
+            <!--            Actual page selector-->
+            <nav>
+                <ul id="shittyPagParent">
+                    <li class="shittyPagButton shittyPrevButt"><a href="#" class="prevPageButton"
+                                                                  onclick="prevPage(1, event)">Prev.</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(1, event)">1</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(2, event)">2</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(3, event)">3</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(4, event)">4</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(5, event)">5</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(6, event)">6</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(7, event)">7</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(8, event)">8</a></li>
+                    <li class="shittyPagButton"><a href="#" onclick="changePage(9, event)">9</a></li>
+                    <li class="shittyPagButton shittyNextButt"><a href="#" class="nextPageButton"
+                                                                  onclick="nextPage(1, event)">Next</a></li>
+                </ul>
+            </nav>
+
+        </form>
+    </div>
+
+</main>
+
+<footer th:replace="fragments/footer.html :: footer"></footer>
+
+<script th:src="@{/js/pom/datepicker.min.js}"></script>
+<script th:src="@{/js/pom/datepicker_util.js}"></script>
+<script th:src="@{/js/pom/conn_config.js}"></script>
+<script th:src="@{/js/pom/bcPicker.js}"></script>
+<script th:src="@{/js/pom/index.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+.header {
+    height: 100px;
+}
+
+.footer {
+    height: 70px;
+}
+
+.main {
+    height: calc(100vh - 170px);
+}
+
+#connectionTable tr,
+#connectionTable tr th,
+#connectionTable tr td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.fail-note {
+    background-color: #fdf2f2;
+    border-color: #b30000;
+    color: #262626
+}
+
+.success-note {
+    background-color: #f8fbf4;
+    border-color: #548d1c;
+    color: #262626
+}
+
+.sr-combobox {
+    border-radius: 5px;
+    border-width: 2px;
+    margin-top: 5px;
+    border-color: #5D6D7E;
+}
+
+.sr-combobox:hover {
+    cursor: pointer;
+}
+
+.input-table {
+    border: 2px solid #b2b2b2;
+}
+
+#configTableHeader {
+    background-color: #5D6D7E;
+    color: white;
+}
+
+#configTableBody tr td {
+    vertical-align: middle;
+    padding: 0;
+    max-height: 32px !important;
+}
+
+#configTableBody input {
+    text-align: center;
+    height: 32px;
+    border: 0;
+    border-radius: 0;
+}
+
+#configTableBody input:hover {
+    background-color: #ffffff;
+}
+
+#configTableHeader .rotate {
+    vertical-align: middle;
+    white-space: pre-line;
+    width: 90px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#configTableBody .leftPad5 {
+    padding-left: 5px;
+    white-space: nowrap;
+}
+
+#configTableBody .thresholdTd {
+    width: 57px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#configTableBody .alias {
+    text-align: left;
+    padding-left: 4px;
+}
+
+.form-input-set {
+    width: 150px;
+    margin-top: 15px;
+}
+
+.color-cell {
+    width: 32px;
+    height: 32px;
+}
+
+.editable {
+    background-color: #ededed;
+}
+
+.editable:focus {
+    background-color: lightcyan;
+}
+
+.imageAnchor:focus img{
+    border: 2px solid blue;
+    outline: none;
+}
+
+.btnAnchor {
+    border: 2px solid #b2005c;
+    outline: none;
+}
+
+.btnAnchor:focus {
+    border: 2px solid blue;
+    outline: none;
+}
+
+.imageAnchor:focus {
+    outline: none;
+}
+
+.pag {
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+}
+
+#searchingBox {
+    margin-top: 25px;
+    width: 90%;
+    height: 27px;
+    border: darkgray solid 1px;
+    border-radius: 4px;
+    padding-left: 5px
+}
+
+.navi-console{
+    width: 50px;
+    position: absolute;
+    border: 2px solid #e20074;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    z-index: 10;
+    cursor: default;
+    display: none;
+    padding-left: 5px;
+}
+
+#configPageHeader {
+    color: #5D6D7E;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+#configPageHeader .i-link{
+    color: #5D6D7E;
+}
+
+.pag,
+.pag a,
+.pag a i {
+    font-size: 20px !important;
+}
+
+#shittyPagParent {
+    display: inline;
+}
+
+#shittyPagParent .shittyPagButton {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: white;
+    border: #ededed solid 1px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    display: inline;
+}
+
+#shittyPagParent .shittyPagButton a {
+    border-radius: 0;
+    height: 28px;
+    width: 28px;
+}
+
+#shittyPagParent .shittyPrevButt {
+    border-radius: 5px 0 0 5px;
+    width: 45px;
+}
+
+#shittyPagParent .shittyPrevButt a {
+    border-radius: 5px 0 0 5px;
+    width: 43px;
+}
+
+#shittyPagParent .shittyNextButt {
+    border-radius: 0 5px 5px 0;
+    width: 45px;
+}
+
+#shittyPagParent .shittyNextButt a {
+    border-radius: 0 5px 5px 0;
+    width: 43px;
+}

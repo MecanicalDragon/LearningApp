@@ -29,6 +29,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--Generally, it's not needed. It's just an activemq jms example-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
         <!--Very interesting issue: Tomcat context loaders of java 8 and java 11 look for JAXB dependency in different places. This will fix it.-->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>

@@ -1,0 +1,23 @@
+<header class="header" xmlns:th="http://www.thymeleaf.org" style="background-color: #4EB5E6">
+    <div class="container">
+        <nav class="navbar">
+            <a class="navbar-brand">
+                <img th:src="@{/img/logo.png}" alt="Medrag Logo" style="height: 75px">
+                <span class="sr-only">Medrag Logo</span>
+            </a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <h3>Thymeleaf Page Example</h3>
+                </li>
+            </ul>
+            <div class="nav navbar-nav navbar-right">
+                <a th:text="#{button.logout}" th:href="@{/logout}"></a>
+                <select id="language-select" class="sr-combobox" name="language"
+                        th:title="#{button.select.lang}">
+                    <option th:selected="__${#locale}__=='de'?'true':'false'" th:value="de">DE</option>
+                    <option th:selected="__${#locale}__=='en'?'true':'false'" th:value="en">EN</option>
+                </select>
+            </div>
+        </nav>
+    </div>
+</header>
