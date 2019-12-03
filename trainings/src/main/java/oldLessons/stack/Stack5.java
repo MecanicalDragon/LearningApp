@@ -1,14 +1,11 @@
 package oldLessons.stack;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 public class Stack5<T>{
     // If in "Project Structure" connected simple library - logging is on.
     // If in "Project Structure" connected nop library - logging is off.
     // api library must be connected anyway.
-    private final Logger logger = LoggerFactory.getLogger(Stack4.class);
     private ArrayList<T> list;
 
     public Stack5(){
@@ -17,7 +14,7 @@ public class Stack5<T>{
 
     public void put(T t){
         list.add(t);
-        logger.info("List size {} now.", list.size());
+        System.out.println("List size now is " + list.size());
     }
 
     public T take(){
