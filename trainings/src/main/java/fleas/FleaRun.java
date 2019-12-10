@@ -30,16 +30,56 @@ public class FleaRun {
         }
     }
 
-    private static final String TRACK = "                                                 |";
     private static final String[] NAMES = {"Boris", "Alfonse", "Antony", "Susanna", "George", "Lucy", "Konstantin",
             "Beatrisa", "Francois", "Napoleon", "Benny", "Alfred", "Michelle", "Emanuele", "Amelia", "Morty", "Luna",
-            "Gregory", "Maxim", "Sally", "Sue", "Betty", "Bjorn", "Agnesse", "Victor", "Vladimir", "Einstein", "Nobel"};
-    private static final Flea[] PARK = new Flea[4];
-    private static final int DISTANCE = 50;
-    private static final int TURN_DURATION = 1000;
+            "Gregory", "Maxim", "Sally", "Sue", "Betty", "Bjorn", "Agnesse", "Victor", "Vladimir", "Einstein", "Nobel",
+            "Bartolomeo", "Angus", "Sebastian", "Francesca", "Cratos", "Zeus", "Gargantua", "Sherlock", "Selestina"};
+    private static Flea[] PARK = new Flea[4];
+    private static int DISTANCE = 50;
+    private static int TURN_DURATION = 1000;
+    private static String TRACK = defineTrack();
+
+    private static String defineTrack() {
+        StringBuilder track = new StringBuilder();
+        for (int i = 0; i < DISTANCE; i++) track.append(" ");
+        return track.replace(DISTANCE - 1, DISTANCE + 20, "|").toString();
+    }
+
+    private static void applyArgs(String[] args) {
+        if (args.length > 0) {
+            try {
+                int park = PARK.length;
+                int distance = DISTANCE;
+                int turnDuration = TURN_DURATION;
+                boolean recalculateTrack = false;
+                switch (args.length) {
+                    case 3:
+                        park = Integer.parseInt(args[2]);
+                        if (park < 3 || park > 16) park = PARK.length;
+                    case 2:
+                        distance = Integer.parseInt(args[1]);
+                        if (distance < 10 || distance > 100) distance = DISTANCE;
+                        else recalculateTrack = true;
+                    case 1:
+                        turnDuration = Integer.parseInt(args[0]);
+                        if (turnDuration < 10 || turnDuration > 10000) turnDuration = TURN_DURATION;
+                        break;
+                }
+
+                PARK = new Flea[park];
+                DISTANCE = distance;
+                TURN_DURATION = turnDuration;
+                if (recalculateTrack) TRACK = defineTrack();
+
+            } catch (Exception e) {
+                System.out.println("One or more of init parameters is/are incorrect. Default params were applied.");
+            }
+        }
+    }
 
     public static void main(String[] args) {
 
+        applyArgs(args);
         createFlea();
         createOpponents();
         startTheRun();
