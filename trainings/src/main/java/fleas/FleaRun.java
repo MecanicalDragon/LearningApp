@@ -19,6 +19,28 @@ public class FleaRun {
         StringBuilder distance = new StringBuilder();
         boolean finished;
 
+        void jump() {
+            int jumpLength = stamina-- > 0 ? speed : speed / 2;
+            if (jumpLength == 0) jumpLength = 1;
+            StringBuilder jump = new StringBuilder();
+            for (int j = 0; j < jumpLength; j++) {
+                jump.append("=");
+            }
+            distance.insert(18, jump);
+            for (int j = 0; j < jump.length(); j++) {
+                if (distance.lastIndexOf(" ") > 18) {
+                    distance.deleteCharAt(distance.lastIndexOf(" "));
+                } else {
+                    distance.replace(18 + DISTANCE, 18 + DISTANCE + 20, "|>");
+                    break;
+                }
+            }
+        }
+
+        boolean isFinished() {
+            return distance.lastIndexOf(">") >= 18 + DISTANCE;
+        }
+
         @Override
         public String toString() {
             return "Flea{" +
@@ -92,6 +114,7 @@ public class FleaRun {
         String third = null;
         try {
             System.err.println("LET THE RACE BEGIN!!!");
+            sleep(10);
             for (Flea f : PARK) {
                 f.distance.append(f.name);
                 for (int j = f.name.length(); j < 16; j++) {
@@ -109,25 +132,13 @@ public class FleaRun {
                         int initiative = (int) (Math.ceil(Math.random() * 10));
                         int currentTurnInitiative = f.stamina > 0 ? f.initiative + 3 : f.initiative / 2 + 3;
                         if (initiative <= (currentTurnInitiative)) {
+                            f.jump();
                             movePerformed = true;
-                            int jumpLength = f.stamina-- > 0 ? f.speed : f.speed / 2;
-                            if (jumpLength == 0) jumpLength = 1;
-                            StringBuilder distance = new StringBuilder();
-                            for (int j = 0; j < jumpLength; j++) {
-                                distance.append("=");
-                            }
-                            f.distance.insert(18, distance);
-                            for (int j = 0; j < distance.length(); j++) {
-                                if (f.distance.lastIndexOf(" ") > 18) {
-                                    f.distance.deleteCharAt(f.distance.lastIndexOf(" "));
-                                } else {
-                                    f.distance.replace(18 + DISTANCE, 18 + DISTANCE + 20, "|>");
-                                    break;
-                                }
-                            }
-                            if (f.distance.lastIndexOf(">") >= 18 + DISTANCE && !f.finished) {
+                            if (f.isFinished()) {
                                 f.finished = true;
                                 finished++;
+
+                                //  Define prize places
                                 if (first == null) {
                                     first = f.name;
                                 } else {
@@ -145,6 +156,7 @@ public class FleaRun {
                 }
                 if (!movePerformed) continue;
                 sleep(TURN_DURATION);
+//                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
                 System.out.println("");
                 for (Flea flea : PARK) {
                     System.out.println(flea.distance);
@@ -158,7 +170,6 @@ public class FleaRun {
             System.out.println("First place: " + first);
             System.out.println("Second place: " + second);
             System.out.println("Third place: " + third);
-
 
         } catch (Exception ignored) {
         }
