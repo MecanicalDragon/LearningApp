@@ -20,7 +20,7 @@ import java.util.Random;
 @Service
 public class Joker {
 
-    private static final List<String> HUMOR_ALMANAC = new ArrayList<>();
+    private static final List<String> HUMOR_ALMANAC = new ArrayList<>(92747);
 
     /**
      * Joker method

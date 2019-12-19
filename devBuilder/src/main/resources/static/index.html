@@ -148,6 +148,8 @@
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/moment.js"></script>
 <script type="text/javascript" src="js/tempus.js"></script>
+<script type="text/javascript" src="js/sockjs.js"></script>
+<script type="text/javascript" src="js/stomp.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#birthDate').datetimepicker();
@@ -157,8 +159,11 @@
 <script>
     let races = [];
     let raceValue = "random";
+    let restUrl;
     document.addEventListener('DOMContentLoaded', function () {
-        let url = new URL(window.location.origin + '/devBuilder/getStartUpData');
+        defineRest();
+        openWS();
+        let url = new URL(restUrl + '/getStartUpData');
         let table = document.getElementById("valuesBody");
         fetch(url).then(function (response) {
             return response.json();
@@ -177,8 +182,36 @@
         });
     });
 
+    const defineRest = function () {
+        let backRestUrl = "devBuilder"
+        let index = "index.html"
+        let href = "gui"
+        let loc = window.location.href;
+        if (loc.indexOf("?") !== -1) {
+            loc = loc.substring(0, loc.indexOf("?"))
+        }
+        if (href !== undefined && loc.indexOf(href) !== -1) {
+            loc = loc.substring(0, loc.indexOf(href));
+        } else {
+            if (loc.indexOf(index) !== -1) {
+                loc = loc.substring(0, loc.indexOf(index));
+            }
+        }
+        restUrl = loc + backRestUrl;
+    };
+
+    function openWS(){
+        const socket = new SockJS(restUrl.substring(0, restUrl.length - 10) + 'xml_requests');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/dev/messages', function (msg) {
+                console.log(new Date());
+            });
+        });
+    }
+
     const getJoke = function () {
-        let url = new URL(window.location.origin + '/devBuilder/getJoke');
+        let url = new URL(restUrl + '/getJoke');
         fetch(url).then(function (response) {
             return response.text();
         }).then(resp => {
@@ -225,18 +258,8 @@
             let skills = document.getElementById("skillsCount").value;
             let race = raceValue;
 
-            let url = new URL(window.location.origin + '/devBuilder/setSkillsCount');
-
-            // let params = {
-            //     key: end,
-            //     name: name,
-            //     age: age,
-            //     surname: surname,
-            //     bday: birth,
-            //     race: raceValue,
-            //     skillsCount: skills
-            // };
-            // url.search = new URLSearchParams(params);
+            let url = new URL(restUrl + '/setSkillsCount');
+            // url.search = new URLSearchParams({val: var});
 
             let requestFailed = false;
             fetch(url, {

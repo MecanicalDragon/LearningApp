@@ -17,7 +17,7 @@ import javax.validation.Valid;
  * 10.10.2019
  */
 @RestController
-@RequestMapping({"/devBuilder", "/"})
+@RequestMapping("/devBuilder")
 public class RController {
 
     private Processor processor;
@@ -29,17 +29,22 @@ public class RController {
         this.joker = joker;
     }
 
-    @GetMapping(value = "/getDeveloper/{taskId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String change(@PathVariable("taskId") String taskId) {
+    @GetMapping(value = "/getDeveloper/{taskId}", produces = MediaType.TEXT_XML_VALUE)
+    public String getDev(@PathVariable("taskId") String taskId) {
         return processor.process(taskId);
     }
 
-    @PostMapping("/setSkillsCount")
+    @PostMapping(value = "/setSkillsCount", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Request> setServicesAmount(@RequestBody @Valid Request request) {
         return ResponseEntity.ok(processor.setServicesAmount(request));
     }
 
-    @GetMapping("/getStartUpData")
+    @DeleteMapping("/removeRequest")
+    public ResponseEntity<Request> removeRequest(@RequestParam String ending) {
+        return ResponseEntity.ok(processor.removeRequest(ending));
+    }
+
+    @GetMapping(value = "/getStartUpData", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<StartUpData> getStartUpData() {
         return ResponseEntity.ok(processor.getStartUpData());
     }
@@ -49,7 +54,7 @@ public class RController {
      *
      * @return - fresh random joke
      */
-    @GetMapping(path = "/getJoke", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/getJoke", produces = MediaType.TEXT_PLAIN_VALUE)
     public String getJoke() {
         return joker.getJoke();
     }

@@ -6,6 +6,7 @@ import net.medrag.devBuilder.service.jms.JmsSender;
 import net.medrag.schema.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -27,16 +28,21 @@ import java.util.Random;
 @Service
 public class Processor {
 
-    private static Map<String, Request> RESPONSES = new LinkedHashMap<>();
-
     @Value("${devBuilder.use.jms}")
     private Boolean useJms;
 
+    @Value("${devBuilder.use.ws}")
+    private Boolean useWs;
+
     private JmsSender jmsSender;
+    private Repository repository;
+    private SimpMessagingTemplate wSocket;
 
     @Autowired
-    public Processor(JmsSender jmsSender) {
+    public Processor(JmsSender jmsSender, Repository repository, SimpMessagingTemplate wSocket) {
         this.jmsSender = jmsSender;
+        this.repository = repository;
+        this.wSocket = wSocket;
     }
 
     public String process(String taskid) {
@@ -45,7 +51,7 @@ public class Processor {
         developer.setId(taskid);
 
         taskid = taskid.length() > 1 ? taskid.substring(taskid.length() - 2) : "00";
-        Request request = RESPONSES.get(taskid);
+        Request request = repository.getById(taskid);
         request = request == null ? new Request() : request;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy H[H]:mm");
@@ -73,13 +79,16 @@ public class Processor {
             jmsSender.sendJms(developer);
         }
 
-        return compileXml(developer);
+        String msg = compileXml(developer);
+        if (useWs) wSocket.convertAndSend("/dev/messages", msg);
+        return msg;
     }
 
     private String compileXml(Developer Developer) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Developer.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(Developer, sw);
             return sw.toString();
@@ -89,18 +98,12 @@ public class Processor {
         }
     }
 
-    private String getRandomNumber(int length) {
-        Random r = new Random(31);
-        String result = "";
-        do {
-            result = result.concat(String.valueOf(r.nextInt(999999999)));
-        } while (result.length() < length);
-        if (result.length() > length) result = result.substring(0, length);
-        return result;
+    public Request removeRequest(String ending) {
+        return repository.remove(ending);
     }
 
     public Request setServicesAmount(Request request) {
-        RESPONSES.put(request.getKey(), request);
+        repository.save(request);
         return request;
     }
 
@@ -113,6 +116,6 @@ public class Processor {
     }
 
     public StartUpData getStartUpData() {
-        return StartUpData.builder().raceTypes(RaceType.values()).requests(RESPONSES).status(200).build();
+        return StartUpData.builder().raceTypes(RaceType.values()).requests(repository.getAll()).status(200).build();
     }
 }

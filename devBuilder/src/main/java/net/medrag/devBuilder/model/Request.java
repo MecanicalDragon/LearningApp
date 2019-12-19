@@ -38,4 +38,5 @@ public class Request {
     private String bday;
     @NotBlank(message = "Pick a race!")
     private String race;
+    private String status;
 }
