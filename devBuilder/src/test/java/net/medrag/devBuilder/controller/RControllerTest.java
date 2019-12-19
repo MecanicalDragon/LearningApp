@@ -5,11 +5,13 @@ import net.medrag.devBuilder.DevBuilderApplication;
 import net.medrag.devBuilder.model.Request;
 import net.medrag.devBuilder.model.StartUpData;
 import net.medrag.devBuilder.service.Processor;
+import net.medrag.devBuilder.service.Repository;
 import net.medrag.schema.RaceType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,12 +24,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.matches;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringRunner.class)
@@ -40,7 +45,7 @@ public class RControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private Processor processor;
+    private Repository repository;
 
     private Request request;
 
@@ -63,20 +68,29 @@ public class RControllerTest {
 
     @Test
     public void getDev() throws Exception {
-        when(processor.process(any(String.class))).thenReturn("someXml");
+        when(repository.getById(any(String.class))).thenReturn(request);
+
         this.mvc.perform(get("/devBuilder/getDeveloper/taskId-01"))
                 .andExpect(content().contentType("text/xml;charset=UTF-8"))
-                .andExpect(jsonPath("$").value("someXml"));
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<String> ending = ArgumentCaptor.forClass(String.class);
+        verify(repository).getById(ending.capture());
+        assertThat(ending.getValue(), equalTo("01"));
     }
 
     @Test
     public void setServicesAmount() throws Exception {
 
-        when(processor.setServicesAmount(any(Request.class))).thenReturn(request);
+        when(repository.save(any(Request.class))).thenReturn(request);
         this.mvc.perform(post("/devBuilder/setSkillsCount").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$").value(request));
+
+        ArgumentCaptor<Request> ending = ArgumentCaptor.forClass(Request.class);
+        verify(repository).save(ending.capture());
+        assertThat(ending.getValue(), equalTo(request));
     }
 
     @Test
@@ -85,13 +99,7 @@ public class RControllerTest {
         Map<String, Request> map = new HashMap<>();
         map.put("req-01", request);
         map.put("req-02", request);
-
-        StartUpData startUpData = new StartUpData();
-        startUpData.setStatus(200);
-        startUpData.setRaceTypes(RaceType.values());
-        startUpData.setRequests(map);
-
-        when(processor.getStartUpData()).thenReturn(startUpData);
+        when(repository.getAll()).thenReturn(map);
         this.mvc.perform(get("/devBuilder/getStartUpData").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.status").value(200))
