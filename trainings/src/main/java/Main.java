@@ -24,7 +24,7 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
-
+//        innerClasses();
 //        extendStudent();
 //        dateAndTime();
 //        interfaceInheritance();
@@ -37,6 +37,12 @@ public class Main extends Student {
 //        circleTask(15);
 //        matrixTask(20);
 
+    }
+
+    private static void innerClasses() {
+        Outer.StaticInner staticInner = new Outer.StaticInner();
+        Outer.Inner inner = new Outer().new Inner();
+        new Outer().observe();
     }
 
     private static void extendStudent() {
@@ -52,7 +58,7 @@ public class Main extends Student {
 //        s.protectedString();
     }
 
-    private void bitOper(){
+    private void bitOperator() {
         for (int i = 0; i < 100; i++) {
             int y = new Random().nextInt();
             int z = y ^ y >>> 16;
@@ -93,19 +99,23 @@ public class Main extends Student {
     }
 
     private static void circleTask(int side) {
+        int limit = side - 1;
 
-        for (int i = 0; i < side + 1; i++) {
-            for (int j = 0; j < side + 1; j++) {
-
-                if (j == 0 || j == side ||
-                        i == 0 || i == side ||
-                        i == j || i + j == side) {
+        for (int i = 0; i < side; i++) {
+            for (int j = 0; j < side; j++) {
+                if (i == 0 || i == limit) {
+                    System.out.print("# ");
+                } else if (i == j) {
+                    System.out.print("# ");
+                } else if (i + j == limit) {
+                    System.out.print("# ");
+                } else if (j == 0 || j == limit) {
                     System.out.print("# ");
                 } else {
                     System.out.print("  ");
                 }
             }
-            System.out.println("\n");
+            System.out.print("\n");
         }
     }
 
@@ -246,6 +256,24 @@ public class Main extends Student {
         strings[0] = "new String";
         strings = new String[2];    //reference to a new object.
         strings[1] = "new String too";
+    }
+
+    static class Outer {
+        private String string = "outerString";
+        private Inner inner = new Inner();
+
+        void observe() {
+            System.out.println(this.inner.inner);
+            System.out.println(new StaticInner().inner);
+        }
+
+        static class StaticInner {
+            private String inner = "static inner String";
+        }
+
+        class Inner {
+            private String inner = "inner String";
+        }
     }
 
 

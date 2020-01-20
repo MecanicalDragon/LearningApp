@@ -7,10 +7,13 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-//        PriorityQTest();
+        PriorityQTest();
+        StrategyPattern();
+        stack();
 
-//        StrategyPattern();
+    }
 
+    private static void stack() {
         Stack<String> stack = new GenericStack<>(1);
         try {
             stack.push("ololo");
@@ -22,7 +25,6 @@ public class Main {
         } catch (StackException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void StrategyPattern() {
