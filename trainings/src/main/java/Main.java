@@ -24,6 +24,9 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
+        System.out.println(tryAndCatch());
+        System.out.println(tryAndCatch2());
+        System.out.println(tryAndCatch3().getName());
 //        innerClasses();
 //        extendStudent();
 //        dateAndTime();
@@ -37,6 +40,34 @@ public class Main extends Student {
 //        circleTask(15);
 //        matrixTask(20);
 
+    }
+
+    private static String tryAndCatch() {
+        try {
+            return "try";
+        } finally {
+            return "finally"; // finally returned
+        }
+    }
+
+    private static String tryAndCatch2() {
+        String returned;
+        try {
+            returned = "try";
+            return returned;
+        } finally {
+            returned = "finally";   // try returned
+        }
+    }
+
+    private static Student tryAndCatch3() {
+        Student student = new Student();
+        try {
+            student.setName("Ingiborg");
+            return student;
+        } finally {
+            student.setName("Abram");
+        }
     }
 
     private static void innerClasses() {
