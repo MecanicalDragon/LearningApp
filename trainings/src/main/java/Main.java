@@ -1,4 +1,3 @@
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import net.medrag.trainings.model.Student;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -114,7 +113,7 @@ public class Main extends Student {
         System.out.println(ZonedDateTime.of(t, ZoneId.of("Australia/Sydney")));
         System.out.println(ZoneId.SHORT_IDS);
 
-        System.out.println(new XMLGregorianCalendarImpl(GregorianCalendar.from(LocalDateTime.now().atZone(ZoneId.of("Z")))));
+//        System.out.println(new XMLGregorianCalendarImpl(GregorianCalendar.from(LocalDateTime.now().atZone(ZoneId.of("Z")))));
 
     }
 

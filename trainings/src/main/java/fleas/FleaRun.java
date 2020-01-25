@@ -242,7 +242,7 @@ public class FleaRun {
                 points -= initiative;
                 flea.initiative = initiative;
                 System.out.println("Your flea's initiative has been set to " + initiative);
-                System.out.println("Your have " + points + " now.");
+                System.out.println("You have " + points + " points now.");
                 initiativeRequired = false;
             } catch (NumberFormatException e) {
                 System.err.println("INPUT A DIGIT!!!");
