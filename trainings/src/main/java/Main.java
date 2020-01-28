@@ -24,9 +24,9 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
-        System.out.println(tryAndCatch());
-        System.out.println(tryAndCatch2());
-        System.out.println(tryAndCatch3().getName());
+//        System.out.println(tryAndCatch());
+//        System.out.println(tryAndCatch2());
+//        System.out.println(tryAndCatch3().getName());
 //        innerClasses();
 //        extendStudent();
 //        dateAndTime();

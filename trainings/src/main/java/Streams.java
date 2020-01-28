@@ -88,6 +88,10 @@ public class Streams {
                 .reduce(1000, (x, y) -> x + y, (x, y) -> x + y));    //  some weird result. As far as I understand,
         // consumer function is needed only in parallelStream, but it's behaviour strange enough. Let's not to use it.
 
+        System.out.println(list.stream()
+                .filter(man -> man.getName().equals("Stas") ||  man.getName().equals("Vasiliy"))
+                .reduce(0, (i, m) -> i + m.getAge(), Integer::sum) );    //  reducing men to integer example
+
 
 //        GROUPING BY
 
