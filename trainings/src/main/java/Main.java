@@ -107,13 +107,10 @@ public class Main extends Student {
         System.out.println(tz.getOffset(System.currentTimeMillis()));
         System.out.println(tz.useDaylightTime());
 
-
         System.out.println(t);
         System.out.println(t.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
         System.out.println(ZonedDateTime.of(t, ZoneId.of("Australia/Sydney")));
         System.out.println(ZoneId.SHORT_IDS);
-
-//        System.out.println(new XMLGregorianCalendarImpl(GregorianCalendar.from(LocalDateTime.now().atZone(ZoneId.of("Z")))));
 
     }
 
