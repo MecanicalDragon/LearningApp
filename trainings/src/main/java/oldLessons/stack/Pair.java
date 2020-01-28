@@ -1,7 +1,5 @@
 package oldLessons.stack;
 
-import javafx.beans.NamedArg;
-
 /**
  * {@author} Stanislav Tretyakov
  * 20.01.2020
@@ -10,7 +8,7 @@ public class Pair<K, V> {
     private K key;
     private V value;
 
-    public Pair(@NamedArg("key") K key, @NamedArg("value") V value) {
+    Pair(K key, V value) {
         this.key = key;
         this.value = value;
     }
