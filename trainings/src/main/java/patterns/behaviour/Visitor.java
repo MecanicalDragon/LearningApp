@@ -40,4 +40,80 @@ package patterns.behaviour;
  * Клиент будет создавать объекты посетителей, а затем передавать их элементам, используя метод принятия.
  */
 public class Visitor {
+    public static void main(String[] args) {
+        Theatre theatre = new Theatre("Makbet");
+        Factory factory = new Factory("toys");
+        BusinessCenter businessCenter = new BusinessCenter("elite");
+        VisitorClass visitor = new VisitorClass();
+        theatre.visit(visitor);
+        factory.visit(visitor);
+        businessCenter.visit(visitor);
+    }
+}
+
+class Theatre implements Visitable{
+    String todaysPogramm;
+
+    public Theatre(String todaysPogramm) {
+        this.todaysPogramm = todaysPogramm;
+    }
+
+    @Override
+    public void visit(VisitorFace visitor) {
+        visitor.visitTheatre(this);
+    }
+}
+
+class Factory implements Visitable{
+    String production;
+
+    public Factory(String production) {
+        this.production = production;
+    }
+
+    @Override
+    public void visit(VisitorFace visitor) {
+        visitor.visitFactory(this);
+    }
+}
+
+class BusinessCenter implements Visitable{
+    String grade;
+
+    public BusinessCenter(String grade) {
+        this.grade = grade;
+    }
+
+    @Override
+    public void visit(VisitorFace visitor) {
+        visitor.visitBCenter(this);
+    }
+}
+
+interface Visitable{
+    void visit(VisitorFace visitor);
+}
+
+interface VisitorFace{
+    void visitTheatre(Theatre theatre);
+    void visitFactory(Factory factory);
+    void visitBCenter(BusinessCenter center);
+}
+
+class VisitorClass implements VisitorFace{
+
+    @Override
+    public void visitTheatre(Theatre theatre) {
+        System.out.println(String.format("Theatre shows %s today", theatre.todaysPogramm));
+    }
+
+    @Override
+    public void visitFactory(Factory factory) {
+        System.out.println(String.format("Factory produces %s", factory.production));
+    }
+
+    @Override
+    public void visitBCenter(BusinessCenter center) {
+        System.out.println(String.format("Business center grade is %s", center.grade));
+    }
 }

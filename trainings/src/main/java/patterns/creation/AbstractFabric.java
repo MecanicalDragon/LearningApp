@@ -33,6 +33,16 @@ package patterns.creation;
  * Замените в клиентском коде участки создания продуктов через конструктор вызовами соответствующих методов фабрики.
  */
 public class AbstractFabric {
+    public static void main(String[] args) {
+
+        GuiFactory factory = new MacOsGuiFactory();
+        factory.getButton().click();
+        factory.getCheckbox().check();
+
+        factory = new WindowsGuiFactory();
+        factory.getButton().click();
+        factory.getCheckbox().check();
+    }
 }
 
 interface Button {
@@ -75,7 +85,7 @@ class MacOsCheckbox implements Checkbox {
 /**
  * Abstract fabric knows all types of products
  */
-interface GiuFactory {
+interface GuiFactory {
     Checkbox getCheckbox();
 
     Button getButton();
@@ -84,7 +94,7 @@ interface GiuFactory {
 /**
  * Every factory returns it's own type of products
  */
-class WindowsGuiFactory implements GiuFactory {
+class WindowsGuiFactory implements GuiFactory {
 
     @Override
     public Checkbox getCheckbox() {
@@ -103,7 +113,7 @@ class WindowsGuiFactory implements GiuFactory {
  * этому фабрики можно взаимозаменять, не изменяя клиентский
  * код.
  */
-class MacOsGuiFactory implements GiuFactory {
+class MacOsGuiFactory implements GuiFactory {
 
     @Override
     public Checkbox getCheckbox() {
