@@ -1,4 +1,4 @@
-package oldLessons.multithreading;
+package oldLessons.reflection2;
 
 public abstract class AbstractClass implements Able3 {
     public static int i = 5;

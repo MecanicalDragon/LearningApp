@@ -1,10 +1,10 @@
-package oldLessons.multithreading;
+package oldLessons.reflection2;
 
-public class Abss extends AbstractClass{
+public class AbstractClassExtender extends AbstractClass{
     static int i = 10;
     String s;
 
-    public Abss( String s) {
+    public AbstractClassExtender(String s) {
 
         this.s = s;
     }

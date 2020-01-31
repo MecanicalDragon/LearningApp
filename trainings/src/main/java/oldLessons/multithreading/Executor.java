@@ -13,12 +13,13 @@ public class Executor {
 
         for (int i = 0; i < 10; i++) {
             final int finalI = (int) (Math.random() * 5);
-            Future <String> future = executorService.submit(new Callable<String>() {
+            int finalIndex = i;
+            Future<String> future = executorService.submit(new Callable<String>() {
                 @Override
                 public String call() throws Exception {
-                    System.out.println("Starting callable. Sleeping: " + finalI + "seconds.");
+                    System.out.println("Starting callable " + finalIndex + ". Sleeping: " + finalI + "seconds.");
                     Thread.sleep(1000 * finalI);
-                    return "result of Callable: " + finalI;
+                    return "This Future is result of Callable " + finalIndex + ", that has waited for" + finalI + " seconds.";
                 }
             });
             futureList.add(future);

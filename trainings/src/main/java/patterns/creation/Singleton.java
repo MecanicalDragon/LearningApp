@@ -22,7 +22,7 @@ package patterns.creation;
  * <p>
  * В клиентском коде замените вызовы конструктора одиночка вызовами его создающего метода.
  */
-public class Singleton {
+public final class Singleton {
     private static volatile Singleton instance;
     private String value;
 
@@ -42,7 +42,8 @@ public class Singleton {
         }
         synchronized (Singleton.class) {
             if (instance == null) {
-                instance = new Singleton(val);
+                Singleton temp = new Singleton(val);
+                instance = temp;
             }
         }
         return instance;

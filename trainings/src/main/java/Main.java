@@ -36,7 +36,7 @@ public class Main extends Student {
 //        interfacesAndAbstracts();
 //        testArrays();
 
-//        circleTask(15);
+        circleTask(15);
 //        matrixTask(20);
 
     }
@@ -132,11 +132,11 @@ public class Main extends Student {
             for (int j = 0; j < side; j++) {
                 if (i == 0 || i == limit) {
                     System.out.print("# ");
+                } else if (j == 0 || j == limit) {
+                    System.out.print("# ");
                 } else if (i == j) {
                     System.out.print("# ");
                 } else if (i + j == limit) {
-                    System.out.print("# ");
-                } else if (j == 0 || j == limit) {
                     System.out.print("# ");
                 } else {
                     System.out.print("  ");

@@ -1,4 +1,4 @@
-package oldLessons.multithreading;
+package oldLessons.reflection2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

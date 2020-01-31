@@ -1,4 +1,4 @@
-package oldLessons.multithreading;
+package oldLessons.reflection2;
 
 interface Able {
 int i = 5;
