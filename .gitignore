@@ -27,3 +27,8 @@
 ### My files ###
 logs
 **/target
+**/out
+**/*.mv.db
+**/*.trace.db
+**/*.lock.db
+**/*.xjb
