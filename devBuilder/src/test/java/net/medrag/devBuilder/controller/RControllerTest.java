@@ -3,14 +3,11 @@ package net.medrag.devBuilder.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.medrag.devBuilder.DevBuilderApplication;
 import net.medrag.devBuilder.model.Request;
-import net.medrag.devBuilder.model.StartUpData;
-import net.medrag.devBuilder.service.Processor;
 import net.medrag.devBuilder.service.Repository;
-import net.medrag.schema.RaceType;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
@@ -28,14 +25,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DevBuilderApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureMockMvc
@@ -49,8 +45,8 @@ public class RControllerTest {
 
     private Request request;
 
-    @Before
-    public void setUp(){
+    @BeforeEach
+    public void setUp() {
         request = new Request();
         request.setKey("05");
         request.setName("Vasiliy");
@@ -61,8 +57,8 @@ public class RControllerTest {
         request.setRace("Hohol");
     }
 
-    @After
-    public void tearDown(){
+    @AfterEach
+    public void tearDown() {
         request = null;
     }
 

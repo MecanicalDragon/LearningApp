@@ -35,10 +35,29 @@ public class Main extends Student {
 //        overrideAndOverload();
 //        interfacesAndAbstracts();
 //        testArrays();
+//        duplicates("ollo58896k");
 
-        circleTask(15);
+//        circleTask(15);
 //        matrixTask(20);
 
+    }
+
+    private static void duplicates(String str) {
+        char[] chars = str.toCharArray();
+        Deque<Character>deque = new ArrayDeque<>();
+        for (Character c : chars) {
+            Character character = deque.peekLast();
+            if (c.equals(character)){
+                deque.removeLast();
+            } else {
+                deque.addLast(c);
+            }
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char d:deque) {
+            stringBuilder.append(d);
+        }
+        System.out.println(stringBuilder);
     }
 
     private static String tryAndCatch() {

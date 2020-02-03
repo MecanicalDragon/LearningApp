@@ -7,17 +7,17 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext
 
 @SpringBootApplication
-class wsSimulator : SpringBootServletInitializer() {
+class WsSimulator : SpringBootServletInitializer() {
 
     override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder {
-        return application.sources(wsSimulator::class.java)
+        return application.sources(WsSimulator::class.java)
     }
 }
 
 lateinit var ctx: ConfigurableApplicationContext
 
 fun main(args: Array<String>) {
-    ctx = runApplication<wsSimulator>(*args)
+    ctx = runApplication<WsSimulator>(*args)
 }
 
 fun shutDown() {
