@@ -5,11 +5,12 @@ package patterns.creation;
  * 28.01.2020
  * <p>
  * allows to define common interface in superclass, leaving to subclasses the ability to change the type of objects.
+ * <p>
  * Use it, when:
  * > you need to process objects of a single interface by different ways, depending on object type
  * > you don't know types and dependencies of all objects, you need to interact with in future.
  * > you want to allow to extend functionality in future
- * > you want to save resources,using already created objects repeatably
+ * > you want to save resources, using already created objects repeatably
  * <p>
  * + Allows not to bound class to concrete products
  * + Separates creation code

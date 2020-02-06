@@ -5,13 +5,14 @@ package patterns.creation;
  * 28.01.2020
  * <p>
  * Useful when:
+ * > you have some complex object of several types, yet you need systematize this process.
  * > you need to construct objects with a lot of parameters, and most of them are default.
  * <p>
  * + allows to create objects step by step
  * + allows to reuse the same code for creating of different objects
- * + if creation of object is difficult, isolates this project from business logic
+ * + if creation of object is difficult, isolates this process from business logic
  * <p>
- * - creates additional classes, making programm more complicated.
+ * - creates additional classes, making program more complicated.
  * - if there are no 'getResult' method in the builder interface, client is bounded to concrete builder classes
  * <p>
  * IMPLEMENTATION
