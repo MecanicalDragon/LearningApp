@@ -8,6 +8,9 @@ import java.util.function.*;
 
 
 //Trunk commit 4
+//Trunk commit 1
+    //Branch commit 1
+    //Branch commit 2
 public class Functional {
     public static void main(String[] args) {
 
