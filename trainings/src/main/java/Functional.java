@@ -4,6 +4,10 @@ import java.util.function.*;
  * {@author} Stanislav Tretyakov
  * 03.09.2019
  */
+
+
+
+//Trunk commit 1
 public class Functional {
     public static void main(String[] args) {
 
