@@ -7,7 +7,7 @@ import java.util.function.*;
 
 
 
-//Trunk commit 3
+//Trunk commit 4
 public class Functional {
     public static void main(String[] args) {
 
