@@ -26,11 +26,11 @@ fun main(){
 /**
  * Instantiate async functions
  */
-fun lazyAsyncFun(){
+fun lazyAsyncFun() {
     GlobalScope.launch {
         println("Hello lazy async function: ${LocalTime.now().format(dtf)}")
-        val x = async(start = CoroutineStart.LAZY){async1()}
-        val y = async(start = CoroutineStart.LAZY){async2()}
+        val x = async(start = CoroutineStart.LAZY) { async1() }
+        val y = async(start = CoroutineStart.LAZY) { async2() }
         println("waiting 3 sec...")
         delay(3000)
         println("now let's calculate async result")
@@ -45,13 +45,13 @@ fun lazyAsyncFun(){
 /**
  * Instantiate async functions
  */
-fun asyncFun(){
+fun asyncFun() {
     GlobalScope.launch {
         println("Hello async function: ${LocalTime.now().format(dtf)}")
-        val x = async{async1()}
-        val y = async{async2()}
+        val x = async { async1() }
+        val y = async { async2() }
         println("waiting for async results")
-        println("result is ${x.await()+y.await()} - ${LocalTime.now().format(dtf)}")
+        println("result is ${x.await() + y.await()} - ${LocalTime.now().format(dtf)}")
     }
 }
 
@@ -72,7 +72,7 @@ fun async2(): Int {
 /**
  * instantiate suspending function
  */
-fun suspendingInstantiate(){
+fun suspendingInstantiate() {
     GlobalScope.launch {
         println("Hello suspending instantiate")
         pause()
@@ -83,7 +83,7 @@ fun suspendingInstantiate(){
 /**
  * this function suspends coroutine
  */
-suspend fun pause(){
+suspend fun pause() {
     println("started suspend function")
     println("take 3sec pause: ${LocalTime.now().format(dtf)}")
     delay(3000)
