@@ -1,0 +1,11 @@
+CREATE SEQUENCE user_sequence START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE CUSTOMER
+(
+    ID      NUMBER(10)        NOT NULL,
+    NAME    VARCHAR2(64 CHAR) NOT NULL,
+    SURNAME VARCHAR2(64 CHAR) NOT NULL,
+    AGE     NUMBER(3)         NOT NULL
+);
+
+INSERT INTO CUSTOMER VALUES (user_sequence.nextval, 'Vasiliy', 'Drugov', 31);
