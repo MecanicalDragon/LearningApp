@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     //To resolve ${} in @Value
     @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+    public static PropertySourcesPlaceholderConfigurer PropertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 }

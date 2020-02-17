@@ -1,11 +1,11 @@
-CREATE SEQUENCE user_sequence START WITH 1 INCREMENT BY 1;
+-- CREATE SEQUENCE user_sequence;
 
-CREATE TABLE CUSTOMER
+CREATE TABLE USER
 (
-    ID      NUMBER(10)        NOT NULL,
-    NAME    VARCHAR2(64 CHAR) NOT NULL,
-    SURNAME VARCHAR2(64 CHAR) NOT NULL,
-    AGE     NUMBER(3)         NOT NULL
+--     ID      BIGINT default user_sequence.nextval primary key NOT NULL,
+    ID   BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    NAME CHAR NOT NULL
 );
 
-INSERT INTO CUSTOMER VALUES (user_sequence.nextval, 'Vasiliy', 'Drugov', 31);
+INSERT INTO USER (ID, NAME)
+VALUES (1, 'Vasiliy');
