@@ -4,8 +4,10 @@ CREATE TABLE USER
 (
 --     ID      BIGINT default user_sequence.nextval primary key NOT NULL,
     ID   BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    NAME CHAR NOT NULL
+    NAME CHAR NOT NULL,
+    SURNAME CHAR NOT NULL,
+    AGE INT NOT NULL
 );
 
-INSERT INTO USER (ID, NAME)
-VALUES (1, 'Vasiliy');
+INSERT INTO USER (ID, NAME, SURNAME, AGE)
+VALUES (1, 'Vasiliy', 'Drugov', 30);

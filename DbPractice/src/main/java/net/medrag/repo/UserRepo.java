@@ -9,4 +9,5 @@ import net.medrag.model.User;
 public interface UserRepo<U extends User> {
     Long addUser(U user);
     U getUser(Long id);
+    U test(User user);
 }

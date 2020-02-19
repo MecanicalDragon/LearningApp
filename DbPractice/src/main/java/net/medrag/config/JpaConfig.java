@@ -73,6 +73,7 @@ public class JpaConfig {
         return new Flyway(flywayConfig());
     }
 
+    @Bean
     Properties hibernateProperties() {
         return new Properties() {
             {

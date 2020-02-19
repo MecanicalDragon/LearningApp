@@ -27,4 +27,8 @@ public class UserRepoImpl2<U extends User> implements UserRepo<User> {
     public User getUser(Long id) {
         return entityManager.find(User.class, id);
     }
+
+    public User test(User user) {
+        return null;
+    }
 }

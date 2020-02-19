@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    @Qualifier("userRepoImpl2")
+    @Qualifier("userRepoImpl")
     private UserRepo<User> userRepo;
 
     @GetMapping("/get")
@@ -38,5 +38,17 @@ public class UserController {
         Long id = userRepo.addUser(u);
         System.out.println(id);
         return id;
+    }
+
+    @GetMapping("/test")
+    public User test(@RequestParam String x){
+        System.out.println("TEST REQUEST: " + x);
+        User user = new User();
+        user.setName("Stanislav");
+        user.setSurname("Tretyakov");
+        user.setAge(31);
+        user = userRepo.test(user);
+        System.out.println(user);
+        return user;
     }
 }
