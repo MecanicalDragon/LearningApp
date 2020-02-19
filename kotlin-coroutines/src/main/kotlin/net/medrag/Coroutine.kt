@@ -18,6 +18,7 @@ fun main(){
 //    suspendingInstantiate()
 //    asyncFun()
     lazyAsyncFun()
+    GlobalScope.launch {  }
 
     Thread.sleep(10000) // wait for 10 seconds
     println("Stop")

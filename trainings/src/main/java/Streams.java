@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
 
@@ -32,7 +33,23 @@ public class Streams {
         list.add(Man.builder().age(46).name("Vasiliy").skills(new String[]{"WebSphere", "ARS", "XML"}).build());
     }
 
+    private static void collection(){
+        System.out.println("Start collection");
+        List<String>list = new ArrayList<>();
+        list.add("first");
+        list.add("second");
+        list.add("third");
+        Stream<String> stream = list.stream();
+        list.remove(1);
+        list.add("fourth");
+        String reduce = stream.reduce("", String::concat);
+        System.out.println(reduce);
+        System.out.println("End collection");
+    }
+
     public static void main(String[] args) {
+
+//        collection();
 
         System.out.println(Arrays.toString(list.stream()
                 .filter(m -> m.getName().equals("Stas"))

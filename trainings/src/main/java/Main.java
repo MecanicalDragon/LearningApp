@@ -142,6 +142,10 @@ public class Main extends Student {
     private static void interfaceInheritance() {
         Clazz c = new Clazz();
         c.go();
+        Clazz2 c2 = new Clazz2();
+        c2.go();
+        Int1 i = new Int1(){};
+        i.go();
     }
 
     private static void circleTask(int side) {
@@ -410,5 +414,11 @@ class Loh {
 class Clazz implements Int1, Int2 {
     public void go() {
         System.out.println("really go");
+    }
+}
+
+class Clazz2 extends Clazz {
+    public void go() {
+        System.out.println("really go 2");
     }
 }
