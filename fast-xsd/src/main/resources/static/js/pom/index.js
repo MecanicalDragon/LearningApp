@@ -736,3 +736,42 @@ const parseColors = function () {
     }
 };
 
+const exportToCsv = function ($event) {
+    $event.preventDefault();
+    let table = document.querySelector("table");
+    let csv = [];
+    let rows = table.querySelectorAll("tr");
+
+    for (let i = 0; i < rows.length; i++) {
+
+        let row = [], cols = rows[i].querySelectorAll("td, th");
+        if (i === 1) row.push(" ");
+
+        for (let j = 0; j < cols.length; j++) {
+
+            row.push(cols[j].innerText);
+
+            if (Number(cols[j].getAttribute("colspan")) > 1) {
+                for (let k = 1; k < Number(cols[j].getAttribute("colspan")); k++) {
+                    row.push(" ");
+                }
+            }
+            // if (Number(cols[j].getAttribute("rowspan")) > 1) {
+            // }
+        }
+
+        if (i === 1) row.push(" ");
+        csv.push(row.join(";"));   // used ',' by default or '\t' for just for
+    }
+    csv = csv.join("\n");
+
+    // return (window.open('data:text/csv;charset=utf-8,' + csv));
+
+    let csvFile = new Blob([csv], {type: "text/csv"});
+    let downloadLink = document.createElement("a");
+    downloadLink.download = document.getElementById("fileName").innerText + ".csv";
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = "none";
+    // document.body.appendChild(downloadLink);
+    downloadLink.click();
+};
