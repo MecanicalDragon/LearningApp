@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BLUE Simulator</title>
+
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/tempus.css" rel="stylesheet" type="text/css">
+    <link href="css/fa470/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #reqsBody > tr,
+        #reqsBody > tr > td {
+            height: 36px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
+
+</head>
+<body>
+<br>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+            <h1>Blue Simulator</h1>
+        </div>
+        <div class="panel-body" style="padding-bottom: 10px; padding-top: 10px" id="body">
+
+            <div class="row">
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td>ID</td>
+                            <td>Response</td>
+                            <td>Edit</td>
+                            <td>Remove</td>
+                        </tr>
+                        </thead>
+                        <tbody id="subIdReqsBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td>Number</td>
+                            <td>Response</td>
+                            <td>Edit</td>
+                            <td>Remove</td>
+                        </tr>
+                        </thead>
+                        <tbody id="vnReqsBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" type="text" value="" minlength="1" id="sidReqId"
+                                       placeholder="Id"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-info" type="button" id="sidSubmit"
+                                        onclick="sendXml(true, 'CREATE')"
+                                        title="Add with validation">Validate
+                                </button>
+                                <button class="btn btn-outline-warning" type="button" id="sidSwv"
+                                        onclick="sendXml(false, 'CREATE')"
+                                        title="Add without validation">!Validate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" type="text" value="" minlength="1" id="vnReqId"
+                                       placeholder="Number"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-info" type="button" id="vnSubmit"
+                                        onclick="sendXml(true, 'REMOVE')"
+                                        title="Add with validation">Validate
+                                </button>
+                                <button class="btn btn-outline-warning" type="button" id="vnSwv"
+                                        onclick="sendXml(false, 'REMOVE')"
+                                        title="Add without validation">!Validate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                        <textarea class="form-control" minlength="1" id="xml" placeholder="xml response"
+                                  style="font-size: 14px; height: 200px"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="panel-footer">
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <span>*developed by Stanislav.Tretyakov@t-systems.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--All this is for date and time picking only-->
+<script type="text/javascript" src="js/jQuery341.js"></script>
+<script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/tempus.js"></script>
+
+<script>
+    let restController;
+    const CREATE = "CREATE";
+    const REMOVE = "REMOVE";
+    document.addEventListener('DOMContentLoaded', function () {
+        defineRest();
+        let url = new URL(restController + '/getReqs');
+        let table = document.getElementById("reqsBody");
+        fetch(url).then(function (response) {
+            return response.status === 200 ? response.json() : [response.message]
+        }).then(resp => {
+            drawTheRow(document.getElementById("subIdReqsBody"), resp.CREATE, CREATE);
+            drawTheRow(document.getElementById("vnReqsBody"), resp.REMOVE, REMOVE);
+        });
+    });
+
+    const drawTheRow = function (table, array, type) {
+        for (let el in array) {
+            table.innerHTML = table.innerHTML + "<tr><td style='padding-top: 6px'>"
+                + array[el] + "</td><td>" + getShowButton(array[el], type)
+                + "</td><td>" + getUpdateButton(array[el], type) + "</td><td>"
+                + getDeleteButton(array[el], type) + "</td></tr>";
+        }
+    };
+
+    const defineRest = function () {
+        let loc = window.location.href;
+        let endLine = loc.indexOf("?") === -1 ? loc.length : loc.indexOf("?");
+        restController = loc.substring(0, endLine - 4) + "blue";
+    };
+
+    function getDeleteButton(el, type) {
+        return '<button class="btn btn-outline-danger" style="padding-top: 0px; padding-bottom: 2px; margin-top: 3px"' +
+            ' type="button" onclick="deleteResp(\'' + el + '\',\'' + type + '\')">Remove</button>'
+    }
+
+    function deleteResp(el, type) {
+        let url = new URL(restController + '/remove');
+        url.search = new URLSearchParams({id: el, type: type});
+        let requestFailed = false;
+        fetch(url, {
+            method: 'DELETE'
+        }).then(function (response) {
+            if (response.status === 200)
+                return response.text();
+            else {
+                requestFailed = true;
+                return response.message
+            }
+        }).then(resp => {
+            if (requestFailed) alert(resp);
+            else {
+                let table = document.getElementById(type === CREATE ? "subIdReqsBody" : "vnReqsBody");
+                for (let i = 0; i < table.children.length; i++) {
+                    if (table.children[i].children[0].innerText === resp) {
+                        table.removeChild(table.children[i]);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    function getShowButton(el, type) {
+        return '<button class="btn btn-outline-info" style="padding-top: 0px; padding-bottom: 2px; margin-top: 3px"' +
+            ' type="button" onclick="showResp(\'' + el + '\',\'' + type + '\')">Show</button>'
+    }
+
+    function showResp(el, type) {
+        let url = new URL(restController + '/getResp');
+        url.search = new URLSearchParams({id: el, type: type});
+        fetch(url).then(function (response) {
+            return response.status === 200 ? response.text() : response.message
+        }).then(resp => {
+            let id = type === CREATE ? "sidReqId" : "vnReqId";
+            let other = type === REMOVE ? "sidReqId" : "vnReqId";
+            document.getElementById(id).value = el;
+            document.getElementById(other).value = "";
+            document.getElementById("xml").value = resp;
+            document.getElementById("xml").style.height = "800px";
+            document.getElementById(id).setAttribute("readonly", "true");
+            document.getElementById(other).setAttribute("readonly", "true");
+            document.getElementById("xml").setAttribute("readonly", "true");
+        });
+    }
+
+    function getUpdateButton(el, type) {
+        return '<button class="btn btn-outline-warning" style="padding-top: 0px; padding-bottom: 2px; margin-top: 3px"' +
+            ' type="button" onclick="updateResp(\'' + el + '\',\'' + type + '\')">Update</button>'
+    }
+
+    function updateResp(el, type) {
+        let url = new URL(restController + '/getResp');
+        url.search = new URLSearchParams({id: el, type: type});
+        let failedRequest = false;
+        fetch(url).then(function (response) {
+            if (response.status === 200)
+                return response.text();
+            else {
+                failedRequest = true;
+                return response.message;
+            }
+        }).then(resp => {
+            if (failedRequest) alert(resp);
+            else {
+                let id = type === CREATE ? "sidReqId" : "vnReqId";
+                let other = type === REMOVE ? "sidReqId" : "vnReqId";
+                document.getElementById(id).value = el;
+                document.getElementById(other).value = "";
+                document.getElementById("xml").value = resp;
+                document.getElementById(id).removeAttribute("readonly");
+                document.getElementById(other).setAttribute("readonly", "true");
+                document.getElementById("xml").removeAttribute("readonly");
+            }
+        });
+
+    }
+
+    function sendXml(validate, type) {
+        let id = document.getElementById(type === CREATE ? "sidReqId" : "vnReqId").value;
+        let xml = document.getElementById("xml").value;
+        if (id.toString().trim() !== "" && xml.toString().trim() !== "") {
+            let failedRequest = false;
+            let url = new URL(restController + (type === CREATE ? '/addCREATEResp' : '/addREMOVEResp'));
+            if (validate) url.search = new URLSearchParams({validate: validate});
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    req: id,
+                    xml: xml
+                })
+            }).then(function (response) {
+                if (response.status !== 200)
+                    failedRequest = true;
+                return response.text();
+            }).then(function (resp) {
+                if (failedRequest) {
+                    console.log(resp);
+                    alert(resp);
+                } else {
+                    let exists = false;
+                    let table = document.getElementById(type === CREATE ? "subIdReqsBody" : "vnReqsBody");
+                    for (let i = 0; i < table.children.length; i++) {
+                        if (table.children[i].children[0].innerText === resp) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists) {
+                        drawTheRow(table, [resp], type);
+                    }
+                    document.getElementById("sidReqId").value = "";
+                    document.getElementById("vnReqId").value = "";
+                    document.getElementById("xml").value = "";
+                    document.getElementById("sidReqId").removeAttribute("readonly");
+                    document.getElementById("vnReqId").removeAttribute("readonly");
+                    document.getElementById("xml").removeAttribute("readonly");
+                }
+            });
+        } else {
+            console.log("Fill the fields!");
+            alert("Fill the fields!");
+        }
+    }
+
+</script>
+
+</body>
+</html>

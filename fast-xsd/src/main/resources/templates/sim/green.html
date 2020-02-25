@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>GREEN Simulator</title>
+
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet" type="text/css">
+    <link href="css/tempus.css" rel="stylesheet" type="text/css">
+    <link href="css/fa470/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/panels.css" rel="stylesheet" type="text/css">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #valuesBody > tr,
+        #valuesBody > tr > td {
+            height: 26px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
+
+</head>
+<body>
+<br>
+<div class="container">
+    <div class="panel panel-success">
+        <div class="panel-heading text-center">
+            <h1>GREEN Simulator</h1>
+        </div>
+        <div class="panel-body" id="greenbody">
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-auto" style="padding-right: 0;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td>Ending</td>
+                            <td>Services</td>
+                            <td>Rollout</td>
+                            <td>Start</td>
+                            <td>End</td>
+                            <td>DeviceList</td>
+                            <td>ChangeType</td>
+                            <td>Edit</td>
+                        </tr>
+                        </thead>
+                        <tbody id="valuesBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group" id="standardForm">
+                <form onsubmit="setServicesAmount(event)">
+                    <div class="row" style="margin-top: 10px; margin-bottom: 15px;">
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Task ending:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input style="width: 45px" class="form-control" type="text" value="01" id="messageEnd"
+                                   placeholder="01" minlength="2" maxlength="2"/>
+                        </div>
+                        <div class="col-auto" style="padding-right: 0;">
+                            <span style="position: relative; top: 10px;">Services amount:</span>
+                        </div>
+                        <div class="col-auto">
+                            <input style="width: 100px" class="form-control" type="number" value="5" id="servicesAmount"
+                                   placeholder="5" min="1" max="100000"/>
+                        </div>
+                        <div class="col-auto">
+                            <button id="submitServices" type="submit" class="btn btn-outline-success">Submit</button>
+                        </div>
+                        <div class="col-auto">
+                            <span style="position: relative; top: 10px;" id="servicesResult"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            Rollout:
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="rolloutDate" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input"
+                                           data-target="#rolloutDate" id="rolloutDateInput"
+                                           placeholder="Query time +1 day"/>
+                                    <div class="input-group-append" data-target="#rolloutDate"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="padding-right: 0;">
+                            <div class="row">
+                                <p style="position: relative; top: 10px; width: 100px">Device list:</p>
+                                <div class="col-auto" style="padding-left: 0">
+                                    <input class="form-control" type="text" value="" minlength="1" id="deviceList"
+                                           placeholder="HUA_1G_working"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            Activation start:
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="activationStart" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input"
+                                           placeholder="Query time +2 days"
+                                           data-target="#activationStart" id="activationStartInput"/>
+                                    <div class="input-group-append" data-target="#activationStart"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="dropdown">
+                                <div class="row"><p style="position: relative; top: 10px; width: 100px;">ChangeType:</p>
+                                    <button class="btn btn-outline-info dropdown-toggle" type="button" id="changeType"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Random
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="changeType" id="changeTypeDD">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            Activation end:
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="activationEnd" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input"
+                                           placeholder="Query time +3 days"
+                                           data-target="#activationEnd" id="activationEndInput"/>
+                                    <div class="input-group-append" data-target="#activationEnd"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="advancedForm" style="display: none">
+                <div class="row">
+                    <div class="col-12">
+                        <textarea class="form-control xmlView" minlength="1" id="xml"
+                                  style="font-size: 14px; height: 600px;"
+                                  placeholder="xml response"></textarea>
+                    </div>
+                </div>
+                <div class="row justify-content-between" style="margin: 15px">
+                    <div class="col-auto">
+                        <button onclick="removeRequest()" class="btn btn-outline-danger" style="width: 90px">Remove</button>
+                        <button onclick="discardRequest()" class="btn btn-outline-dark" style="width: 90px">Discard</button>
+                    </div>
+                    <div class="col-auto">
+                        <button onclick="saveRawRequest()" class="btn btn-outline-success" style="width: 90px">Save</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <span id="joker" onmouseover="showJoke(this)" onmouseout="showJoke(this)">*developed by Stanislav.Tretyakov@t-systems.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+<!--All this is for date and time picking only-->
+<script type="text/javascript" src="js/jQuery341.js"></script>
+<script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/tempus.js"></script>
+<script type="text/javascript" src="js/sockjs.js"></script>
+<script type="text/javascript" src="js/stomp.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#rolloutDate').datetimepicker();
+        $('#activationStart').datetimepicker();
+        $('#activationEnd').datetimepicker();
+    });
+</script>
+
+<script>
+    let changeTypes = [];
+    let changeValue = "change";
+    let restController;
+    let requestUnderCut = undefined;
+    document.addEventListener('DOMContentLoaded', function () {
+        defineRest();
+
+        //  WebSocket messaging
+        const socket = new SockJS(restController.substring(0, restController.length - 4) + 'xml_requests');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/change/messages', function (msg) {
+                console.log(new Date());
+            });
+        });
+
+        let url = new URL(restController + '/getStartUpData');
+        let table = document.getElementById("valuesBody");
+        fetch(url).then(function (response) {
+            return response.json();
+        }).then(resp => {
+            if (resp.status === 200) {
+                let map = resp.requests;
+                for (let key in map) {
+                    drawRow(table, key, map[key]);  //  map[key].servicesAmount
+                }
+                fillDD(resp.changeTypes);
+            } else {
+                alert(resp);
+            }
+        });
+    });
+
+    const defineRest = function () {
+        let loc = window.location.href;
+        let endLine = loc.indexOf("?") === -1 ? loc.length : loc.indexOf("?");
+        // endLine = endLine.indexOf(".html") === -1 ? endLine : endLine.substr
+        restController = loc.substring(0, endLine - 4) + "green";
+    };
+
+    function saveRawRequest() {
+        let url = new URL(restController + "/saveRawRequest")
+        url.search = new URLSearchParams({ending: requestUnderCut, rawXml: document.getElementById("xml").value});
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function (resp) {
+            return resp.json();
+        }).then(resp => {
+            if (resp.status === "SAVED") {
+                document.getElementById("xml").value = "";
+                let table = document.getElementById("valuesBody");
+                for (let i = 0; i < table.children.length; i++) {
+                    if (table.children[i].children[0].innerText === requestUnderCut) {
+                        table.children[i].children[1].innerText = "Raw XML";
+                        table.children[i].children[2].innerText = "Raw XML";
+                        table.children[i].children[3].innerText = "Raw XML";
+                        table.children[i].children[4].innerText = "Raw XML";
+                        table.children[i].children[5].innerText = "Raw XML";
+                        table.children[i].children[6].innerText = "Raw XML";
+                        break;
+                    }
+                }
+                requestUnderCut = undefined;
+                $("#advancedForm").hide();
+                $("#standardForm").show();
+            } else {
+                document.getElementById("xml").value = resp.message;
+            }
+        });
+    }
+
+    function removeRequest() {
+        let url = new URL(restController + "/removeRequest")
+        url.search = new URLSearchParams({ending: requestUnderCut});
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            if (response.status === "REMOVED") {
+                return response.json();
+            } else return response.text();
+        }).then(resp => {
+            if (resp.status === undefined) {
+                document.getElementById("xml").value = "";
+                let table = document.getElementById("valuesBody");
+                for (let i = 0; i < table.children.length; i++) {
+                    if (table.children[i].children[0].innerText === requestUnderCut) {
+                        table.children[i].remove();
+                        break;
+                    }
+                }
+                requestUnderCut = undefined;
+                $("#advancedForm").hide();
+                $("#standardForm").show();
+            } else {
+                document.getElementById("xml").value = resp.message;
+            }
+        });
+    }
+
+    function discardRequest() {
+        document.getElementById("xml").value = "";
+        requestUnderCut = undefined;
+        $("#advancedForm").hide();
+        $("#standardForm").show();
+    }
+
+    function editRequest(event) {
+        let url = new URL(restController + "/change/" + event.target.getAttribute("kat"))
+        fetch(url).then(function (resp) {
+            return resp.text();
+        }).then(resp => {
+            document.getElementById("xml").value = resp;
+            requestUnderCut = event.target.getAttribute("kat");
+            $("#standardForm").hide();
+            $("#advancedForm").show();
+        });
+        console.log(event.target.getAttribute("kat"));
+    }
+
+    const getJoke = function () {
+        let url = new URL(restController + '/getJoke');
+        fetch(url).then(function (response) {
+            return response.text();
+        }).then(resp => {
+            console.log(resp);
+        });
+    }
+
+    function showJoke(span) {
+        if (span.innerText === "*developed by Stanislav.Tretyakov@t-systems.com") {
+            span.innerText = "Get fresh joke into console :)"
+            span.style.cursor = "pointer";
+            span.onclick = getJoke;
+        } else {
+            span.innerText = "*developed by Stanislav.Tretyakov@t-systems.com"
+            span.style.cursor = "auto";
+            span.onclick = undefined;
+        }
+    }
+
+    function fillDD(array) {
+        changeTypes = array;
+        let dDown = document.getElementById("changeTypeDD");
+        for (let i = 0; i < changeTypes.length; i++) {
+            dDown.innerHTML += "<a class='dropdown-item' onclick='pickDD(event)'>" + changeTypes[i] + "</a>"
+        }
+    }
+
+    function pickDD(event) {
+        let innerText = event.target.innerText;
+        changeValue = innerText;
+        document.getElementById("changeType").innerText = innerText;
+    }
+
+    function drawRow(table, key, resp) {
+        if (resp.rawXml !== null) {
+            for (x in resp) {
+                resp[x] = "Raw XML";
+            }
+        }
+        table.innerHTML = table.innerHTML + "<tr><td>" + key + "</td><td>" + resp.servicesAmount + "</td><td>"
+            + (resp.rollout || "Request +1 day") + "</td><td>" + (resp.astart || "Request +2 days")
+            + "</td><td>" + (resp.aend || "Request +3 days") + "</td><td>" + (resp.deviceList)
+            + "</td><td class='longTd' title='" + (resp.change) + "'>" + (resp.change) + "</td><td style='padding-top: 2px'>"
+            + "<a class='editBtn' kat='" + key + "' onclick='editRequest(event)'>Edit</a></td></tr>"
+    }
+
+    function setServicesAmount(event) {
+        event.preventDefault();
+        let result = document.getElementById("servicesResult");
+        if (result.innerText === "") {
+
+            let rollout = document.getElementById("rolloutDateInput").value;
+            let aStart = document.getElementById("activationStartInput").value;
+            let aEnd = document.getElementById("activationEndInput").value;
+            let amount = document.getElementById("servicesAmount").value;
+            let end = document.getElementById("messageEnd").value;
+            let devices = document.getElementById("deviceList").value;
+
+            let url = new URL(restController + '/setServicesAmount');
+            let params = {
+                key: end,
+                value: amount,
+                rollout: rollout,
+                aStart: aStart,
+                aEnd: aEnd,
+                deviceList: devices,
+                changeType: changeValue
+            };
+            url.search = new URLSearchParams(params);
+
+            fetch(url, {method: 'POST'}).then(function (response) {
+                return response.json();
+            }).then(function (resp) {
+                if (resp.status === "DONE") {
+                    result.innerText = "New value has been set.";
+                    let table = document.getElementById("valuesBody");
+                    let exists = false;
+                    for (let i = 0; i < table.children.length; i++) {
+                        if (table.children[i].children[0].innerText === end) {
+                            table.children[i].children[1].innerText = amount;
+                            table.children[i].children[2].innerText = resp.rollout || "Request +1 day";
+                            table.children[i].children[3].innerText = resp.astart || "Request +2 days";
+                            table.children[i].children[4].innerText = resp.aend || "Request +3 days";
+                            table.children[i].children[5].innerText = resp.deviceList;
+                            table.children[i].children[6].innerText = resp.change;
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists) {
+                        drawRow(table, end, resp);
+                    }
+                } else if (resp.status === "KEY") {
+                    result.innerText = "You've input incorrect key. It should be exactly 2 symbols.";
+                } else if (resp.status === "VALUE") {
+                    result.innerText = "You've input incorrect value. It should be within 1 - 100000.";
+                } else {
+                    result.innerText = "Request has failed. Take a look into console.";
+                    console.log(resp);
+                }
+                fade(result);
+            });
+        }
+    }
+
+    function fade(element) {
+        let op = 1;  // initial opacity
+        let timer = setInterval(function () {
+
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+
+            if (op <= 0.05) {
+                clearInterval(timer);
+                element.innerText = "";
+                element.style.opacity = 1;
+            }
+        }, 150);
+    }
+</script>
+</body>
+</html>

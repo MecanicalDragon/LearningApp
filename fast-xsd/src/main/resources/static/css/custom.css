@@ -1,0 +1,21 @@
+.editBtn {
+    border-style: solid;
+    border-width: 1px;
+    background-color: #ffc033;
+    border-color: #ff6d00;
+    border-radius: 4px;
+    padding-left: 7px;
+    padding-right: 7px;
+    cursor: pointer;
+}
+
+.longTd {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.xmlView {
+    font-size: 14px;
+    height: 600px;
+}
