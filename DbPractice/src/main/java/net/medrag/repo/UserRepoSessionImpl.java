@@ -9,17 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * {@author} Stanislav Tretyakov
  * 17.02.2020
  */
 @Repository
-public class UserRepoImpl<U extends User> implements UserRepo<User> {
+public class UserRepoSessionImpl<U extends User> implements UserRepo<User> {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional
+//    @Transactional
     public Long addUser(User user) {
         Session session = sessionFactory.getCurrentSession();
         return (Long) session.save(user);
@@ -34,9 +36,15 @@ public class UserRepoImpl<U extends User> implements UserRepo<User> {
     @Transactional
     public User test(User user) {
         Session session = sessionFactory.getCurrentSession();
-        val id = (Long)session.save(user);
+        val id = (Long) session.save(user);
         user.setId(id);
         return user;
+    }
+
+    @Transactional
+    public List<User> getAll() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("SELECT a FROM User a", User.class).getResultList();
     }
 
     @Transactional

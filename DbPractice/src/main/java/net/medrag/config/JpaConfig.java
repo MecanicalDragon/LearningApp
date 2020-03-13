@@ -81,7 +81,7 @@ public class JpaConfig {
                 setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
                 setProperty("hibernate.globally_quoted_identifiers", "true");
                 setProperty("hibernate.show_sql", "true");
-                setProperty("hibernate.format_sql", "true");
+                setProperty("hibernate.format_sql", "false");
                 setProperty("hibernate.use_sql_comments", "true");
             }
         };

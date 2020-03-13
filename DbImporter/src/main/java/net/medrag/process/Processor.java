@@ -11,10 +11,15 @@ import net.medrag.old_database.model.OldSkill;
 import net.medrag.old_database.model.OldSkillLevel;
 import net.medrag.old_database.repository.OldDevRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlInOutParameter;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,12 +30,14 @@ public class Processor {
     private OldDevRepo oldDevRepo;
     private NewDevRepo newDevRepo;
     private NewSkillRepo newSkillRepo;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public Processor(OldDevRepo oldDevRepo, NewDevRepo newDevRepo, NewSkillRepo newSkillRepo) {
+    public Processor(OldDevRepo oldDevRepo, NewDevRepo newDevRepo, NewSkillRepo newSkillRepo, JdbcTemplate jdbcTemplate) {
         this.oldDevRepo = oldDevRepo;
         this.newDevRepo = newDevRepo;
         this.newSkillRepo = newSkillRepo;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional
@@ -40,6 +47,7 @@ public class Processor {
         List<NewDeveloper> mapped = old.stream().map(this::mapDev).collect(Collectors.toList());
         long count = mapped.stream().peek(this::persist).count();
         log.info("{} developer have been saved total.", count);
+        executeProcedure();
     }
 
     private void persist(NewDeveloper dev) {
@@ -64,5 +72,20 @@ public class Processor {
 
     private NewSkillLevel mapLevel(OldSkillLevel old) {
         return NewSkillLevel.valueOf(old.name());
+    }
+
+    /**
+     * Procedure execution example
+     */
+    private void executeProcedure() {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_rows_count");
+
+        SqlInOutParameter colName = new SqlInOutParameter("col_name", 12);    //  OracleTypes.VARCHAR
+        SqlOutParameter res = new SqlOutParameter("res", 2);   //  OracleTypes.NUMBER
+
+        call.addDeclaredParameter(colName);
+        call.addDeclaredParameter(res);
+        Map<String, Object> execute = call.execute("ID");
+        log.info("Procedure result: {}", execute);
     }
 }

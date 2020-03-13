@@ -21,12 +21,12 @@ public class User {
     private Long id;
 
     @Column(name = "NAME")
-    private String name;
+    private String name = "Default";
 
     @Column(name = "SURNAME")
-    private String surname;
+    private String surname = "Defaultson";
 
     @Column(name = "AGE")
-    private Integer age;
+    private Integer age = 30;
 
 }

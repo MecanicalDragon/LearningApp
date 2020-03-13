@@ -36,25 +36,73 @@ public class Main extends Student {
 //        interfacesAndAbstracts();
 //        testArrays();
 //        duplicates("ollo58896k");
+//        listsRuntime();
 
 //        circleTask(15);
 //        matrixTask(20);
 
     }
 
+    private static void listsRuntime() {
+        ArrayList arrayList = new ArrayList(50001);
+        LinkedList linkedList = new LinkedList();
+// LinkedList add
+        long startTime = System.nanoTime();
+        for (int i = 0; i < 100000; i++) {
+            linkedList.add(i);
+        }
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        System.out.println("LinkedList add: " + duration);
+// ArrayList add
+        startTime = System.nanoTime();
+        for (int i = 0; i < 100000; i++) {
+            arrayList.add(i);
+        }
+        endTime = System.nanoTime();
+        duration = endTime - startTime;
+        System.out.println("ArrayList add:  " + duration);
+        arrayList = new ArrayList(50001);
+        linkedList = new LinkedList();
+// LinkedList add
+        startTime = System.nanoTime();
+        for (int i = 0; i < 100000; i++) {
+            linkedList.add(i);
+        }
+        endTime = System.nanoTime();
+        duration = endTime - startTime;
+        System.out.println("LinkedList add: " + duration);
+// ArrayList add
+        startTime = System.nanoTime();
+        for (int i = 0; i < 100000; i++) {
+            arrayList.add(i);
+        }
+        endTime = System.nanoTime();
+        duration = endTime - startTime;
+        System.out.println("ArrayList add:  " + duration);
+        // LinkedList add
+        startTime = System.nanoTime();
+        for (int i = 0; i < 100000; i++) {
+            linkedList.add(i);
+        }
+        endTime = System.nanoTime();
+        duration = endTime - startTime;
+        System.out.println("LinkedList add: " + duration);
+    }
+
     private static void duplicates(String str) {
         char[] chars = str.toCharArray();
-        Deque<Character>deque = new ArrayDeque<>();
+        Deque<Character> deque = new ArrayDeque<>();
         for (Character c : chars) {
             Character character = deque.peekLast();
-            if (c.equals(character)){
+            if (c.equals(character)) {
                 deque.removeLast();
             } else {
                 deque.addLast(c);
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for (char d:deque) {
+        for (char d : deque) {
             stringBuilder.append(d);
         }
         System.out.println(stringBuilder);
@@ -144,7 +192,8 @@ public class Main extends Student {
         c.go();
         Clazz2 c2 = new Clazz2();
         c2.go();
-        Int1 i = new Int1(){};
+        Int1 i = new Int1() {
+        };
         i.go();
     }
 

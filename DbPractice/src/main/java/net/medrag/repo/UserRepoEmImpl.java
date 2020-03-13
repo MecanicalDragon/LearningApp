@@ -6,13 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * {@author} Stanislav Tretyakov
  * 19.02.2020
  */
 @Repository
-public class UserRepoImpl2<U extends User> implements UserRepo<User> {
+public class UserRepoEmImpl<U extends User> implements UserRepo<User> {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,5 +31,10 @@ public class UserRepoImpl2<U extends User> implements UserRepo<User> {
 
     public User test(User user) {
         return null;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return entityManager.createQuery("SELECT a FROM User a", User.class).getResultList();
     }
 }

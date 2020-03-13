@@ -23,3 +23,16 @@ create table new_skill
     fk_developer_id number(20),
     foreign key (fk_developer_id) references new_developer (id)
 );
+
+create or replace procedure get_rows_count(col_name in varchar2, res out number) as
+    cursor total is select count(col_name) from new_developer;
+begin
+    open total;
+    fetch total into res;
+    close total;
+end get_rows_count;
+
+create or replace procedure wipe is
+begin
+    delete from new_developer where ID = 2;
+end wipe;
