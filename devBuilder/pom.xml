@@ -48,11 +48,11 @@
         </dependency>
 
         <!--Very interesting issue: Tomcat context loaders of java 8 and java 11 look for JAXB dependency in different places. This will fix it.-->
-<!--        <dependency>-->
-<!--            <groupId>org.glassfish.jaxb</groupId>-->
-<!--            <artifactId>jaxb-runtime</artifactId>-->
-<!--            <version>2.3.0.1</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
 
         <!--H2 database-->
         <dependency>

@@ -17,10 +17,11 @@
             <artifactId>flyway-core</artifactId>
             <version>4.1.2</version>
         </dependency>
+        <!--H2 database-->
         <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc7</artifactId>
-            <version>12.1.0.2</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
         </dependency>
     </dependencies>
 
