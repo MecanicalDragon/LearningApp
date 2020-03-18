@@ -6,6 +6,8 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -23,6 +25,7 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
+        dates();
 //        System.out.println(tryAndCatch());
 //        System.out.println(tryAndCatch2());
 //        System.out.println(tryAndCatch3().getName());
@@ -43,10 +46,33 @@ public class Main extends Student {
 
     }
 
+    private static void dates() {
+        String date = "2010-08-24";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        TemporalAccessor parse = dtf.parse(date);
+        LocalDate from = LocalDate.from(parse);
+        System.out.println(from.format(dtf2));
+        System.out.println(LocalDate.from(dtf.parse(date)).format(dtf2));
+
+        System.out.println("java.util.Date");
+        Date d = new Date();
+        System.out.println(d);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        String format = sdf.format(d);
+        System.out.println(format);
+
+        System.out.println("java.sql.Date");
+        java.sql.Date d2 = new java.sql.Date(d.getTime());
+        System.out.println(d2);
+    }
+
     private static void listsRuntime() {
-        ArrayList arrayList = new ArrayList(50001);
-        LinkedList linkedList = new LinkedList();
-// LinkedList add
+
+        List<Integer> arrayList = new ArrayList<>(50001);
+        List<Integer> linkedList = new LinkedList<>();
+
+        // LinkedList add
         long startTime = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
             linkedList.add(i);
@@ -54,7 +80,8 @@ public class Main extends Student {
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
         System.out.println("LinkedList add: " + duration);
-// ArrayList add
+
+        // ArrayList add
         startTime = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
             arrayList.add(i);
@@ -62,9 +89,10 @@ public class Main extends Student {
         endTime = System.nanoTime();
         duration = endTime - startTime;
         System.out.println("ArrayList add:  " + duration);
-        arrayList = new ArrayList(50001);
-        linkedList = new LinkedList();
-// LinkedList add
+        arrayList = new ArrayList<>(50001);
+        linkedList = new LinkedList<>();
+
+        // LinkedList add
         startTime = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
             linkedList.add(i);
@@ -72,7 +100,8 @@ public class Main extends Student {
         endTime = System.nanoTime();
         duration = endTime - startTime;
         System.out.println("LinkedList add: " + duration);
-// ArrayList add
+
+        // ArrayList add
         startTime = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
             arrayList.add(i);
@@ -80,6 +109,7 @@ public class Main extends Student {
         endTime = System.nanoTime();
         duration = endTime - startTime;
         System.out.println("ArrayList add:  " + duration);
+
         // LinkedList add
         startTime = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
