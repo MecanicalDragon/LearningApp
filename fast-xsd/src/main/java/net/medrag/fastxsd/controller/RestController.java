@@ -4,6 +4,8 @@ import net.medrag.fastxsd.dto.EntryObject;
 import net.medrag.fastxsd.service.ArUtilService;
 import net.medrag.fastxsd.service.Joker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +19,21 @@ import java.util.List;
  * {@author} Stanislav Tretyakov
  * 18.09.2018
  */
+@PropertySource(value = "classpath:app_russian.properties", encoding = "UTF-8")
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
+    @Value("${app.val}")
+    String value;
+
     private ArUtilService arUtilService;
     private Joker joker;
+
+    @GetMapping("/val")
+    String val() {
+        System.out.println(value);
+        return value;
+    }
 
     @Autowired
     public void setJoker(Joker joker) {
