@@ -1,5 +1,3 @@
-package net.medrag
-
 import java.lang.ArithmeticException
 import java.lang.Exception
 
@@ -17,8 +15,8 @@ fun main() {
 
     labels()
     controlFlow()
-    idioms()
     functions()
+    idioms()
 
 }
 
@@ -182,7 +180,7 @@ private fun labels() {
 // part 1
 
 
-fun print(s: String) {
+fun justPrint(s: String) {
     println("Печатаем $s")
 }
 

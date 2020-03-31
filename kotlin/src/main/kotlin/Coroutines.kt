@@ -1,5 +1,3 @@
-package net.medrag
-
 import kotlinx.coroutines.*
 import java.lang.Thread.sleep
 import java.time.LocalTime
@@ -12,16 +10,16 @@ import java.time.format.FormatStyle
  * 06.12.2019
  */
 val dtf = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
+
 fun main(){
-    println("Start")
+    println("START: ${LocalTime.now().format(dtf)}")
 
-//    suspendingInstantiate()
+    suspendingInstantiate()
 //    asyncFun()
-    lazyAsyncFun()
-    GlobalScope.launch {  }
+//    lazyAsyncFun()
 
-    Thread.sleep(10000) // wait for 10 seconds
-    println("Stop")
+    sleep(10000) // wait for 10 seconds
+    println("STOP ${LocalTime.now().format(dtf)}")
 }
 
 /**
@@ -83,6 +81,8 @@ fun suspendingInstantiate() {
 
 /**
  * this function suspends coroutine
+ * You need keyword 'suspend' to use 'delay' in functions
+ * You can use 'suspend' functions only within coroutine scope
  */
 suspend fun pause() {
     println("started suspend function")

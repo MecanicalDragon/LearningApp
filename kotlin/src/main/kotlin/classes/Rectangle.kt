@@ -1,4 +1,6 @@
-// 'data'-keyword mean auto generating 'toString', 'equals', 'hashcode', 'clone'
+package classes
+
+// 'data'-keyword mean auto generating 'toString', 'equals', 'hashcode', 'clone', 'componentN'
 data class Rectangle(var height:Int, var width: Int) {
 
 //    private var height: Int = 0

@@ -1,8 +1,7 @@
 package classes
 
-    //data class means auto generating equals(), hashCode(), toString(), copy(), componentN()
-data class DataClass(val name:String, val amount: Int) {
-}
+//data class means auto generating equals(), hashCode(), toString(), copy(), componentN()
+data class DataClass(val name: String, val amount: Int)
 
 //ѕервичный конструктор должен иметь как минимум один параметр;
 //¬се параметры первичного конструктора должны быть отмечены, как val или var;
