@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
 }
 
 open class Example {
-    open fun defaultArg(a: String = "default ", b: String = "argument", c: String = " function") = println(a + b + c)
+    open fun defaultArg(a: String = "default", b: String = " argument ", c: String = "function") = println(a + b + c)
 }
 
 class Example2 : Example() {

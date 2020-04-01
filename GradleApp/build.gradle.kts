@@ -22,6 +22,10 @@ sourceSets {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation(kotlin("stdlib-jdk8"))   //  kotlin-compile only
@@ -37,10 +41,6 @@ tasks {
         }
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 //  kotlin-compile only

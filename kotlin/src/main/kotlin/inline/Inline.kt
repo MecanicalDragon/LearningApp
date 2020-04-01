@@ -5,6 +5,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Functions acquires the lock on boolean before invocation and releases after.
  * Suppose this is not correct example of inline function.
+ *
+ * Thorough description here:
+ * https://www.baeldung.com/kotlin-inline-functions
+ *
  * @receiver AtomicBoolean
  * @param block Function0<Unit>
  * @return Boolean - was the lock acquired or not
