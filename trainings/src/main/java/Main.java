@@ -1,11 +1,10 @@
 import net.medrag.trainings.model.Student;
+import supportClasses.Clazz;
+import supportClasses.Clazz2;
+import supportClasses.Int1;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -472,32 +471,3 @@ public class Main extends Student {
 
 }
 
-interface Int1 {
-    default void go() {
-        System.out.println("go1");
-    }
-}
-
-interface Int2 {
-    default void go() {
-        System.out.println("go2");
-    }
-}
-
-class Loh {
-    public void go() {
-        System.out.println("pow");
-    }
-}
-
-class Clazz implements Int1, Int2 {
-    public void go() {
-        System.out.println("really go");
-    }
-}
-
-class Clazz2 extends Clazz {
-    public void go() {
-        System.out.println("really go 2");
-    }
-}

@@ -1,7 +1,4 @@
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import supportClasses.Man;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -148,14 +145,4 @@ public class Streams {
 
 
     }
-}
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class Man {
-    int age;
-    String name;
-    String[] skills;
 }
