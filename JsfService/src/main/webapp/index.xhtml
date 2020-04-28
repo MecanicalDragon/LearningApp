@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:ut="http://java.sun.com/jsf/composite/components/tags"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>JsfService</title>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Bootstrap Core CSS -->
+<!--    <h:outputStylesheet name="css/bootstrap.min.css"/>-->
+<!--    <h:outputStylesheet name="css/palitre.css"/>-->
+
+</h:head>
+
+<h:body>
+    <br/>
+    <h1>Hello again</h1>
+    <h:form id="form1">
+        <p:inputText id="inp1"
+                     maxlength="25"
+                     label="Some string value"
+                     value="#{Main.textValue}"
+        />
+        <br/>
+        <p:inputText id="inp2"
+                     maxlength="25"
+                     label="Some string value"
+                     value="#{Main.textValue2}"
+        />
+        <br/>
+        <p:inputText id="inp3"
+                     maxlength="25"
+                     label="Some string value"
+                     value="#{Main.textValue2}"
+        >
+            <p:ajax event="change"
+                    process="@this"
+                    update="inp2"
+                    listener="#{Main.ajaxListener()}"
+            />
+
+        </p:inputText>
+        <br/>
+        <p:commandButton id="btn1"
+                         value="Submit"
+                         title="This is label"
+                         action="#{Main.submitButt1}"
+                         update="inp1"
+        />
+        <br/>
+        <p:commandButton id="launchJs"
+                         value="Launch JS"
+                         title="Launch JS"
+        />
+    </h:form>
+
+<!--    <h:outputScript library="js" name="jquery-3.5.0.min.js" target="head"/>-->
+    <h:outputScript library="js" name="outputScript.js"/>
+    <script>
+        //<![CDATA[
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('content loaded')
+        });
+        //]]>
+    </script>
+
+</h:body>
+</html>
