@@ -66,12 +66,13 @@
             <version>6.2.3</version>
         </dependency>
 
-        <!--H2 database-->
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.12</version>
         </dependency>
+
 
         <!--Lombok-->
         <dependency>

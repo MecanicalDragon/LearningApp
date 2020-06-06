@@ -14,17 +14,16 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)   //  OTHERWISE USE SEQUENCE (bug for hibernate and h2):
-//    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", allocationSize = 1)
-//    @GeneratedValue(generator = "user_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
     @Column(name = "NAME")
-    private String name = "Default";
+    private String name;
 
     @Column(name = "SURNAME")
-    private String surname = "Defaultson";
+    private String surname;
 
     @Column(name = "AGE")
     private Integer age = 30;

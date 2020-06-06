@@ -1,6 +1,7 @@
 package net.medrag.repo;
 
 import net.medrag.model.User;
+import net.medrag.repo.api.UserRepo;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

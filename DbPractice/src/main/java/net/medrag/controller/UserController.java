@@ -1,7 +1,7 @@
 package net.medrag.controller;
 
 import net.medrag.model.User;
-import net.medrag.repo.UserRepo;
+import net.medrag.repo.api.UserRepo;
 import net.medrag.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.StampedLock;
 
 /**
  * {@author} Stanislav Tretyakov
@@ -31,7 +29,6 @@ public class UserController {
 
     @GetMapping("/getAll")
     public List<User> getAll() {
-        Lock lock = new StampedLock();
         return userRepo.getAll();
     }
 

@@ -1,4 +1,4 @@
-package net.medrag.repo;
+package net.medrag.repo.api;
 
 import net.medrag.model.User;
 

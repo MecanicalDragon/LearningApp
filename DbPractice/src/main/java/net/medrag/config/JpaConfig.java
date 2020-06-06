@@ -4,8 +4,10 @@ import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.ClassicConfiguration;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -23,8 +25,14 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class JpaConfig {
 
-//    @Autowired
-//    private Environment env;
+    @Value("${dbapp.datasource.driverClassName}")
+    String driverClassName;
+    @Value("${dbapp.datasource.url}")
+    String datasourceUrl;
+    @Value("${dbapp.datasource.username}")
+    String dbUsername;
+    @Value("${dbapp.datasource.password}")
+    String dbPassword;
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -39,10 +47,10 @@ public class JpaConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:file:./database/dbPractice"); // ${CATALINA_HOME}/bin in WAR-case
-        dataSource.setUsername("user");
-        dataSource.setPassword("pass");
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(datasourceUrl);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
 
         return dataSource;
     }

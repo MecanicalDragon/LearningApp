@@ -1,7 +1,7 @@
 package net.medrag.service;
 
 import net.medrag.model.User;
-import net.medrag.repo.UserRepo;
+import net.medrag.repo.api.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

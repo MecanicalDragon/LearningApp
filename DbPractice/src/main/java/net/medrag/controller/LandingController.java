@@ -25,7 +25,6 @@ public class LandingController {
 
     @RequestMapping("/")
     public String landing() {
-        System.out.println("landing");
         return "template/landing.html";
     }
 

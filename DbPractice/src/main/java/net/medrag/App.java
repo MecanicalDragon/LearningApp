@@ -21,6 +21,7 @@ public class App implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcherServlet", new DispatcherServlet(context));
         dispatcher.setLoadOnStartup(1);
+        dispatcher.setInitParameter("throwExceptionIfNoHandlerFound", "true");
         dispatcher.addMapping("/");
     }
 }
