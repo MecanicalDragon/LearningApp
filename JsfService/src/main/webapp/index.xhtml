@@ -4,6 +4,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:ut="http://java.sun.com/jsf/composite/components/tags"
+      xmlns:ucv="http://java.sun.com/jsf/composite/components/views/core"
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -12,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <!-- Bootstrap Core CSS -->
-<!--    <h:outputStylesheet name="css/bootstrap.min.css"/>-->
-<!--    <h:outputStylesheet name="css/palitre.css"/>-->
+    <!--    <h:outputStylesheet name="css/bootstrap.min.css"/>-->
+    <!--    <h:outputStylesheet name="css/palitre.css"/>-->
 
 </h:head>
 
@@ -59,12 +60,37 @@
         />
     </h:form>
 
-<!--    <h:outputScript library="js" name="jquery-3.5.0.min.js" target="head"/>-->
+    <!--    <h:outputScript library="js" name="jquery-3.5.0.min.js" target="head"/>-->
     <h:outputScript library="js" name="outputScript.js"/>
     <script>
         //<![CDATA[
         document.addEventListener('DOMContentLoaded', function () {
             console.log('content loaded')
+            const personDataValue = 'personData'
+            const declarantOtherDocumentValue = 'declarantOtherDocument'
+
+            const fillData = function (formName) {
+                return {
+                    nameRus: 0,
+                    nameLat: 1,
+                    surnameRus: 2,
+                    surnameLat: 3,
+                    midnameRus: 4,
+                    midnameLat: 5,
+                    birthday: 6,
+                    gender: 7,
+                    birthCountry: 8,
+                    birthPlace: 9,
+                    citizenship: 10
+                }
+            }
+
+            var personData = fillData(personDataValue);
+            var declarantOtherDocument = fillData(declarantOtherDocumentValue);
+
+            for (i in personData){
+                console.log(personData[i])
+            }
         });
         //]]>
     </script>
