@@ -1,4 +1,4 @@
-package oldLessons.miceGame;
+package minigames.cheeseRace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,11 @@ class Mouse {
 
     void stealCheese(){
         double stolen = Cheese.eatCheese();
-        System.out.println(String.format("Mice stole %.2f of cheese. %.2f left.", stolen, Cheese.getRest()));
+        System.out.println(String.format("Mice have stolen %.2f of cheese. %.2f left.", stolen, Cheese.getRest()));
         food += stolen;
         if(food > POPULATION_INCREASE_REQUIREMENT){
             bornNewMouse();
-            System.out.println("Mouse population increased! Now there are " + NEST.size() + " mice.");
+            System.out.println("Mice population increased! Now there are " + NEST.size() + " mice.");
             food -= POPULATION_INCREASE_REQUIREMENT;
         }
     }

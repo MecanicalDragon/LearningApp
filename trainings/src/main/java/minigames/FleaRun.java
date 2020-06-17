@@ -1,4 +1,4 @@
-package fleas;
+package minigames;
 
 import java.util.Arrays;
 import java.util.Scanner;
