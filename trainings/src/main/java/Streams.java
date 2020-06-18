@@ -30,6 +30,9 @@ public class Streams {
         list.add(Man.builder().age(46).name("Vasiliy").skills(new String[]{"WebSphere", "ARS", "XML"}).build());
     }
 
+    /**
+     * This part of code just instantiates, that stream uses collection's state at the moment of terminal method.
+     */
     private static void collection(){
         System.out.println("Start collection");
         List<String>list = new ArrayList<>();
@@ -124,7 +127,7 @@ public class Streams {
         System.out.println(list.stream()
                 .flatMap(man -> Arrays.stream(man.getSkills()))
                 .distinct()
-                .collect(Collectors.groupingBy(skill -> new Character(skill.charAt(0)))));   //  Grouping by with a Complex Map Key Type
+                .collect(Collectors.groupingBy(skill -> skill.charAt(0))));   //  Grouping by with a Complex Map Key Type
 
         System.out.println(list.stream()
                 .flatMap(man -> Arrays.stream(man.getSkills()))
