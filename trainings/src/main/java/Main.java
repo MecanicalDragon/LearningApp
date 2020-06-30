@@ -66,57 +66,23 @@ public class Main extends Student {
         System.out.println(d2);
     }
 
-    private static void listsRuntime() {
-
-        List<Integer> arrayList = new ArrayList<>(50001);
-        List<Integer> linkedList = new LinkedList<>();
-
-        // LinkedList add
+    private static void getListRuntime(List<Integer> list, int limit) {
+//        ListIterator<Integer> listIterator = list.listIterator();
+//        Look javaDocs, this is not a common iterator
         long startTime = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            linkedList.add(i);
+        for (int i = 0; i < limit; i++) {
+            list.add(i);
         }
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
-        System.out.println("LinkedList add: " + duration);
+        System.out.println(String.format("%s: %s", list.getClass().getSimpleName().substring(0, 9), duration));
+    }
 
-        // ArrayList add
-        startTime = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            arrayList.add(i);
+    private static void listsRuntime() {
+        for (int i = 0; i < 40; i++) {
+            List<Integer> list = i % 2 == 0 ? new ArrayList<>() : new LinkedList<>();
+            getListRuntime(list, 1000000);
         }
-        endTime = System.nanoTime();
-        duration = endTime - startTime;
-        System.out.println("ArrayList add:  " + duration);
-        arrayList = new ArrayList<>(50001);
-        linkedList = new LinkedList<>();
-
-        // LinkedList add
-        startTime = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            linkedList.add(i);
-        }
-        endTime = System.nanoTime();
-        duration = endTime - startTime;
-        System.out.println("LinkedList add: " + duration);
-
-        // ArrayList add
-        startTime = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            arrayList.add(i);
-        }
-        endTime = System.nanoTime();
-        duration = endTime - startTime;
-        System.out.println("ArrayList add:  " + duration);
-
-        // LinkedList add
-        startTime = System.nanoTime();
-        for (int i = 0; i < 100000; i++) {
-            linkedList.add(i);
-        }
-        endTime = System.nanoTime();
-        duration = endTime - startTime;
-        System.out.println("LinkedList add: " + duration);
     }
 
     private static void duplicates(String str) {
