@@ -2,7 +2,6 @@ package oldLessons.reflection;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
-import javax.activity.InvalidActivityException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -164,7 +163,7 @@ public class Context {
             if (ref != null) {
                 return new Property(name, ref.getNodeValue(), ValueType.REF);
             } else {
-                throw new InvalidActivityException("Failed to find attribute ref or val: " + name);
+                throw new IOException("Failed to find attribute ref or val: " + name);
             }
         }
     }
