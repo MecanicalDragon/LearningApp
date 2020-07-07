@@ -15,8 +15,10 @@ public class DummyBot extends Player {
 
     protected final static Long SLEEPING_TIME = 1000L;
     protected static final String[] NAMES = {"Boris", "Alfonse", "Antony", "Susanna", "George", "Lucy", "Konstantin",
-            "Beatrisa", "Francois", "Napoleon", "Benny", "Alfred", "Michelle", "Emanuele", "Amelia", "Morty", "Luna",
+            "Beatrisa", "Francois", "Napoleon", "Benny", "Alfred", "Michelle", "Emanuele", "Amelia", "Marty", "Luna",
             "Gregory", "Maxim", "Sally", "Sue", "Betty", "Bjorn", "Agnesse", "Victor", "Vladimir", "Einstein", "Nobel",
+            "Romul", "Arseniy", "Florian", "Dante", "Vergil", "Arkham", "Azazel", "Zena", "Fangorn", "Aragorn", "Lary",
+            "Frodo", "Gandalf", "Gimli", "Legolas", "Conan", "Feanor", "Rinswind", "Geralt", "Pinky", "Pedro", "Sting",
             "Bartolomeo", "Angus", "Sebastian", "Francesca", "Cratos", "Zeus", "Gargantua", "Sherlock", "Selestina"};
 
     private final static String BOT_NAME = "DummyBot";

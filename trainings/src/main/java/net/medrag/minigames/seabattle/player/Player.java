@@ -2,7 +2,7 @@ package net.medrag.minigames.seabattle.player;
 
 import lombok.Setter;
 import net.medrag.minigames.seabattle.SeaBattle;
-import net.medrag.minigames.seabattle.ShipDislocationException;
+import net.medrag.minigames.seabattle.battle.ShipDislocationException;
 import net.medrag.minigames.seabattle.battle.Deck;
 import net.medrag.minigames.seabattle.battle.Shot;
 import net.medrag.minigames.seabattle.battle.ShotResult;

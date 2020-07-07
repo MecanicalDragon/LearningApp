@@ -1,6 +1,6 @@
 package net.medrag.minigames.seabattle.placers;
 
-import net.medrag.minigames.seabattle.ShipDislocationException;
+import net.medrag.minigames.seabattle.battle.ShipDislocationException;
 
 /**
  * @author Stanislav Tretyakov

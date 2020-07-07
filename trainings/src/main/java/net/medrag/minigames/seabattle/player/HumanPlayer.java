@@ -1,6 +1,6 @@
 package net.medrag.minigames.seabattle.player;
 
-import net.medrag.minigames.seabattle.ShipDislocationException;
+import net.medrag.minigames.seabattle.battle.ShipDislocationException;
 import net.medrag.minigames.seabattle.battle.DigitIndex;
 import net.medrag.minigames.seabattle.battle.LetterIndex;
 import net.medrag.minigames.seabattle.battle.Shot;
