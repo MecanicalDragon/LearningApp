@@ -1,4 +1,4 @@
-package minigames.seaBattle;
+package net.medrag.minigames.seabattle;
 
 /**
  * @author Stanislav Tretyakov

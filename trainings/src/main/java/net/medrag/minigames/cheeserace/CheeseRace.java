@@ -1,4 +1,4 @@
-package minigames.cheeseRace;
+package net.medrag.minigames.cheeserace;
 
 public class CheeseRace {
     public static void main(String[] args) {

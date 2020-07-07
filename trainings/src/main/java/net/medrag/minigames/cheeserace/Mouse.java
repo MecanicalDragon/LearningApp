@@ -1,4 +1,4 @@
-package minigames.cheeseRace;
+package net.medrag.minigames.cheeserace;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package minigames;
+package net.medrag.minigames;
 
 import java.util.Arrays;
 import java.util.Scanner;
