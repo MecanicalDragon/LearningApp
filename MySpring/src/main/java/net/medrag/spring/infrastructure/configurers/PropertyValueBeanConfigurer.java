@@ -1,15 +1,14 @@
 package net.medrag.spring.infrastructure.configurers;
 
 import lombok.SneakyThrows;
-import lombok.val;
 import net.medrag.spring.infrastructure.ApplicationContext;
 import net.medrag.spring.infrastructure.annotations.PropertyValue;
 import net.medrag.spring.infrastructure.api.BeanConfigurer;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -25,9 +24,10 @@ public class PropertyValueBeanConfigurer implements BeanConfigurer {
     @SneakyThrows
     public PropertyValueBeanConfigurer(String properties) {
         props = new HashMap<>();
-        val path = ClassLoader.getSystemClassLoader().getResource(properties).getPath();
+        URL resource = ClassLoader.getSystemClassLoader().getResource(properties);
+        if (resource == null) throw new Exception("Could not load specified properties: " + properties);
         Properties p = new Properties();
-        p.load(new FileInputStream(new File(path)));
+        p.load(new FileInputStream(new File(resource.getPath())));
         p.forEach((key, value) -> props.put(key.toString(), value.toString()));
     }
 

@@ -1,6 +1,5 @@
 package net.medrag.spring.infrastructure;
 
-import lombok.Getter;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
 
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.Set;
  */
 public class PropertiesFileConfiguration implements net.medrag.spring.infrastructure.api.Configuration {
 
-    @Getter
     private Map<String, Class> beanDefinitions;
     private ConfigurationReader configurationReader;
 

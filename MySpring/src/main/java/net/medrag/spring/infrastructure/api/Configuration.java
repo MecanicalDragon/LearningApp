@@ -1,6 +1,5 @@
 package net.medrag.spring.infrastructure.api;
 
-import java.util.Map;
 import java.util.Set;
 
 /**

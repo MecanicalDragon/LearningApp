@@ -10,9 +10,13 @@ import net.medrag.spring.infrastructure.api.ConfigurationReader;
 public class Application {
 
     public static ApplicationContext run() {
+
         ConfigurationReader reader = new PropertiesConfigurationReader();
+        ConfigurationReader infra = new PropertiesInfrastructureReader();
+
         Configuration configuration = new PropertiesFileConfiguration(reader);
-        BeanInitializer initializer = new BeanInitializer();
+        BeanInitializer initializer = new BeanInitializer(infra);
+
         ApplicationContext context = new ApplicationContext(configuration, initializer);
         context.startContext();
         return context;

@@ -17,14 +17,16 @@ import java.util.stream.Collectors;
  */
 public class PropertiesConfigurationReader implements ConfigurationReader {
 
+    private final static String DEFAULT_CONFIGURATION = "configuration.properties";
+
     private final String configuration;
 
     PropertiesConfigurationReader() {
-        configuration = "configuration.properties";
+        configuration = DEFAULT_CONFIGURATION;
     }
 
     public PropertiesConfigurationReader(String configuration) {
-        this.configuration = configuration;
+        this.configuration = configuration == null || configuration.isBlank() ? DEFAULT_CONFIGURATION : configuration;
     }
 
     @Override
