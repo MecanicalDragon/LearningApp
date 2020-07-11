@@ -10,7 +10,7 @@ import net.medrag.spring.infrastructure.annotations.PropertyValue;
  * @author Stanislav Tretyakov
  * 01.07.2020
  */
-public class StockDevelopmentTeam implements DevelopmentTeam {
+public class TenuredDevelopmentTeam implements DevelopmentTeam {
 
     @PropertyValue("net.medrag.spring.application.mars.weight")
     private Integer weight;
