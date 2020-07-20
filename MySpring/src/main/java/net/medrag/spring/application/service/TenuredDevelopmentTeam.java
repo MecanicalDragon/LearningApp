@@ -4,12 +4,14 @@ import net.medrag.spring.application.domain.Plot;
 import net.medrag.spring.application.service.api.AnnouncementTeam;
 import net.medrag.spring.application.service.api.DevelopmentTeam;
 import net.medrag.spring.infrastructure.annotations.AutoInject;
+import net.medrag.spring.infrastructure.annotations.Bean;
 import net.medrag.spring.infrastructure.annotations.PropertyValue;
 
 /**
  * @author Stanislav Tretyakov
  * 01.07.2020
  */
+@Bean
 public class TenuredDevelopmentTeam implements DevelopmentTeam {
 
     @PropertyValue("net.medrag.spring.application.mars.weight")

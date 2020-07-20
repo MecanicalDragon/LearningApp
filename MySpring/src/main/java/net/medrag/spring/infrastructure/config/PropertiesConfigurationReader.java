@@ -1,4 +1,4 @@
-package net.medrag.spring.infrastructure;
+package net.medrag.spring.infrastructure.config;
 
 import lombok.SneakyThrows;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
@@ -21,7 +21,7 @@ public class PropertiesConfigurationReader implements ConfigurationReader {
 
     private final String configuration;
 
-    PropertiesConfigurationReader() {
+    public PropertiesConfigurationReader() {
         configuration = DEFAULT_CONFIGURATION;
     }
 

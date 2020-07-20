@@ -4,6 +4,7 @@ import net.medrag.spring.application.domain.Rocket;
 import net.medrag.spring.application.service.api.AnnouncementTeam;
 import net.medrag.spring.application.service.api.LaunchingTeam;
 import net.medrag.spring.infrastructure.annotations.AutoInject;
+import net.medrag.spring.infrastructure.annotations.Bean;
 import net.medrag.spring.infrastructure.annotations.Broadcast;
 import net.medrag.spring.infrastructure.annotations.SabotageTarget;
 
@@ -11,6 +12,7 @@ import net.medrag.spring.infrastructure.annotations.SabotageTarget;
  * @author Stanislav Tretyakov
  * 01.07.2020
  */
+@Bean
 public class TenuredLaunchingTeam implements LaunchingTeam {
 
     @AutoInject(beanId = "pr")

@@ -1,6 +1,6 @@
-package net.medrag.spring.infrastructure;
+package net.medrag.spring.infrastructure.config;
 
-import net.medrag.spring.infrastructure.api.ConfigurationReader;
+import net.medrag.spring.infrastructure.api.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,21 +9,21 @@ import java.util.Set;
 
 /**
  * @author Stanislav Tretyakov
- * 01.07.2020
+ * 20.07.2020
  */
-public class PropertiesFileConfiguration implements net.medrag.spring.infrastructure.api.Configuration {
+public class ReflectionsConfiguration implements Configuration {
 
     private Map<String, Class> beanDefinitions;
-    private ConfigurationReader configurationReader;
+    private PackageReader packageReader;
 
-    PropertiesFileConfiguration(ConfigurationReader configurationReader) {
-        this.configurationReader = configurationReader;
+    public ReflectionsConfiguration(PackageReader packageReader) {
+        this.packageReader = packageReader;
         this.beanDefinitions = new HashMap<>();
     }
 
     @Override
     public void buildBeanDefinitions() {
-        configurationReader.readConfiguration().forEach((k, v) -> {
+        packageReader.readConfiguration().forEach((k, v) -> {
             try {
                 beanDefinitions.put(k, Class.forName(v));
             } catch (ClassNotFoundException e) {

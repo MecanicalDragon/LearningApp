@@ -2,6 +2,7 @@ package net.medrag.spring.infrastructure;
 
 import net.medrag.spring.infrastructure.api.Configuration;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
+import net.medrag.spring.infrastructure.config.*;
 
 /**
  * @author Stanislav Tretyakov
@@ -11,11 +12,12 @@ public class Application {
 
     public static ApplicationContext run() {
 
-        ConfigurationReader reader = new PropertiesConfigurationReader();
-        ConfigurationReader infra = new PropertiesInfrastructureReader();
+        PackageReader packageReader = new PackageReader("net.medrag.spring");
+        Configuration configuration = new ReflectionsConfiguration(packageReader);
+        BeanInitializer initializer = new BeanInitializer(packageReader);
 
-        Configuration configuration = new PropertiesFileConfiguration(reader);
-        BeanInitializer initializer = new BeanInitializer(infra);
+//        Configuration configuration = new PropertiesFileConfiguration(new PropertiesConfigurationReader());
+//        BeanInitializer initializer = new BeanInitializer(new PropertiesInfrastructureReader());
 
         ApplicationContext context = new ApplicationContext(configuration, initializer);
         context.startContext();

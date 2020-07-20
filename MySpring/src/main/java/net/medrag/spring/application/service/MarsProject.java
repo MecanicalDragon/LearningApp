@@ -4,11 +4,13 @@ import net.medrag.spring.application.domain.Plot;
 import net.medrag.spring.application.domain.Rocket;
 import net.medrag.spring.application.service.api.*;
 import net.medrag.spring.infrastructure.annotations.AutoInject;
+import net.medrag.spring.infrastructure.annotations.Bean;
 
 /**
  * @author Stanislav Tretyakov
  * 01.07.2020
  */
+@Bean(id = "mars")
 public class MarsProject implements SpaceProject {
 
     @AutoInject

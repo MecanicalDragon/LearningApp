@@ -6,6 +6,7 @@ import net.medrag.spring.infrastructure.annotations.InitMethod;
 import net.medrag.spring.infrastructure.api.BeanConfigurer;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
 import net.medrag.spring.infrastructure.api.ProxyConfigurer;
+import net.medrag.spring.infrastructure.config.PackageReader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,6 +22,24 @@ class BeanInitializer {
 
     private List<BeanConfigurer> beanConfigurers;
     private List<ProxyConfigurer> proxyConfigurers;
+
+    @SneakyThrows
+    BeanInitializer(PackageReader packageReader) {
+
+        beanConfigurers = new ArrayList<>();
+        proxyConfigurers = new ArrayList<>();
+
+        for (Class<? extends BeanConfigurer> bpp : packageReader.getBeanConfigurers()) {
+            beanConfigurers.add(bpp.getDeclaredConstructor().newInstance());
+        }
+
+        for (Class<? extends ProxyConfigurer> bpp : packageReader.getProxyConfigurers()) {
+            proxyConfigurers.add(bpp.getDeclaredConstructor().newInstance());
+        }
+
+        sortBpp(beanConfigurers);
+        sortBpp(proxyConfigurers);
+    }
 
     @SneakyThrows
     BeanInitializer(ConfigurationReader configurationReader) {
@@ -47,15 +66,12 @@ class BeanInitializer {
             }
         }
 
-        beanConfigurers.sort((a, b) -> {
-            ConfigurationOrder annotation1 = a.getClass().getAnnotation(ConfigurationOrder.class);
-            ConfigurationOrder annotation2 = b.getClass().getAnnotation(ConfigurationOrder.class);
-            int order1 = annotation1 == null ? 10 : annotation1.order();
-            int order2 = annotation2 == null ? 10 : annotation2.order();
-            return order2 - order1;
-        });
+        sortBpp(beanConfigurers);
+        sortBpp(proxyConfigurers);
+    }
 
-        proxyConfigurers.sort((a, b) -> {
+    private<T> void sortBpp(List<T> bppList) {
+        bppList.sort((a, b) -> {
             ConfigurationOrder annotation1 = a.getClass().getAnnotation(ConfigurationOrder.class);
             ConfigurationOrder annotation2 = b.getClass().getAnnotation(ConfigurationOrder.class);
             int order1 = annotation1 == null ? 10 : annotation1.order();
