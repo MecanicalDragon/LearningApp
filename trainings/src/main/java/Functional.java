@@ -8,7 +8,7 @@ import java.util.function.*;
 public class Functional {
     public static void main(String[] args) {
 
-//        StringBuilder.accept(something) - just cunsumes value and does smth with it.
+//        StringBuilder.accept(something) - just consumes value and does smth with it.
         Consumer<StringBuilder> consumer = (s) -> s.append("_APPENDED");
         StringBuilder consumerResult = new StringBuilder("ConsumerResult");
         consumer.andThen(x -> x.append("_APPENDED_TOO")).accept(consumerResult);
