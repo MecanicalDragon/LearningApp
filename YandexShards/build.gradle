@@ -1,0 +1,94 @@
+import org.flywaydb.gradle.task.FlywayMigrateTask
+
+plugins {
+    id "org.openapi.generator" version "4.2.3"
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id "org.flywaydb.flyway" version "6.3.0"
+    id 'java'
+}
+
+group = 'net.medrag'
+version = '1.0.RELEASE'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+ext.inputSpec = "$rootDir/openapi/payment.yml".toString()
+ext.outputDir = "$rootDir".toString()
+ext.apiDir = "${rootDir}/src/main/java/net/medrag/PaymentService/controller/api".toString()
+ext.modelDir = "${rootDir}/src/main/java/net/medrag/PaymentService/model/dto".toString()
+
+task migrateDatabaseShard1(type: FlywayMigrateTask) {
+    url = 'jdbc:postgresql://localhost:5432/payment_base_shard1'
+    schemas = ['payment_schema']
+    user = 'payment_user'
+    password = 'payment'
+    locations = ['db/shard1']
+}
+
+task migrateDatabaseShard2(type: FlywayMigrateTask) {
+    url = 'jdbc:postgresql://localhost:5432/payment_base_shard2'
+    schemas = ['payment_schema']
+    user = 'payment_user'
+    password = 'payment'
+    locations = ['db/shard2']
+}
+
+task migrateDatabaseShard3(type: FlywayMigrateTask) {
+    url = 'jdbc:postgresql://localhost:5432/payment_base_shard3'
+    schemas = ['payment_schema']
+    user = 'payment_user'
+    password = 'payment'
+    locations = ['db/shard3']
+}
+
+task migrateAllDatabaseShards {
+    dependsOn(migrateDatabaseShard1)
+    dependsOn(migrateDatabaseShard2)
+    dependsOn(migrateDatabaseShard3)
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = this.inputSpec
+    outputDir = this.outputDir
+    apiPackage = "net.medrag.PaymentService.controller.api"
+    modelPackage = "net.medrag.PaymentService.model.dto"
+    validateSpec = true
+    configOptions = [
+            dateLibrary        : "java11",
+            interfaceOnly      : "true",
+            swaggerDocketConfig: "false"
+    ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    Swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compile group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-core'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

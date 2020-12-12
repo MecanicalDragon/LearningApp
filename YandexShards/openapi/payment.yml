@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  description: PaymentService Implementation
+  version: "1.0"
+  title: PaymentService
+  contact:
+    name: Stanislav Tretyakov
+    email: gaffstranger@gmail.com
+    url: https://github.com/MecanicalDragon
+tags:
+  - name: Payment
+    description: Some money transaction
+paths:
+  '/payment/bySender/{id}':
+    get:
+      tags:
+        - Payment
+      summary: Retrieve total spending by sender's id
+      description: Retrieves total spending by sender's id
+      operationId: getTotalSpending
+      parameters:
+        - name: id
+          in: path
+          description: Requested sender id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        '400':
+          description: Invalid sender ID supplied
+        '555':
+          description: Database problem
+  '/payment/add':
+    post:
+      tags:
+        - Payment
+      summary: Process single payment
+      description: Transfers some amount from sender to recipient
+      operationId: doPayment
+      responses:
+        '200':
+          description: Payment has been processed successfully
+        '400':
+          description: Invalid data supplied
+      requestBody:
+        $ref: '#/components/requestBodies/Payment'
+  '/payment/addList':
+    post:
+      tags:
+        - Payment
+      summary: Process multiple payments
+      description: Does more than one payment transaction
+      operationId: doMassPayment
+      responses:
+        '200':
+          description: Mostly succesful. Payments, that have not been processed attached to the response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '400':
+          description: Invalid data supplied
+      requestBody:
+        $ref: '#/components/requestBodies/PaymentArray'
+components:
+  schemas:
+    Payment:
+      type: object
+      required:
+        - sender
+        - recipient
+        - amount
+      properties:
+        sender:
+          type: integer
+          format: int64
+          minimum: 1
+        recipient:
+          type: integer
+          format: int64
+          minimum: 1
+        amount:
+          type: integer
+          format: int32
+          minimum: 1
+  requestBodies:
+    Payment:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Payment'
+      description: Money operation transaction
+      required: true
+    PaymentArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Payment'
+      description: Money operations list
+      required: true
