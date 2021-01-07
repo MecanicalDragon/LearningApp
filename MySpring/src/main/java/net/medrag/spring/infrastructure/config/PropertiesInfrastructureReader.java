@@ -1,6 +1,7 @@
 package net.medrag.spring.infrastructure.config;
 
 import lombok.SneakyThrows;
+import net.medrag.spring.infrastructure.api.BeanDefinition;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
 
 import java.io.BufferedReader;
@@ -31,10 +32,10 @@ public class PropertiesInfrastructureReader implements ConfigurationReader {
 
     @Override
     @SneakyThrows
-    public Map<String, String> readConfiguration() {
+    public Map<String, BeanDefinition> readConfiguration() {
         URL resource = ClassLoader.getSystemClassLoader().getResource(infrastructure);
         if (resource == null) throw new Exception("Cannot find specified infrastructure file.");
         return new BufferedReader(new InputStreamReader(new FileInputStream(new File(resource.getPath())))).lines()
-                .collect(Collectors.toMap(s -> s, s -> s));
+                .collect(Collectors.toMap(s -> s, BasicBeanDefinitionImpl::new));
     }
 }

@@ -7,5 +7,5 @@ import java.util.Map;
  * 01.07.2020
  */
 public interface ConfigurationReader {
-    Map<String, String> readConfiguration();
+    Map<String, BeanDefinition> readConfiguration();
 }

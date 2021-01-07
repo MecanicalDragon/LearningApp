@@ -13,4 +13,5 @@ public @interface Bean {
     String id() default "";
     String scope() default "singleton";
     boolean registerByInterface() default true;
+    int precedence() default 0;
 }

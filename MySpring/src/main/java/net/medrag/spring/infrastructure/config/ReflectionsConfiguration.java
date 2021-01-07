@@ -25,7 +25,7 @@ public class ReflectionsConfiguration implements Configuration {
     public void buildBeanDefinitions() {
         packageReader.readConfiguration().forEach((k, v) -> {
             try {
-                beanDefinitions.put(k, Class.forName(v));
+                beanDefinitions.put(k, Class.forName(v.getName()));
             } catch (ClassNotFoundException e) {
                 System.err.println("Hasn't been found class for name '" + e.getMessage() + "'.");
                 System.err.println("Application failed to start.");

@@ -2,6 +2,7 @@ package net.medrag.spring.infrastructure.config;
 
 import net.medrag.spring.infrastructure.annotations.Bean;
 import net.medrag.spring.infrastructure.api.BeanConfigurer;
+import net.medrag.spring.infrastructure.api.BeanDefinition;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
 import net.medrag.spring.infrastructure.api.ProxyConfigurer;
 import org.reflections.Reflections;
@@ -23,29 +24,48 @@ public class PackageReader implements ConfigurationReader {
     }
 
     @Override
-    public Map<String, String> readConfiguration() {
+    public Map<String, BeanDefinition> readConfiguration() {
         Set<Class<?>> beans = packageScanner.getTypesAnnotatedWith(Bean.class);
-        Map<String, String> beanDefinitions = new HashMap<>();
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
         for (Class<?> bean : beans) {
             Bean annotation = bean.getAnnotation(Bean.class);
             if (annotation.id().isBlank()) {
                 if (annotation.registerByInterface()) {
                     Class<?>[] interfaces = bean.getInterfaces();
                     if (interfaces.length == 1) {
-                        beanDefinitions.put(interfaces[0].getName(), bean.getName());
+                        updateBeanDefinition(interfaces[0].getName(), bean, beanDefinitions);
                     } else {
                         System.err.println("Bean interface determination is ambiguous: " + bean.getName());
                         System.err.println("Application context failed to start!");
                         System.exit(3);
                     }
                 } else {
-                    beanDefinitions.put(bean.getName(), bean.getName());
+                    updateBeanDefinition(bean.getName(), bean, beanDefinitions);
                 }
             } else {
-                beanDefinitions.put(annotation.id(), bean.getName());
+                updateBeanDefinition(annotation.id(), bean, beanDefinitions);
             }
         }
         return beanDefinitions;
+    }
+
+    private void updateBeanDefinition(String id, Class<?> bean, Map<String, BeanDefinition> beanDefinitions) {
+        Bean annotation = bean.getAnnotation(Bean.class);
+        BeanDefinition cachedBean = beanDefinitions.get(id);
+        if (cachedBean == null) {
+            beanDefinitions.put(id, new BasicBeanDefinitionImpl(bean.getName(), annotation.precedence()));
+        } else {
+            if (annotation.precedence() == cachedBean.getPrecedence()) {
+                System.err.println("There are more than one instance of bean " + id + " in application, and their precedences are equal!");
+                System.err.println("Application context failed to start!");
+                System.exit(3);
+            } else {
+                cachedBean = annotation.precedence() > cachedBean.getPrecedence()
+                        ? new BasicBeanDefinitionImpl(bean.getName(), annotation.precedence())
+                        : cachedBean;
+                beanDefinitions.put(id, cachedBean);
+            }
+        }
     }
 
     public Set<Class<? extends ProxyConfigurer>> getProxyConfigurers() {

@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.medrag.spring.infrastructure.annotations.ConfigurationOrder;
 import net.medrag.spring.infrastructure.annotations.InitMethod;
 import net.medrag.spring.infrastructure.api.BeanConfigurer;
+import net.medrag.spring.infrastructure.api.BeanDefinition;
 import net.medrag.spring.infrastructure.api.ConfigurationReader;
 import net.medrag.spring.infrastructure.api.ProxyConfigurer;
 import net.medrag.spring.infrastructure.config.PackageReader;
@@ -47,7 +48,7 @@ class BeanInitializer {
         beanConfigurers = new ArrayList<>();
         proxyConfigurers = new ArrayList<>();
 
-        Map<String, String> configuration = configurationReader.readConfiguration();
+        Map<String, BeanDefinition> configuration = configurationReader.readConfiguration();
         for (String pbbName : configuration.keySet()) {
             try {
                 Class<?> bpp = Class.forName(pbbName);
