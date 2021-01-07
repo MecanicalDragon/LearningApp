@@ -6,10 +6,7 @@ import supportClasses.Int1;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
@@ -46,6 +43,10 @@ public class Main extends Student {
     }
 
     private static void dates() {
+        System.out.println(ZonedDateTime.now());
+        System.out.println(OffsetDateTime.now());
+        System.out.println(ZoneOffset.getAvailableZoneIds());
+        System.out.println(ZoneId.getAvailableZoneIds());
         String date = "2010-08-24";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd.MM.yyyy");

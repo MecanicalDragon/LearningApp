@@ -1,0 +1,358 @@
+swagger: "2.0"
+info:
+  description: "Fantasy Fighting api."
+  version: "1.0.0"
+  title: "Fantasy Fighting"
+  contact:
+    email: "gaffstranger@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+
+tags:
+  - name: "unit"
+    description: "Fighting unit"
+    externalDocs:
+      description: "Find out more"
+      url: "http://link-to-external-docs"
+  - name: "skill"
+    description: "Something, that unit can do"
+
+schemes:
+  # - "https"
+  - "http"
+
+paths:
+  /skill:
+    post:
+      tags:
+        - skill
+      summary: Post new skill
+      description: Add new skill definition
+      operationId: addSkill
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Skill'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad input
+    get:
+      tags:
+        - skill
+      summary: Get all skills
+      description: Get all skills set
+      operationId: getSkills
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Skill"
+        "400":
+          description: "Invalid status value"
+  /skill/{skill-name}:
+    get:
+      tags:
+        - skill
+      summary: Get skill by name
+      description: Retrieve skill by its name
+      operationId: getSkill
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/skill-name'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Skill'
+        "404":
+          description: Not found
+    delete:
+      tags:
+        - skill
+      summary: Delete skill by name
+      description: Delete skill by its name
+      operationId: deleteSkill
+      parameters:
+        - $ref: '#/parameters/skill-name'
+      responses:
+        "200":
+          description: OK
+
+  /unit:
+    post:
+      tags:
+        - unit
+      summary: Add new unit
+      description: Add new unit
+      operationId: addUnit
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Unit'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad input
+    get:
+      tags:
+        - unit
+      summary: Get all units
+      description: Get all units
+      operationId: getUnits
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Unit"
+        "400":
+          description: "Invalid status value"
+  /unit/{unit-name}:
+    get:
+      tags:
+        - unit
+      summary: Get unit by name
+      description: Retrieve unit by his name
+      operationId: getUnit
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/unit-name'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Unit'
+        "404":
+          description: Not found
+    delete:
+      tags:
+        - unit
+      summary: Delete unit by name
+      description: Delete unit by its name
+      operationId: deleteUnit
+      parameters:
+        - $ref: '#/parameters/unit-name'
+      responses:
+        "200":
+          description: OK
+
+  /unit/skill/{skill-name}:
+    post:
+      tags:
+        - unit
+      summary: Add skill to unit
+      description: Add skill to unit
+      operationId: addSkillToUnit
+      parameters:
+        - $ref: '#/parameters/skill-name'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad input
+
+  /search:
+    get:
+      tags:
+        - unit
+        - skill
+      summary: Search unit with specified skill set
+      description: Retrieve unit with specified skill set
+      operationId: getUnitsWithSkills
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/unit-query'
+        - $ref: '#/parameters/skill-query'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Unit'
+        "404":
+          description: Not found
+    post:
+      tags:
+        - unit
+        - skill
+      summary: Search unit with specified skill set
+      description: Retrieve unit with specified skill set
+      operationId: queryUnitsWithSkills
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/unit-request'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Unit'
+        "404":
+          description: Not found
+
+
+definitions:
+
+  SkillType:
+    type: string
+    enum:
+      - STRIKE
+      - PERSISTENT
+    example: STRIKE
+    description: |
+      Skill type.
+      Options are:
+      | Type | Description |
+      | ---- | ----------- |
+      | STRIKE | Momental effect |
+      | PERSISTENT | Persistent effect |
+
+  Skill:
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+        maxLength: 64
+        example: extinction
+        description: Skill naming
+      skillType:
+        $ref: '#/definitions/SkillType'
+      duration:
+        type: integer
+        format: int32
+        description: |
+          Duration of skill effect. '0' if momental.
+      power:
+        type: integer
+        format: int32
+        description: Power of skill effect.
+    required:
+      - name
+      - duration
+      - power
+
+  ClassEnum:
+    type: string
+    enum:
+      - WIZARD
+      - WARRIOR
+      - ROGUE
+    example: ROGUE
+    description: |
+      Just class name.
+      Options are:
+      | Class | Description |
+      | ---- | ----------- |
+      | WIZARD | Smart ass |
+      | WARRIOR | Steady ass |
+      | ROGUE | Sneaky ass |
+
+  Unit:
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+        maxLength: 64
+        example: Viktor
+        description: Unit name.
+      unitClass:
+        $ref: '#/definitions/ClassEnum'
+      skillSet:
+        type: array
+        items:
+          $ref: '#/definitions/Skill'
+    required:
+      - name
+      - unitClass
+      - skillSet
+
+  UnitRequest:
+    type: object
+    properties:
+      requiredClassName:
+        $ref: '#/definitions/ClassEnum'
+      requiredSkills:
+        type: array
+        items:
+          type: string
+    description: |
+      Query of all units of specified class with specified skill set.
+
+
+parameters:
+
+  skill-name:
+    name: skill-name
+    in: path
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 64
+    description: Queried skill's name
+
+  unit-name:
+    name: unit-name
+    in: path
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 64
+    description: Queried unit's name
+
+  skill-query:
+    name: skill-name
+    in: query
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 64
+    description: Queried skill's name
+
+  unit-query:
+    name: unit-class
+    in: query
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 64
+    description: Queried class type
+
+  unit-request:
+    name: unit-request
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/UnitRequest'
+    description: |
+      Query of all units of specified class with specified skill set.

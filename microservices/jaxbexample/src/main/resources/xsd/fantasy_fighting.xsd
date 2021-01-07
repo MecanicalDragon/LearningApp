@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://fantasyfighting.medrag.net"
+            targetNamespace="http://fantasyfighting.medrag.net"
+            elementFormDefault="qualified"
+            version="1.00">
+
+    <xsd:simpleType name="SkillType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Strike"/>
+            <xsd:enumeration value="Persistent"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="UnitClass">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Wizard"/>
+            <xsd:enumeration value="Warrior"/>
+            <xsd:enumeration value="Rogue"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="Skill">
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string"/>
+            <xsd:element name="Duration" type="xsd:integer"/>
+            <xsd:element name="Power" type="xsd:integer"/>
+            <xsd:element name="Type" type="SkillType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="Unit">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Name" type="xsd:string"/>
+                <xsd:element name="UnitClass" type="UnitClass"/>
+                <xsd:element name="Skill" type="Skill" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
