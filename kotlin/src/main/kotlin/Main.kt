@@ -1,21 +1,12 @@
 import classes.DataClass
 import classes.Rectangle
-import extensions.swap
-import extensions.toUUID
 import generics.Box
-import inline.lockForAction
 import interfaces.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import labels.fooReturn
 import labels.fooReturnForEach
 import properties.CONST
 import properties.PropExample
 import util.importedMethod
-import java.lang.Thread.sleep
-import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 
 const val separator = "___________________"
 
@@ -57,7 +48,7 @@ fun properties() {
     println("Lateinit field access instantiation:")
     try {
         println(props.lateInitField)
-    }catch (e: UninitializedPropertyAccessException){
+    } catch (e: UninitializedPropertyAccessException) {
         println("Access to not initialized lateinit field produces '${e.message}' exception")
     }
     props.lateInitField = CONST
@@ -65,7 +56,7 @@ fun properties() {
 
 }
 
-fun labelsExample(){
+fun labelsExample() {
 
     //labels are determined by '@' symbol
     label@ for (a in 'a'..'z') {
@@ -89,42 +80,6 @@ fun labelsExample(){
 
     fooReturn(list)
     fooReturnForEach(list)
-}
-
-fun inline(){
-    val atomic = AtomicBoolean(false)
-    for (i in 1..10){
-        GlobalScope.launch {
-            if (!atomic.lockForAction {
-                println("Coroutine $i acquires atomic")
-                println("Atomic is locked by Coroutine $i: ${atomic.get()}")
-                delay(1000)
-                println("Coroutine $i releases atomic")
-            }){
-                println("Coroutine $i could not acquire atomic :(")
-            }
-            println("Atomic state after Coroutine $i execution is ${atomic.get()}")
-        }
-    }
-    sleep(5000)
-}
-
-fun extensions(){
-    val numbers: MutableList<Int> = mutableListOf(1, 6, 8)
-    numbers[0] = 5
-    numbers.add(2, 7)
-    numbers.add(9)
-    numbers.forEach{print("$it--")}
-    numbers.swap(1,2)
-    numbers.swap(4,0)
-    println()
-    numbers.forEach{print("$it--")}
-    println()
-
-    println(separator)
-    val string = "ABC"
-    val uuid: UUID? = string.toUUID()
-    println(uuid)
 }
 
 private fun unsortedBasics() {
