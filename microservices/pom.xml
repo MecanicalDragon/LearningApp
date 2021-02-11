@@ -12,6 +12,8 @@
     <modules>
         <module>openapiexample</module>
         <module>jaxbexample</module>
+        <module>microservices-api</module>
+        <module>parent</module>
     </modules>
 
 </project>

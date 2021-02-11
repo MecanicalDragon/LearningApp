@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.7.RELEASE</version>
+        <groupId>net.medrag.microservices</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>jaxbexample</artifactId>
@@ -17,12 +17,7 @@
     <description>app, tha instantiates jaxb plugins work</description>
 
     <properties>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
-        <openapi-generator-plugin-version>4.3.1</openapi-generator-plugin-version>
-        <openapi-ui-version>1.5.1</openapi-ui-version>
-        <swagger2.version>3.0.0</swagger2.version>
         <jaxb2-plugin-version>0.14.0</jaxb2-plugin-version>
-        <spring-cloud-version>Hoxton.RELEASE</spring-cloud-version>
     </properties>
 
     <dependencyManagement>
@@ -39,77 +34,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <!--        OpenApi-->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${openapi-ui-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>${jackson-databind-nullable-version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>android-json</groupId>
-                    <artifactId>com.vaadin.external.google</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
@@ -129,29 +60,6 @@
                             <schemaIncludes>
                                 <include>fantasy_fighting.xsd</include>
                             </schemaIncludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi-generator-plugin-version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-api</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/../openapiexample/src/main/resources/api/api.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <library>spring-cloud</library>
-                            <apiPackage>net.medrag.microservices.openapiexample.api</apiPackage>
-                            <invokerPackage>net.medrag.microservices.openapiexample.api</invokerPackage>
-                            <modelPackage>net.medrag.microservices.openapiexample.api.model</modelPackage>
                         </configuration>
                     </execution>
                 </executions>
