@@ -5,19 +5,26 @@ import net.medrag.tgbot.command.AbstractCommand
 import net.medrag.tgbot.util.BOT_NAME
 import net.medrag.tgbot.util.callbackPrefix
 import net.medrag.tgbot.util.username
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
+import org.telegram.telegrambots.meta.TelegramBotsApi
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
+import javax.annotation.PostConstruct
 
 
 /**
  * @author Stanislav Tretyakov
  * 21.01.2021
  */
+@Service
 class MedragBot(
-        private val token: String,
         commands: List<AbstractCommand>,
         executors: List<CallbackExecutor>,
+        @Value("\${net.medrag.tg.bot.token}")
+        var token: String,
         private val callbacks: MutableMap<String, CallbackExecutor> = HashMap()
 ) : TelegramLongPollingCommandBot() {
 
@@ -28,6 +35,12 @@ class MedragBot(
         for (executor in executors) {
             callbacks[executor.getCallbackPrefix()] = executor
         }
+    }
+
+    @PostConstruct
+    fun init() {
+        TelegramBotsApi(DefaultBotSession::class.java).registerBot(this)
+        println("MedragBot has been registered.")
     }
 
     /**
