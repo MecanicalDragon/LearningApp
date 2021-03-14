@@ -2,6 +2,7 @@ import net.medrag.trainings.model.Student;
 import supportClasses.Clazz;
 import supportClasses.Clazz2;
 import supportClasses.Int1;
+import supportClasses.Man;
 
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -20,6 +21,7 @@ public class Main extends Student {
     public static void main(String[] args) {
 
         dates();
+//        trees();
 //        System.out.println(tryAndCatch());
 //        System.out.println(tryAndCatch2());
 //        System.out.println(tryAndCatch3().getName());
@@ -41,17 +43,31 @@ public class Main extends Student {
     }
 
     private static void dates() {
+        //  Duration and Period
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(now);
+        System.out.println(now.minus(Duration.parse("P2DT3H30M30.5S")));
+        System.out.println(now.minus(Period.parse("P1Y2M1W3D")));
+
+        System.out.println();
+
         System.out.println(ZonedDateTime.now());
+        System.out.println(ZonedDateTime.now().withNano(0));
         System.out.println(OffsetDateTime.now());
+        System.out.println(OffsetDateTime.now().withNano(0));
         System.out.println(ZoneOffset.getAvailableZoneIds());
         System.out.println(ZoneId.getAvailableZoneIds());
+
+        System.out.println();
+
         String date = "2010-08-24";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         TemporalAccessor parse = dtf.parse(date);
-        LocalDate from = LocalDate.from(parse);
-        System.out.println(from.format(dtf2));
+        System.out.println(LocalDate.from(parse).format(dtf2));
         System.out.println(LocalDate.from(dtf.parse(date)).format(dtf2));
+
+        System.out.println();
 
         System.out.println("java.util.Date");
         Date d = new Date();
@@ -60,9 +76,21 @@ public class Main extends Student {
         String format = sdf.format(d);
         System.out.println(format);
 
+        System.out.println();
+
         System.out.println("java.sql.Date");
         java.sql.Date d2 = new java.sql.Date(d.getTime());
         System.out.println(d2);
+    }
+
+    private static void trees() {
+        Map<Man, String> map = new TreeMap<>(Comparator.comparingInt(Man::getAge));
+        map.put(new Man(23, "Vasya", null), "Junior");
+        map.put(new Man(32, "Stan", null), "Overlord");
+        map.put(new Man(30, "Petya", null), "Senior");
+        map.put(new Man(26, "Sasha", null), "Middle");
+        map.put(new Man(20, "Artem", null), "Trainee");
+        map.forEach((man, string) -> System.out.println(man.getAge()));
     }
 
     private static void getListRuntime(List<Integer> list, int limit) {

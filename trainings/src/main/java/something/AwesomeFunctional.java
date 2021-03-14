@@ -14,9 +14,9 @@ public interface AwesomeFunctional {
     void giveTheAnswer();
 
 //    Since java 9
-//    private String getString() {
-//        return "IS THIS INTERFACE FUNCTIONAL?";
-//    }
+    private String getString() {
+        return "IS THIS INTERFACE FUNCTIONAL?";
+    }
 
     default void goDefault() {
         System.out.println("DEFAULT");
@@ -24,7 +24,7 @@ public interface AwesomeFunctional {
 
     public static void main(String[] args) {
         AwesomeFunctional a = () -> System.out.println("YES, IT IS!");
-//        System.out.println(a.getString());
+        System.out.println(a.getString());
         a.giveTheAnswer();
     }
 }
