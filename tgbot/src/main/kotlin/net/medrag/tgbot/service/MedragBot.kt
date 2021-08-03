@@ -1,11 +1,12 @@
 package net.medrag.tgbot.service
 
+import mu.KotlinLogging
 import net.medrag.tgbot.callback.CallbackExecutor
 import net.medrag.tgbot.command.AbstractCommand
+import net.medrag.tgbot.config.MasterProps
 import net.medrag.tgbot.util.BOT_NAME
 import net.medrag.tgbot.util.callbackPrefix
 import net.medrag.tgbot.util.username
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
 import org.telegram.telegrambots.meta.TelegramBotsApi
@@ -14,18 +15,17 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 import javax.annotation.PostConstruct
 
-
 /**
  * @author Stanislav Tretyakov
  * 21.01.2021
  */
 @Service
 class MedragBot(
-        commands: List<AbstractCommand>,
-        executors: List<CallbackExecutor>,
-        @Value("\${net.medrag.tg.bot.token}")
-        var token: String,
-        private val callbacks: MutableMap<String, CallbackExecutor> = HashMap()
+    commands: List<AbstractCommand>,
+    executors: List<CallbackExecutor>,
+    private val masterProps: MasterProps,
+    private val masterMessageHandler: MasterMessageHandler,
+    private val callbacks: MutableMap<String, CallbackExecutor> = HashMap()
 ) : TelegramLongPollingCommandBot() {
 
     init {
@@ -40,7 +40,7 @@ class MedragBot(
     @PostConstruct
     fun init() {
         TelegramBotsApi(DefaultBotSession::class.java).registerBot(this)
-        println("MedragBot has been registered.")
+        logger.info("MedragBot has been registered.")
     }
 
     /**
@@ -51,23 +51,22 @@ class MedragBot(
         if (update.hasCallbackQuery()) {
             executeCallbackUpdate(update)
         } else {
-            executeNonCallbackUpdate(update)
+            if (update.message?.from?.userName == masterProps.master) {
+                masterMessageHandler.handleMasterRequest(update, this)
+            } else {
+                welcomeStranger(update)
+            }
         }
     }
 
-    private fun executeNonCallbackUpdate(update: Update) {
+    private fun welcomeStranger(update: Update) {
         val message = update.message
-        if (message?.text?.toLowerCase()?.trim() == "hello") {
-            val chatId = message.chatId
-            val userName = message.from.username()
-            val answer = "Hello $userName!"
-            sendMessage(chatId, answer)
-        }
+        sendMessage(message.chatId, "Hello ${message.from.username()}!")
     }
 
     private fun executeCallbackUpdate(update: Update) {
         val callbackResult = callbacks[update.callbackPrefix()]?.executeCallback(update)
-                ?: throw IllegalArgumentException()
+            ?: throw IllegalArgumentException()
 
         callbackResult.getExecutable()?.let {
             execute(it)
@@ -80,21 +79,23 @@ class MedragBot(
      * @param text String
      */
     private fun sendMessage(chatId: Long, text: String) {
-        SendMessage()
-                .apply {
-                    this.text = text
-                    this.chatId = chatId.toString()
-                }.also {
-                    execute(it)
-                }
+        SendMessage().apply {
+            this.text = text
+            this.chatId = chatId.toString()
+        }.also {
+            execute(it)
+        }
     }
 
     override fun getBotToken(): String? {
-        return token
+        return masterProps.token
     }
 
     override fun getBotUsername(): String? {
         return BOT_NAME
     }
 
+    companion object {
+        private val logger = KotlinLogging.logger { }
+    }
 }
