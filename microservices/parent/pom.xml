@@ -20,7 +20,7 @@
 
     <properties>
         <jackson.databind.nullable.version>0.2.1</jackson.databind.nullable.version>
-        <openapi.generator.plugin.version>4.3.1</openapi.generator.plugin.version>
+        <openapi.generator.plugin.version>5.1.0</openapi.generator.plugin.version>
         <openapi.ui.version>1.5.1</openapi.ui.version>
         <swagger2.version>3.0.0</swagger2.version>
         <spring.cloud.version>Hoxton.RELEASE</spring.cloud.version>
