@@ -1,6 +1,6 @@
-package net.medrag.tgbot.service.preservation
+package net.medrag.tgbot.service.mediasaving
 
-import net.medrag.tgbot.model.preservation.SavedMediaInfo
+import net.medrag.tgbot.model.mediasaving.SaveMediaInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -12,17 +12,17 @@ import javax.annotation.PostConstruct
  * 08.03.2021
  */
 @Service
-class MediaSaverService(
+class SaveMediaHandlingService(
     @Value("\${net.medrag.tg.bot.preservation.dir}")
     val rootLocation: String,
-    val mediaSavers: Set<MediaSaver>
+    val saveMediaHandlers: Set<SaveMediaHandler>
 ) {
     val location: AtomicReference<String> = AtomicReference("")
 
-    fun saveMedia(message: Message): SavedMediaInfo? {
-        for (mediaSaver in mediaSavers) {
-            if (mediaSaver.canBeUseful(message)) {
-                return mediaSaver.saveMedia(message, location.get())
+    fun handleMedia(message: Message): SaveMediaInfo? {
+        for (mediaHandler in saveMediaHandlers) {
+            if (mediaHandler.canBeUseful(message)) {
+                return mediaHandler.handleMedia(message, location.get())
             }
         }
         return null

@@ -4,6 +4,7 @@ import mu.KotlinLogging
 import net.medrag.tgbot.callback.CallbackExecutor
 import net.medrag.tgbot.command.AbstractCommand
 import net.medrag.tgbot.config.MasterProps
+import net.medrag.tgbot.model.mediasaving.SaveMediaInfo
 import net.medrag.tgbot.util.BOT_NAME
 import net.medrag.tgbot.util.callbackPrefix
 import net.medrag.tgbot.util.username
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingC
 import org.telegram.telegrambots.meta.TelegramBotsApi
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 import javax.annotation.PostConstruct
 
@@ -25,15 +27,13 @@ class MedragBot(
     executors: List<CallbackExecutor>,
     private val masterProps: MasterProps,
     private val masterMessageHandler: MasterMessageHandler,
-    private val callbacks: MutableMap<String, CallbackExecutor> = HashMap()
-) : TelegramLongPollingCommandBot() {
+) : TelegramLongPollingCommandBot(), BotInteractor {
+
+    private val callbacks: Map<String, CallbackExecutor> = executors.associateBy { it.getCallbackPrefix() }
 
     init {
         for (command in commands) {
             register(command)
-        }
-        for (executor in executors) {
-            callbacks[executor.getCallbackPrefix()] = executor
         }
     }
 
@@ -51,26 +51,35 @@ class MedragBot(
         if (update.hasCallbackQuery()) {
             executeCallbackUpdate(update)
         } else {
-            if (update.message?.from?.userName == masterProps.master) {
-                masterMessageHandler.handleMasterRequest(update, this)
+            if (isMessageFromMaster(update)) {
+                masterMessageHandler.handleMastersMessage(update, this)
             } else {
                 welcomeStranger(update)
             }
         }
     }
 
-    private fun welcomeStranger(update: Update) {
-        val message = update.message
-        sendMessage(message.chatId, "Hello ${message.from.username()}!")
+    override fun downloadMedia(media: SaveMediaInfo) {
+        try {
+            val filePath = execute(media.telegramFileUri).filePath
+            val file = downloadFile(filePath, media.downloadedFile)
+            logger.info("downloaded: ${file.absolutePath}")
+        } catch (e: TelegramApiRequestException) {
+            logger.error { "Media file failed to download. Reason: $e" }
+        }
+    }
+
+    private fun isMessageFromMaster(update: Update) =
+        update.message?.from?.userName == masterProps.master
+
+    private fun welcomeStranger(update: Update) = with(update.message) {
+        sendMessage(chatId, "Hello ${from.username()}!")
     }
 
     private fun executeCallbackUpdate(update: Update) {
-        val callbackResult = callbacks[update.callbackPrefix()]?.executeCallback(update)
-            ?: throw IllegalArgumentException()
-
-        callbackResult.getExecutable()?.let {
+        callbacks[update.callbackPrefix()]?.executeCallback(update)?.getExecutable()?.let {
             execute(it)
-        }
+        } ?: throw IllegalArgumentException("Callback update couldn't be executed.")
     }
 
     /**

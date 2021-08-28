@@ -1,6 +1,6 @@
-package net.medrag.tgbot.service.preservation
+package net.medrag.tgbot.service.mediasaving
 
-import net.medrag.tgbot.model.preservation.SavedMediaInfo
+import net.medrag.tgbot.model.mediasaving.SaveMediaInfo
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.GetFile
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -11,16 +11,16 @@ import java.io.File
  * 08.03.2021
  */
 @Service
-class ImageSaver : MediaSaver {
+class SaveImageHandler : SaveMediaHandler {
 
-    override fun saveMedia(message: Message, path: String): SavedMediaInfo {
+    override fun handleMedia(message: Message, path: String): SaveMediaInfo {
         val photo = message.photo.last()
         val getFile = GetFile(photo.fileId)
         val file = File(path + "/img/" + photo.fileUniqueId + ".jpg")
-        return SavedMediaInfo(getFile, file)
+        return SaveMediaInfo(getFile, file)
     }
 
-    override fun mediaType() = MediaSaver.MediaType.IMAGE
+    override fun mediaType() = SaveMediaHandler.MediaType.IMAGE
 
     override fun canBeUseful(message: Message) = message.hasPhoto()
 }

@@ -1,13 +1,13 @@
-package net.medrag.tgbot.service.preservation
+package net.medrag.tgbot.service.mediasaving
 
-import net.medrag.tgbot.model.preservation.SavedMediaInfo
+import net.medrag.tgbot.model.mediasaving.SaveMediaInfo
 import org.telegram.telegrambots.meta.api.objects.Message
 
 /**
  * @author Stanislav Tretyakov
  * 08.03.2021
  */
-interface MediaSaver {
+interface SaveMediaHandler {
 
     enum class MediaType {
         IMAGE,
@@ -15,7 +15,7 @@ interface MediaSaver {
         GIF
     }
 
-    fun saveMedia(message: Message, path: String): SavedMediaInfo
+    fun handleMedia(message: Message, path: String): SaveMediaInfo
 
     fun mediaType(): MediaType
 

@@ -9,15 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.User
 import org.telegram.telegrambots.meta.bots.AbsSender
 import javax.annotation.PostConstruct
 
-
 /**
  * @author Stanislav Tretyakov
  * 08.02.2021
  */
 @Component
 class HelpCommand : AbstractCommand(
-        "help",
-        "returns list of commands"
+    "help",
+    "returns list of commands"
 ) {
 
     @Autowired

@@ -1,0 +1,41 @@
+<configuration>
+
+    <property name="HOME_LOG" value="tgbot/logs/medrag-bot.log"/>
+    <property name="LOG_PATTERN"
+              value="%d{MM-dd HH:mm:ss.SSS} [%-4thread] %highlight(%-5level) %cyan(%-36logger{36})>> %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/medrag-bot.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>2GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} [%-4thread] %-5level %-36logger{36}>> %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC-FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ROLLING-FILE"/>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+    </root>
+
+    <logger name="net.medrag.tgbot" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC-FILE"/>
+    </logger>
+
+</configuration>

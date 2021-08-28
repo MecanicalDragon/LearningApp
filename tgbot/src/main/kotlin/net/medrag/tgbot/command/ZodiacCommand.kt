@@ -1,9 +1,9 @@
 package net.medrag.tgbot.command
 
-import net.medrag.tgbot.util.CALLBACK_DELIMITER
-import net.medrag.tgbot.util.idString
 import net.medrag.tgbot.model.zodiac.Zodiac
+import net.medrag.tgbot.util.CALLBACK_DELIMITER
 import net.medrag.tgbot.util.CALLBACK_PREFIX_ZODIAC
+import net.medrag.tgbot.util.idString
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Chat
@@ -12,15 +12,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 import org.telegram.telegrambots.meta.bots.AbsSender
 
-
 /**
  * @author Stanislav Tretyakov
  * 21.01.2021
  */
 @Component
 class ZodiacCommand : AbstractCommand(
-        "z",
-        "invokes zodiac picker"
+    "zodiac",
+    "invokes zodiac picker"
 ) {
     override fun execute(absSender: AbsSender?, user: User?, chat: Chat?, params: Array<out String>?) {
 
@@ -45,7 +44,7 @@ class ZodiacCommand : AbstractCommand(
     }
 
     private fun buildZodiacButton(zodiac: Zodiac) = InlineKeyboardButton.builder()
-            .text(zodiac.emoji)
-            .callbackData(CALLBACK_PREFIX_ZODIAC + CALLBACK_DELIMITER + zodiac.toString())
-            .build()
+        .text(zodiac.emoji)
+        .callbackData(CALLBACK_PREFIX_ZODIAC + CALLBACK_DELIMITER + zodiac.toString())
+        .build()
 }

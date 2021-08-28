@@ -2,6 +2,7 @@ package net.medrag.tgbot.service
 
 import mu.KotlinLogging
 import net.medrag.tgbot.config.PostProps
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto
@@ -18,6 +19,7 @@ import kotlin.streams.toList
  * 23.02.2021
  */
 @Service
+@ConditionalOnProperty("net.medrag.bot.post.enable", matchIfMissing = true)
 class Poster(
     var postProps: PostProps,
     var bot: MedragBot
