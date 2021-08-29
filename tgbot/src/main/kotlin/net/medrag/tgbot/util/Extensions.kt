@@ -17,6 +17,8 @@ fun Update?.callbackPrefix() = this?.callbackQuery?.data?.split(CALLBACK_DELIMIT
 
 fun Update?.chatIdFromCallback() = this?.callbackQuery?.message?.chatId?.toString() ?: "0"
 
+fun Update?.chatIdFromMessage() = this?.message?.chatId?.toString() ?: "0"
+
 fun Update?.messageIdFromCallback() = this?.callbackQuery?.message?.messageId ?: 0
 
 fun Update?.userFromCallback() = this?.callbackQuery?.from

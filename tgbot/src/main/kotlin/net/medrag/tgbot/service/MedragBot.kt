@@ -13,6 +13,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingC
 import org.telegram.telegrambots.meta.TelegramBotsApi
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.meta.bots.AbsSender
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 import javax.annotation.PostConstruct
@@ -53,9 +54,18 @@ class MedragBot(
         } else {
             if (isMessageFromMaster(update)) {
                 masterMessageHandler.handleMastersMessage(update, this)
-            } else {
-                welcomeStranger(update)
-            }
+            } else respond(update, "Hello ${update.message.from.username()}!")
+        }
+    }
+
+    override fun getSender(): AbsSender = this
+
+    override fun respond(update: Update, message: String) {
+        SendMessage().apply {
+            text = message
+            chatId = update.message.chatId.toString()
+        }.also {
+            execute(it)
         }
     }
 
@@ -69,39 +79,20 @@ class MedragBot(
         }
     }
 
-    private fun isMessageFromMaster(update: Update) =
-        update.message?.from?.userName == masterProps.master
-
-    private fun welcomeStranger(update: Update) = with(update.message) {
-        sendMessage(chatId, "Hello ${from.username()}!")
-    }
-
-    private fun executeCallbackUpdate(update: Update) {
-        callbacks[update.callbackPrefix()]?.executeCallback(update)?.getExecutable()?.let {
-            execute(it)
-        } ?: throw IllegalArgumentException("Callback update couldn't be executed.")
-    }
-
-    /**
-     * Return answer
-     * @param chatId Long
-     * @param text String
-     */
-    private fun sendMessage(chatId: Long, text: String) {
-        SendMessage().apply {
-            this.text = text
-            this.chatId = chatId.toString()
-        }.also {
-            execute(it)
-        }
-    }
-
     override fun getBotToken(): String? {
         return masterProps.token
     }
 
     override fun getBotUsername(): String? {
         return BOT_NAME
+    }
+
+    private fun isMessageFromMaster(update: Update) = update.message?.from?.userName == masterProps.master
+
+    private fun executeCallbackUpdate(update: Update) {
+        callbacks[update.callbackPrefix()]?.executeCallback(update)?.getExecutable()?.let {
+            execute(it)
+        } ?: throw IllegalArgumentException("Callback update couldn't be executed.")
     }
 
     companion object {

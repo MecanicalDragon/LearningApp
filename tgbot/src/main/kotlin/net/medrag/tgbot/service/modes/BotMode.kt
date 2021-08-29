@@ -9,5 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.Update
  */
 interface BotMode {
     fun mode(): MasterMode
+    fun activate()
     fun handleMastersMessage(update: Update, botInteractor: BotInteractor)
 }

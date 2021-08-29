@@ -17,6 +17,8 @@ class MediaSavingMode(
 
     override fun mode(): MasterMode = MasterMode.SAVE_MEDIA
 
+    override fun activate() = logger.debug { "There is no activation logic in MediaSaving mode, but it's activated." }
+
     override fun handleMastersMessage(update: Update, botInteractor: BotInteractor) {
         update.message.text?.let {
             saveMediaHandlingService.changeLocation(it)

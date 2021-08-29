@@ -22,7 +22,7 @@ import kotlin.streams.toList
 @ConditionalOnProperty("net.medrag.bot.post.enable", matchIfMissing = true)
 class Poster(
     var postProps: PostProps,
-    var bot: MedragBot
+    var bot: BotInteractor
 ) {
 
     @Scheduled(cron = "\${net.medrag.bot.post.schedule}")
@@ -38,7 +38,7 @@ class Poster(
             random = media.random()
         }
 
-        when (random.name.substringAfterLast(".").toUpperCase()) {
+        when (random.name.substringAfterLast(".").uppercase()) {
             "JPG", "PNG" -> sendPhoto(random)
             "MP4" -> sendVideo(random)
             else -> logger.warn("Unrecognized format file: $random")
@@ -50,7 +50,7 @@ class Poster(
             this.chatId = postProps.chatId
             this.video = InputFile(path.toFile())
         }.also {
-            bot.execute(it)
+            bot.getSender().execute(it)
         }
         logger.info("Video $path has been posted.")
         removeFileFromToPostDir(path)
@@ -61,7 +61,7 @@ class Poster(
             this.chatId = postProps.chatId
             this.photo = InputFile(path.toFile())
         }.also {
-            bot.execute(it)
+            bot.getSender().execute(it)
         }
         logger.info("Photo $path has been posted.")
         removeFileFromToPostDir(path)
