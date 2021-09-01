@@ -4,22 +4,32 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-
 /**
  * {@author} Stanislav Tretyakov
  * 06.12.2019
  */
 val dtf = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
 
-fun main(){
+fun main() {
     println("START: ${LocalTime.now().format(dtf)}")
 
-    suspendingInstantiate()
+    instantiateAsync()
+//    suspendingInstantiate()
 //    asyncFun()
 //    lazyAsyncFun()
 
     sleep(10000) // wait for 10 seconds
     println("STOP ${LocalTime.now().format(dtf)}")
+}
+
+fun instantiateAsync() {
+    println("one")
+    GlobalScope.launch {
+        delay(5000)
+        println("three")
+    }
+    sleep(3000)
+    println("two")
 }
 
 /**

@@ -12,12 +12,16 @@ const val separator = "___________________"
 
 fun main(args: Array<String>) {
 
+//    putNothing<Nothing>()
 //    unsortedBasics()
 //    extensions()
 //    labelsExample()
 //    inline()
     properties()
+}
 
+fun <T> putNothing(nothing: T? = null) {
+    println(nothing)
 }
 
 fun properties() {
@@ -53,12 +57,11 @@ fun properties() {
     }
     props.lateInitField = CONST
     println(props.lateInitField)
-
 }
 
 fun labelsExample() {
 
-    //labels are determined by '@' symbol
+    // labels are determined by '@' symbol
     label@ for (a in 'a'..'z') {
         for (i in 1..100) {
             print("$a$i ")
@@ -118,7 +121,7 @@ private fun unsortedBasics() {
     println("A+B=${a + b}")
     println(separator)
 
-    var r = Rectangle(5, 4);
+    var r = Rectangle(5, 4)
     println("classes.Rectangle perimeter = ${r.perimeter()}")
     println(separator)
 
@@ -168,7 +171,7 @@ private fun unsortedBasics() {
     val (hei, wid) = r1
     println(r1)
     println(r2)
-    println("classes.Rectangle width is ${wid} and height is ${hei}")
+    println("classes.Rectangle width is $wid and height is $hei")
     println(separator)
 
     // Collections (Read-Only), 'it'
@@ -186,7 +189,7 @@ private fun unsortedBasics() {
     println(separator)
 
     // Data class
-    val dc = DataClass("Just Data", 35);
+    val dc = DataClass("Just Data", 35)
     println(dc)
     println(dc.component1())
     println(dc.component2())
@@ -197,7 +200,7 @@ private fun unsortedBasics() {
     println(dc2.component2())
     println(separator)
 
-    //Generics
+    // Generics
     val box = Box(1)
     println(box.t)
 
@@ -205,5 +208,5 @@ private fun unsortedBasics() {
     Thread.sleep(100)
     val sNull: String? //  '?' allows var to be null
     sNull = getNull()
-    val sNullLength = sNull!!.length   //  '!!' allows NPE
+    val sNullLength = sNull!!.length //  '!!' allows NPE
 }
