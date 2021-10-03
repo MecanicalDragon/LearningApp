@@ -26,6 +26,7 @@ class MediaSavingMode(
         }
         saveMediaHandlingService.handleMedia(update.message)?.let {
             botInteractor.downloadMedia(it)
+            botInteractor.respond(update, "downloaded")
         }
     }
 

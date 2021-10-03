@@ -15,11 +15,15 @@ class SaveGifHandler : SaveMediaHandler {
 
     override fun handleMedia(message: Message, path: String): SaveMediaInfo {
         val getFile = GetFile(message.animation.fileId)
-        val file = File(path + "/gif/" + message.animation.fileUniqueId + ".gif.mp4")
+        val file = File(fileName(path, message.animation.fileUniqueId))
         return SaveMediaInfo(getFile, file)
     }
 
     override fun mediaType() = SaveMediaHandler.MediaType.GIF
 
     override fun canBeUseful(message: Message) = message.hasAnimation()
+
+    override fun extensionString(): String = ".gif.mp4"
+
+    override fun mediaPrefix(): String = "GIF"
 }

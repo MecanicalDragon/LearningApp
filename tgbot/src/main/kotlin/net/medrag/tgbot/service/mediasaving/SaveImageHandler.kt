@@ -16,11 +16,15 @@ class SaveImageHandler : SaveMediaHandler {
     override fun handleMedia(message: Message, path: String): SaveMediaInfo {
         val photo = message.photo.last()
         val getFile = GetFile(photo.fileId)
-        val file = File(path + "/img/" + photo.fileUniqueId + ".jpg")
+        val file = File(fileName(path, photo.fileUniqueId))
         return SaveMediaInfo(getFile, file)
     }
 
     override fun mediaType() = SaveMediaHandler.MediaType.IMAGE
 
     override fun canBeUseful(message: Message) = message.hasPhoto()
+
+    override fun extensionString(): String = ".jpg"
+
+    override fun mediaPrefix(): String = "IMG"
 }
