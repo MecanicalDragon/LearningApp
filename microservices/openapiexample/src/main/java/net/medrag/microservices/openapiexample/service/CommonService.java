@@ -1,7 +1,6 @@
 package net.medrag.microservices.openapiexample.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import net.medrag.microservices.openapiexample.api.model.Skill;
 import net.medrag.microservices.openapiexample.api.model.Unit;
 import net.medrag.microservices.openapiexample.api.model.UnitRequest;
@@ -59,16 +58,16 @@ public class CommonService {
     }
 
     public List<Unit> getAllBySkillName(String unitClass, String skillName) {
-        val skills = skillRepo.getAllByNameIn(List.of(skillName));
+        var skills = skillRepo.getAllByNameIn(List.of(skillName));
         return unitRepo.getAllByClassTypeAndSkillsIn(ClassType.valueOf(unitClass), skills).stream()
                 .map(net.medrag.microservices.openapiexample.model.Unit::mapToApiUnit).collect(Collectors.toList());
     }
 
     public List<Unit> getUnitsWithSkills(UnitRequest unitRequest) {
-        val skills = skillRepo.getAllByNameIn(unitRequest.getRequiredSkills());
+        var skills = skillRepo.getAllByNameIn(unitRequest.getRequiredSkills());
         return unitRepo.getAllByClassTypeAndSkillsIn(
-                ClassType.valueOf(unitRequest.getRequiredClassName().getValue()),
-                skills).stream()
+                        ClassType.valueOf(unitRequest.getRequiredClassName().getValue()),
+                        skills).stream()
                 .map(net.medrag.microservices.openapiexample.model.Unit::mapToApiUnit).collect(Collectors.toList());
     }
 }

@@ -14,6 +14,7 @@
         <module>jaxbexample</module>
         <module>microservices-api</module>
         <module>parent</module>
+        <module>miscexample</module>
     </modules>
 
 </project>

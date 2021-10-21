@@ -17,7 +17,24 @@ fun main(args: Array<String>) {
 //    extensions()
 //    labelsExample()
 //    inline()
-    properties()
+//    properties()
+    elvis()
+}
+
+fun elvis() {
+    val x: String? = getNullable()
+    val y: String = x?.let {
+        println("one")
+        "one"
+    } ?: orElse()
+    println(y)
+}
+
+fun getNullable(): String? = "null"
+
+fun orElse(): String {
+    println("two")
+    return "two"
 }
 
 fun <T> putNothing(nothing: T? = null) {

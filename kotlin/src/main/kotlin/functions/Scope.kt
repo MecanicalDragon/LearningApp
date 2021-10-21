@@ -1,6 +1,5 @@
 package functions
 
-
 /**
 Функция	Обращение к объекту	Возвращаемое значение	Является функцией-расширением
 let	    it	                Результат лямбды	    Да
@@ -28,11 +27,11 @@ class Scope(var name: String, var age: Int) {
 }
 
 fun main(args: Array<String>) {
-    letUsage()
-    withUsage()
-    runUsage()
-    applyUsage()
-    alsoUsage()
+//    letUsage()
+//    withUsage()
+//    runUsage()
+//    applyUsage()
+//    alsoUsage()
     takeUsage()
 }
 
@@ -51,6 +50,14 @@ fun takeUsage() {
 
     val z = x.takeUnless { it % 2 == 0 }
     println(z)
+
+    val list = listOf("not empty")
+    val result = list.takeUnless { it.isEmpty() } ?: listOf("default")
+    println(result)
+
+    val list2 = emptyList<String>()
+    val result2 = list2.takeIf { it.isNotEmpty() } ?: listOf("default")
+    println(result2)
 }
 
 /**
@@ -94,7 +101,7 @@ fun runUsage() {
     val result = Scope().run {
         println(name)
         println(age)
-        "Scope is ${name}-${age}"
+        "Scope is $name-$age"
     }
     println(result)
 }

@@ -6,6 +6,7 @@ package something;
  */
 @FunctionalInterface
 public interface AwesomeFunctional {
+    public static int x = 5;
 
     static void method() {
         System.out.println("STATIC");
@@ -13,7 +14,7 @@ public interface AwesomeFunctional {
 
     void giveTheAnswer();
 
-//    Since java 9
+    //    Since java 9
     private String getString() {
         return "IS THIS INTERFACE FUNCTIONAL?";
     }
@@ -26,5 +27,13 @@ public interface AwesomeFunctional {
         AwesomeFunctional a = () -> System.out.println("YES, IT IS!");
         System.out.println(a.getString());
         a.giveTheAnswer();
+    }
+}
+
+class AwesomeClass implements AwesomeFunctional {
+
+    @Override
+    public void giveTheAnswer() {
+        System.out.println("Hi! This is an awesome class!");
     }
 }
