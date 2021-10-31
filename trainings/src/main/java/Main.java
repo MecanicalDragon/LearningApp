@@ -1,8 +1,4 @@
-import net.medrag.trainings.model.Student;
-import supportClasses.Clazz;
-import supportClasses.Clazz2;
-import supportClasses.Int1;
-import supportClasses.Man;
+import supportClasses.*;
 
 import java.text.SimpleDateFormat;
 import java.time.*;
