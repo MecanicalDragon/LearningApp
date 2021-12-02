@@ -4,7 +4,7 @@ package net.medrag.something.mbean;
  * @author Stanislav Tretyakov
  * 31.10.2021
  */
-public class Example implements ExampleMBean{
+public class Example implements ExampleMBean {
 
     private String value;
 

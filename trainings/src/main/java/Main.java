@@ -1,3 +1,4 @@
+import lombok.SneakyThrows;
 import supportClasses.*;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +17,8 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
-        dates();
+//        instantiateStaticFail();
+//        dates();
 //        trees();
 //        System.out.println(tryAndCatch());
 //        System.out.println(tryAndCatch2());
@@ -36,6 +38,28 @@ public class Main extends Student {
 //        circleTask(15);
 //        matrixTask(20);
 
+    }
+
+    @SneakyThrows
+    private static void instantiateStaticFail() {
+
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Caught 1! " + e);
+        }
+
+        try {
+            StaticFail s;
+            try {
+                s = new StaticFail();    // java.lang.ExceptionInInitializerError always thrown if exception happens in static init blocks
+            } catch (Throwable t) {
+                System.out.println("Caught 2! " + t);
+            }
+            s = new StaticFail();
+        } catch (Throwable tt) {
+            System.out.println("Caught 3! " + tt);
+        }
     }
 
     private static void dates() {
