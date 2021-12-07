@@ -1,0 +1,197 @@
+{
+	"info": {
+		"_postman_id": "0b53ec2a-aad8-4f7e-9b9b-c526e4c6822a",
+		"name": "MiscExample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Content Type Headers",
+			"item": [
+				{
+					"name": "headers/user v1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9003/headers/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9003",
+							"path": [
+								"headers",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "headers/user v2",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.medrag.v2+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9003/headers/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9003",
+							"path": [
+								"headers",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "converter/seniority",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:9003/converter/seniority?seniority=батя",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9003",
+							"path": [
+								"converter",
+								"seniority"
+							],
+							"query": [
+								{
+									"key": "seniority",
+									"value": "батя"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "converter/user v2",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9003/converter/user?user=name:Stanislav,surname:Tretyakov,contact:89876543210,seniority:крутой",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9003",
+							"path": [
+								"converter",
+								"user"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "name:Stanislav,surname:Tretyakov,contact:89876543210,seniority:крутой"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "converter/user v2 proto",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true,
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.medrag.proto",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.medrag.proto",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "name:Viktor\r\nsurname:Gromov\r\ncontact:89874560000\r\nseniority:JUNIOR",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9003/converter/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9003",
+							"path": [
+								"converter",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
