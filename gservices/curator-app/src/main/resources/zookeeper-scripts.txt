@@ -1,0 +1,26 @@
+./zkCli.sh -server 127.0.0.1:2181
+
+create /curator-app-props
+create /curator-app-props/remote
+create /curator-app-props/remote/prop1
+set /curator-app-props/remote/prop1 "Hello from Zookeeper"
+
+create /curator-app-props/remote/list[0]
+create /curator-app-props/remote/list[1]
+
+set /curator-app-props/remote/list[0] monkey
+set /curator-app-props/remote/list[1] elephant
+
+
+create /curator-app-props/remote/animals[0]species
+create /curator-app-props/remote/animals[0]name
+
+create /curator-app-props/remote/animals[1]species
+create /curator-app-props/remote/animals[1]name
+
+set /curator-app-props/remote/animals[0]species eagle
+set /curator-app-props/remote/animals[0]name Cronus
+
+set /curator-app-props/remote/animals[1]species dingo
+set /curator-app-props/remote/animals[1]name Daisy
+

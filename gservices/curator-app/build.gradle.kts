@@ -18,9 +18,7 @@ dependencies {
     implementation("org.springframework.integration:spring-integration-zookeeper")
 
     // Zookeeper Config
-//    implementation("org.springframework.cloud:spring-cloud-starter-zookeeper-config")
-
-//    implementation("org.springframework.cloud:spring-cloud-starter-zookeeper-discovery:3.1.0")
+    implementation("org.springframework.cloud:spring-cloud-starter-zookeeper-config")
 }
 
 tasks.register("prepareKotlinBuildScriptModel") {}

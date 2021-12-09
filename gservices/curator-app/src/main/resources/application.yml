@@ -1,6 +1,24 @@
+server:
+  port: 8080
+
 curator:
   retries: 3
   time-lag: 100
   zookeeper-host: '127.0.0.1:2181'
-server:
-  port: 8080
+
+spring:
+  config:
+    import: 'optional:zookeeper:localhost:2181/curator-app-props'
+# https://docs.spring.io/spring-cloud-zookeeper/docs/current/reference/html/#spring-cloud-zookeeper-config
+
+# https://www.baeldung.com/spring-boot-yaml-list
+remote:
+  prop1: 'Hello'
+  list:
+    - item1
+    - item2
+  animals:
+    - species: giraffe
+      name: Vasiliy
+    - species: lion
+      name: Max

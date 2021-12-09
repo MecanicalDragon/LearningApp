@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 
 /**
  * @author Stanislav Tretyakov
@@ -29,6 +30,7 @@ class Config {
     )
 
     @Bean
+    @Primary // required because zookeeper-config added
     fun curator(): CuratorFramework =
         CuratorFrameworkFactory.newClient(curatorProperties.zookeeperHost, retryPolicy()).apply {
             start()
