@@ -14,12 +14,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9003/headers/user",
+							"raw": "http://{{MISC_APP_HOST}}/headers/user",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{MISC_APP_HOST}}"
 							],
-							"port": "9003",
 							"path": [
 								"headers",
 								"user"
@@ -45,12 +44,11 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:9003/headers/user",
+							"raw": "http://{{MISC_APP_HOST}}/headers/user",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{MISC_APP_HOST}}"
 							],
-							"port": "9003",
 							"path": [
 								"headers",
 								"user"
@@ -79,12 +77,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:9003/converter/seniority?seniority=батя",
+							"raw": "http://{{MISC_APP_HOST}}/converter/seniority?seniority=батя",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{MISC_APP_HOST}}"
 							],
-							"port": "9003",
 							"path": [
 								"converter",
 								"seniority"
@@ -125,12 +122,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9003/converter/user?user=name:Stanislav,surname:Tretyakov,contact:89876543210,seniority:крутой",
+							"raw": "http://{{MISC_APP_HOST}}/converter/user?user=name:Stanislav,surname:Tretyakov,contact:89876543210,seniority:крутой",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{MISC_APP_HOST}}"
 							],
-							"port": "9003",
 							"path": [
 								"converter",
 								"user"
@@ -177,15 +173,423 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9003/converter/user",
+							"raw": "http://{{MISC_APP_HOST}}/converter/user",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{MISC_APP_HOST}}"
 							],
-							"port": "9003",
 							"path": [
 								"converter",
 								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "KeyCloak",
+			"item": [
+				{
+					"name": "get token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"if (pm.response.code == 200){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"MANAGER_TOKEN\", jsonData[\"access_token\"]);\r",
+									"};"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{MANAGER_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{MANAGER_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{KHOST}}/auth/realms/:realm/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"{{KHOST}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								":realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							],
+							"variable": [
+								{
+									"key": "realm",
+									"value": "medrag-dev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{MANAGER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"createdTimestamp\": 1588880747548,\r\n        \"username\": \"Strange\",\r\n        \"enabled\": true,\r\n        \"totp\": false,\r\n        \"emailVerified\": true,\r\n        \"firstName\": \"Stephen\",\r\n        \"lastName\": \"Strange\",\r\n        \"email\": \"drstranger@marvel.com\",\r\n        \"disableableCredentialTypes\": [],\r\n        \"requiredActions\": [],\r\n        \"notBefore\": 0,\r\n        \"access\": {\r\n            \"manageGroupMembership\": true,\r\n            \"view\": true,\r\n            \"mapRoles\": true,\r\n            \"impersonate\": true,\r\n            \"manage\": true\r\n        },\r\n        \"realmRoles\": [\t\"admin\" ]\r\n    }"
+						},
+						"url": {
+							"raw": "http://{{KHOST}}/auth/admin/realms/:realm/users",
+							"protocol": "http",
+							"host": [
+								"{{KHOST}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"realms",
+								":realm",
+								"users"
+							],
+							"variable": [
+								{
+									"key": "realm",
+									"value": "medrag-dev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202, 204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{MANAGER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"groups\": [\r\n        \"admins, doesn't work\"\r\n    ],\r\n    \"realmRoles\": [\r\n        \"admin, doesn't work\"\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "http://{{KHOST}}/auth/admin/realms/:realm/users/:user-id",
+							"protocol": "http",
+							"host": [
+								"{{KHOST}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"realms",
+								":realm",
+								"users",
+								":user-id"
+							],
+							"variable": [
+								{
+									"key": "realm",
+									"value": "medrag-dev"
+								},
+								{
+									"key": "user-id",
+									"value": "10c9e175-0130-4863-b8e7-044796c7a7a4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get client id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{MANAGER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{KHOST}}/auth/admin/realms/:realm/clients?clientId=keycloak-demo-app",
+							"protocol": "http",
+							"host": [
+								"{{KHOST}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"realms",
+								":realm",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "keycloak-demo-app"
+								}
+							],
+							"variable": [
+								{
+									"key": "realm",
+									"value": "medrag-dev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get roles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{MANAGER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{KHOST}}/auth/admin/realms/:realm/roles",
+							"protocol": "http",
+							"host": [
+								"{{KHOST}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"realms",
+								":realm",
+								"roles"
+							],
+							"variable": [
+								{
+									"key": "realm",
+									"value": "medrag-dev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assign role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202, 204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{MANAGER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"id\": \"75e279e5-a6ba-4113-bfcf-d3bbcffbca9c\",\r\n        \"name\": \"admin\",\r\n        \"description\": \"grants access to admin stuff\",\r\n        \"composite\": false,\r\n        \"clientRole\": false,\r\n        \"containerId\": \"medrag-dev\"\r\n    }\r\n]"
+						},
+						"url": {
+							"raw": "http://{{KHOST}}/auth/admin/realms/:realm/users/:user-id/role-mappings/realm",
+							"protocol": "http",
+							"host": [
+								"{{KHOST}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"realms",
+								":realm",
+								"users",
+								":user-id",
+								"role-mappings",
+								"realm"
+							],
+							"variable": [
+								{
+									"key": "realm",
+									"value": "medrag-dev"
+								},
+								{
+									"key": "user-id",
+									"value": "10c9e175-0130-4863-b8e7-044796c7a7a4"
+								}
 							]
 						}
 					},

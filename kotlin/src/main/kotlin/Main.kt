@@ -18,7 +18,33 @@ fun main(args: Array<String>) {
 //    labelsExample()
 //    inline()
 //    properties()
-    elvis()
+//    elvis()
+    repeatFun()
+}
+
+fun repeatFun() {
+    println("repeat started")
+    run loop@{
+        repeat(10) { i ->
+            println("iter $i")
+            if (i == 4) {
+                println("break!")
+                return@loop
+            }
+        }
+    }
+    println("repeat finished")
+    println("_______________")
+
+    println("another repeat started")
+    repeat(10) { i ->
+        println("iter $i")
+        if (i == 4) {
+            println("break!")
+            return
+        }
+    }
+    println("another repeat finished")
 }
 
 fun elvis() {

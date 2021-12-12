@@ -1,0 +1,10 @@
+keycloack:
+    admin-user:
+        login: medrag
+        password: Polki890-=
+    realm:
+        name: medrag-dev
+        username: medragon
+        password: Polki890-=
+    realm-manager-name: user-manager
+        

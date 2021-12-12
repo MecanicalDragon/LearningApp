@@ -19,6 +19,9 @@
     <description>Microservices parent pom</description>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
         <jackson.databind.nullable.version>0.2.1</jackson.databind.nullable.version>
         <openapi.generator.plugin.version>4.3.1</openapi.generator.plugin.version>
         <openapi.ui.version>1.5.1</openapi.ui.version>
@@ -28,6 +31,7 @@
         <microservices.api.version>1.0.0</microservices.api.version>
         <hsql.version>2.5.1</hsql.version>
         <lombok.version>1.18.20</lombok.version>
+        <keycloal.version>15.0.1</keycloal.version>
     </properties>
 
     <!--    Just determination of dependencies-->
@@ -44,6 +48,13 @@
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${hsql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.keycloak.bom</groupId>
+                <artifactId>keycloak-adapter-bom</artifactId>
+                <version>${keycloal.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
