@@ -14,3 +14,8 @@
   - https://www.keycloak.org/getting-started/getting-started-zip
   - https://www.keycloak.org/docs/latest/securing_apps/index.html#_spring_boot_adapter
   - https://habr.com/ru/company/reksoft/blog/552346/
+
+## AspectJExample
+Instantiates AspectJ compile-time weaving with Spring and acj compiler.
+To check annotations you can have a look at class files.
+https://docs.spring.io/spring-framework/docs/2.0.x/reference/aop.html
