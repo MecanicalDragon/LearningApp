@@ -1,0 +1,23 @@
+server:
+  port: 8464
+
+spring:
+  application:
+    name: Misc-G-App
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env.enabled: true
+    java.enabled: true
+info:
+  application:
+    name: Misc-G-App
+    description: This app just instantiates actuator health endpoints and micrometer metrics
+    version: 1.0.0

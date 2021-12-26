@@ -2,6 +2,7 @@ rootProject.name = "gservices"
 
 include(
     "ktor-app",
+    "misc-g-app",
     "curator-app"
 )
 

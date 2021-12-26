@@ -4,6 +4,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion apply false
     kotlin("plugin.jpa") version kotlinVersion apply false
 
+    id("org.jetbrains.dokka") version "1.6.0" apply true
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0" apply true
     id("org.springframework.boot") version "2.6.1" apply false
     id("io.spring.dependency-management") version "1.0.11.RELEASE" apply true
@@ -17,6 +18,7 @@ allprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 
@@ -28,6 +30,14 @@ allprojects {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "11"
+            }
+        }
+
+        dokkaJavadoc.configure {
+            dokkaSourceSets {
+                configureEach {
+                    includes.from("README.MD")
+                }
             }
         }
 
@@ -46,6 +56,7 @@ allprojects {
             dependency("org.springframework.boot:spring-boot-starter-web:${project.property("spring.libs.version")}")
             dependency("org.springframework.boot:spring-boot-starter-data-jpa:${project.property("spring.libs.version")}")
             dependency("org.springframework.boot:spring-boot-starter-actuator:${project.property("spring.libs.version")}")
+            dependency("org.springframework.boot:spring-boot-starter-aop:${project.property("spring.libs.version")}")
 
             dependency("org.springframework.boot:spring-boot-starter-integration:${project.property("spring.libs.version")}")
             dependency("org.springframework.integration:spring-integration-zookeeper:${project.property("spring.integration.version")}")
@@ -61,6 +72,8 @@ allprojects {
 
 //            required to correct handling of kotlin-specific edge cases (like data class properties setting)
             dependency("org.jetbrains.kotlin:kotlin-reflect:${project.property("kotlin.version")}")
+
+            dependency("io.micrometer:micrometer-registry-prometheus:${project.property("micrometer.version")}")
         }
     }
 
@@ -87,8 +100,8 @@ allprojects {
     }
 
     ktlint {
-        version.set("0.42.0")
-        ignoreFailures.set((project.findProperty("ignoreKtlintErrors") as String?)?.toBoolean() ?: true)
+        ignoreFailures.set(false)
+        coloredOutput.set(true)
         reporters {
             reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
         }

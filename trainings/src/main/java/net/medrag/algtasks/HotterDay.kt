@@ -1,13 +1,13 @@
 package net.medrag.algtasks
 
 /**
- * Purpose of this task is to find how many days will pass to hotter day for each day in an array of day temperatures.
+ * This task is about to find how many days will pass to hotter day for each day in an array of day temperatures.
  */
 private val tempByDays = arrayOf(13, 12, 15, 11, 9, 12, 16)
 
 /**
  * Works for O(n^2) of Runtime Complexity
- * Works for O(n) or O(1) of Memory Complexity
+ * Works for O(n) or O(1) of Memory Complexity (depends on how this task wa asked)
  * @param temperatures - array of temperatures by days.
  */
 fun temperaturesForN2(temperatures: Array<Int>) {
@@ -31,6 +31,7 @@ fun temperaturesForN2(temperatures: Array<Int>) {
 fun temperaturesForN(temperatures: Array<Int>) {
     val answers = IntArray(temperatures.size)
 
+//    Pair of temperature to day number
     val stack = ArrayDeque<Pair<Int, Int>>()
     for (i in temperatures.size - 1 downTo 0) {
         while (!stack.isEmpty() && stack.last().first <= temperatures[i]) {
