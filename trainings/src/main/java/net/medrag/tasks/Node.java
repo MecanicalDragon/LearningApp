@@ -1,4 +1,4 @@
-package net.medrag.something;
+package net.medrag.tasks;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 public class Node {
 
     private static class NodeUtils{
-        private List<Node> nodeTree;
+        private final List<Node> nodeTree;
 
         private NodeUtils(int amount) {
             this.nodeTree = new ArrayList<>();
@@ -35,8 +35,8 @@ public class Node {
 
     private static int counter;
 
-    private String value;
-    private List<Node> children;
+    private final String value;
+    private final List<Node> children;
 
     private Node() {
         value = "NODE-" + counter++;
