@@ -32,6 +32,9 @@
         <hsql.version>2.5.1</hsql.version>
         <lombok.version>1.18.20</lombok.version>
         <keycloal.version>15.0.1</keycloal.version>
+        <modelmapper.version>3.1.0</modelmapper.version>
+        <logback.version>1.2.11</logback.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
     </properties>
 
     <!--    Just determination of dependencies-->

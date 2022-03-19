@@ -16,6 +16,7 @@
         <module>parent</module>
         <module>miscexample</module>
         <module>aspectjexample</module>
+        <module>jpaexample</module>
     </modules>
 
 </project>
