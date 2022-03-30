@@ -1,7 +1,7 @@
-package net.medrag.microservices.jpa.spec.config;
+package net.medrag.microservices.jpa.spec;
 
-import net.medrag.microservices.jpa.spec.dto.SpecDto;
-import net.medrag.microservices.jpa.spec.entity.SpecEntity;
+import net.medrag.microservices.jpa.spec.dto.SpecUserDto;
+import net.medrag.microservices.jpa.spec.entity.SpecUser;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -9,27 +9,16 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * logging
- * @NotNull
- * metrics
- * customInfo
- * actuator
- * checkstyle
- * jacoco
- * javadoc
- * openapi
- */
 @Configuration
 public class SpecConfiguration {
 
     @Bean
-    public Converter<SpecEntity, SpecDto> mMapperConverter() {
-        return new Converter<SpecEntity, SpecDto>() {
+    public Converter<SpecUser, SpecUserDto> mMapperConverter() {
+        return new Converter<SpecUser, SpecUserDto>() {
             @Override
-            public SpecDto convert(MappingContext<SpecEntity, SpecDto> mappingContext) {
-                final SpecEntity source = mappingContext.getSource();
-                return new SpecDto(
+            public SpecUserDto convert(MappingContext<SpecUser, SpecUserDto> mappingContext) {
+                final SpecUser source = mappingContext.getSource();
+                return new SpecUserDto(
                         source.getId(),
                         source.getBirthDate(),
                         source.getFirstName(),
@@ -43,8 +32,8 @@ public class SpecConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         final ModelMapper modelMapper = new ModelMapper();
-        TypeMap<SpecDto, SpecEntity> propertyMapper = modelMapper.createTypeMap(SpecDto.class, SpecEntity.class);
-        propertyMapper.addMapping(SpecDto::getDate, SpecEntity::setBirthDate);
+        TypeMap<SpecUserDto, SpecUser> propertyMapper = modelMapper.createTypeMap(SpecUserDto.class, SpecUser.class);
+        propertyMapper.addMapping(SpecUserDto::getDate, SpecUser::setBirthDate);
         modelMapper.addConverter(mMapperConverter());
         return modelMapper;
     }

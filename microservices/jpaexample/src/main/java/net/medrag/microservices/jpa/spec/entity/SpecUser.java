@@ -14,7 +14,7 @@ import java.util.Objects;
 @ToString
 @Entity
 @Table(name = "SPECIFICATION_TABLE")
-public class SpecEntity {
+public class SpecUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -32,7 +32,7 @@ public class SpecEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        SpecEntity that = (SpecEntity) o;
+        SpecUser that = (SpecUser) o;
         return id != null && Objects.equals(id, that.id);
     }
 

@@ -28,9 +28,10 @@
         <swagger2.version>3.0.0</swagger2.version>
         <spring.cloud.version>2020.0.4</spring.cloud.version>
         <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
+        <hibernate-types-52.version>2.14.1</hibernate-types-52.version>
         <microservices.api.version>1.0.0</microservices.api.version>
         <hsql.version>2.5.1</hsql.version>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <keycloal.version>15.0.1</keycloal.version>
         <modelmapper.version>3.1.0</modelmapper.version>
         <logback.version>1.2.11</logback.version>
@@ -51,6 +52,16 @@
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${hsql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.modelmapper</groupId>
+                <artifactId>modelmapper</artifactId>
+                <version>${modelmapper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vladmihalcea</groupId>
+                <artifactId>hibernate-types-52</artifactId>
+                <version>${hibernate-types-52.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.keycloak.bom</groupId>

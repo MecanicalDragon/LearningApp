@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Node {
 
-    private static class NodeUtils{
+    private static class NodeUtils {
         private final List<Node> nodeTree;
 
         private NodeUtils(int amount) {

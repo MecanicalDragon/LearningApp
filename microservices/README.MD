@@ -19,3 +19,14 @@
 Instantiates AspectJ compile-time weaving with Spring and acj compiler.
 To check annotations you can have a look at class files.
 https://docs.spring.io/spring-framework/docs/2.0.x/reference/aop.html
+
+## Template should contain
+- logging
+- metrics
+- customInfo
+- actuator
+- checkstyle
+- jacoco
+- javadoc
+- openapi
+

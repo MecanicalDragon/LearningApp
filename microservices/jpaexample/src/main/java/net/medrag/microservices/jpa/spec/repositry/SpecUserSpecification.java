@@ -1,7 +1,7 @@
 package net.medrag.microservices.jpa.spec.repositry;
 
-import net.medrag.microservices.jpa.spec.dto.SpecSearchParams;
-import net.medrag.microservices.jpa.spec.entity.SpecEntity;
+import net.medrag.microservices.jpa.spec.dto.SpecUserSearchParams;
+import net.medrag.microservices.jpa.spec.entity.SpecUser;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class SpecEntitySpecification implements Specification<SpecEntity> {
+public class SpecUserSpecification implements Specification<SpecUser> {
 
     private static final String ID = "id";
     private static final String BIRTH_DATE = "birthDate";
@@ -19,14 +19,14 @@ public class SpecEntitySpecification implements Specification<SpecEntity> {
     private static final String LAST_NAME = "lastName";
     private static final String PHONE_NUMBER = "phoneNumber";
 
-    private final SpecSearchParams searchParams;
+    private final SpecUserSearchParams searchParams;
 
-    public SpecEntitySpecification(SpecSearchParams searchParams) {
+    public SpecUserSpecification(SpecUserSearchParams searchParams) {
         this.searchParams = searchParams;
     }
 
     @Override
-    public Predicate toPredicate(Root<SpecEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<SpecUser> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         return criteriaBuilder.and(Stream.of(
                 searchParams.getId().isEmpty() ? null : criteriaBuilder.or(
                         searchParams.getId().stream()

@@ -11,14 +11,14 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class SpecSearchParams {
+public class SpecUserSearchParams {
     private final List<String> phoneNumber;
     private final List<Long> id;
     private final List<LocalDate> date;
     private final List<String> firstName;
     private final List<String> lastName;
 
-    public SpecSearchParams(List<String> phoneNumber, List<Long> id, List<LocalDate> date, List<String> firstName, List<String> lastName) {
+    public SpecUserSearchParams(List<String> phoneNumber, List<Long> id, List<LocalDate> date, List<String> firstName, List<String> lastName) {
         this.phoneNumber = phoneNumber == null ? Collections.emptyList() : Collections.unmodifiableList(phoneNumber);
         this.id = id == null ? Collections.emptyList() : Collections.unmodifiableList(id);
         this.date = date == null ? Collections.emptyList() : Collections.unmodifiableList(date);

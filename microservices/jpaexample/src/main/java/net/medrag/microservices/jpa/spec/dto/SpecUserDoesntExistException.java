@@ -1,10 +1,10 @@
 package net.medrag.microservices.jpa.spec.dto;
 
-public class EntityDoesntExistException extends RuntimeException{
+public class SpecUserDoesntExistException extends RuntimeException{
 
     private final Long id;
 
-    public EntityDoesntExistException(Long id) {
+    public SpecUserDoesntExistException(Long id) {
         this.id = id;
     }
 
