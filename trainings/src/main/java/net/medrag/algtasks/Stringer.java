@@ -17,35 +17,35 @@ import java.util.Deque;
  * @author Stanislav Tretyakov
  * 09.02.2022
  */
-public abstract class Stringer {
+public interface Stringer {
 
-    private static final String TEST_1 = "3AI2(Z3gA)"; // AAAIZgggAZgggA
-    private static final String TEST_2 = "2(Z3(ix))"; // ZixixixZixixix
-    private static final String TEST_3 = "2(z1(K2(A2(X)B3Z2(om))3D))"; // zKAXXBZZZomomAXXBZZZomomDDDzKAXXBZZZomomAXXBZZZomomDDD
+    void printString(String string);
 
-    abstract void printString(String string);
+    static void main(String[] args) {
 
-    public static void main(String[] args) {
-        new RecursiveStringer().printString(TEST_1);
-        new StackStringer().printString(TEST_1);
+        final String test1 = "3AI2(Z3gA)"; // AAAIZgggAZgggA
+        final String test2 = "2(Z3(ix))"; // ZixixixZixixix
+        final String test3 = "2(z1(K2(A2(X)B3Z2(om))3D))"; // zKAXXBZZZomomAXXBZZZomomDDDzKAXXBZZZomomAXXBZZZomomDDD
+
+        new RecursiveStringer().printString(test1);
+        new StackStringer().printString(test1);
         System.out.println();
 
-        new RecursiveStringer().printString(TEST_2);
-        new StackStringer().printString(TEST_2);
+        new RecursiveStringer().printString(test2);
+        new StackStringer().printString(test2);
         System.out.println();
 
-        new RecursiveStringer().printString(TEST_3);
-        new StackStringer().printString(TEST_3);
+        new RecursiveStringer().printString(test3);
+        new StackStringer().printString(test3);
         System.out.println();
     }
 
-    private static class StackStringer extends Stringer {
-
-        private final Deque<String> tokens = new ArrayDeque<>();
+    class StackStringer implements Stringer {
 
         @Override
-        void printString(String string) {
+        public void printString(String string) {
             final char[] chars = string.toCharArray();
+            final Deque<String> tokens = new ArrayDeque<>();
 
             // iterate over string in reverse order
             for (int i = chars.length - 1; i >= 0; i--) {
@@ -85,10 +85,10 @@ public abstract class Stringer {
         }
     }
 
-    private static class RecursiveStringer extends Stringer {
+    class RecursiveStringer implements Stringer {
 
         @Override
-        void printString(String string) {
+        public void printString(String string) {
             printChars(string.toCharArray(), 0, 1);
             System.out.println();
         }
