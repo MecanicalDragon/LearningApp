@@ -63,6 +63,45 @@ public class Main extends Student {
     }
 
     private static void dates() {
+
+        //        SimpleDateFormat
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mmXXX");
+        String q = "12:12-07:00";
+        final OffsetTime offsetTime1 = OffsetTime.parse(q, dateTimeFormatter);
+        System.out.println(offsetTime1);
+        ZoneOffset jvmTzOffset = ZonedDateTime.now(ZoneId.systemDefault()).getOffset();
+        final var offsetTime = offsetTime1.withOffsetSameInstant(jvmTzOffset);
+        System.out.println(offsetTime.toLocalTime());
+        System.out.println("___");
+
+        //        SimpleDateFormat
+        final DateTimeFormatter dtfoo = DateTimeFormatter.ofPattern("HH:mm");
+        String q2 = "12:12";
+        final LocalTime now1 = LocalTime.parse(q2, dtfoo);
+        final OffsetTime of = OffsetTime.of(now1, ZonedDateTime.now(ZoneId.systemDefault()).getOffset());
+        System.out.println(of);
+        System.out.println("___");
+
+        final ZoneOffset offset = ZonedDateTime.now(ZoneId.systemDefault()).getOffset();
+        System.out.println(offset);
+
+        String s = "15:13";
+        final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("HH:mm");
+        final var parsed = LocalTime.parse(s, dtf3);
+        System.out.println(offsetTime1);
+        final var offsetTimeX = offsetTime1.withOffsetSameInstant(ZoneOffset.UTC);
+        System.out.println(offsetTimeX);
+        final var x = offsetTimeX.withOffsetSameInstant(ZoneOffset.ofHours(5));
+        System.out.println(x);
+        final String format1 = x.format(dtf3);
+        System.out.println(format1);
+
+        final var parse1 = LocalTime.parse(s, dtf3);
+        final OffsetTime offsetTimeY = parse1.atOffset(ZoneOffset.ofHours(3));
+        System.out.println(offsetTimeY);
+        System.out.println(offsetTimeY.toLocalTime());
+        System.out.println(OffsetDateTime.now());
+
         //  Duration and Period
         LocalDateTime now = LocalDateTime.now();
         System.out.println(now);
