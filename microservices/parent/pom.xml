@@ -30,8 +30,9 @@
         <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
         <hibernate-types-52.version>2.14.1</hibernate-types-52.version>
         <microservices.api.version>1.0.0</microservices.api.version>
+        <myannotations.version>1.0.0</myannotations.version>
         <hsql.version>2.5.1</hsql.version>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <keycloal.version>15.0.1</keycloal.version>
         <modelmapper.version>3.1.0</modelmapper.version>
         <logback.version>1.2.11</logback.version>
@@ -113,6 +114,12 @@
             <groupId>net.medrag.microservices</groupId>
             <artifactId>microservices-api</artifactId>
             <version>${microservices.api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.medrag.microservices</groupId>
+            <artifactId>myannotations</artifactId>
+            <version>${myannotations.version}</version>
         </dependency>
 
         <dependency>

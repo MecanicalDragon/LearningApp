@@ -17,6 +17,7 @@
         <module>miscexample</module>
         <module>aspectjexample</module>
         <module>jpaexample</module>
+        <module>myannotations</module>
     </modules>
 
 </project>
