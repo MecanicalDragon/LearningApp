@@ -1,11 +1,19 @@
 import lombok.SneakyThrows;
+import org.apache.commons.codec.StringEncoderComparator;
+import org.apache.commons.lang3.mutable.MutableLong;
 import supportClasses.*;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * {@author} Stanislav Tretyakov
@@ -17,6 +25,11 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
+        testMutableLong();
+//        checkStaticFinal();
+//        forEachReturn();
+//        staticInit();
+//        treeMap();
 //        instantiateStaticFail();
 //        dates();
 //        trees();
@@ -38,6 +51,94 @@ public class Main extends Student {
 //        circleTask(15);
 //        matrixTask(20);
 
+    }
+
+    @SneakyThrows
+    private static void testMutableLong() {
+        final MutableLong l = new MutableLong(10_000);
+        AtomicLong l2 = new AtomicLong(10_000);
+        final var executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 10; i++) {
+            executorService.submit(() -> {
+                while (l2.getAndDecrement() > 0) {
+                    l.decrement();
+                }
+            });
+        }
+
+        while (l2.get() > 0){
+            Thread.sleep(1000);
+        }
+        Thread.sleep(1000);
+        System.out.println(l);
+        System.out.println(l2);
+        executorService.shutdown();
+    }
+
+    @SneakyThrows
+    private static void checkStaticFinal() {
+        StaticFinal staticFinal = new StaticFinal();
+        final var field = StaticFinal.class.getDeclaredField("s");
+        final var staticField = StaticFinal.class.getDeclaredField("STATIC");
+        field.setAccessible(true);
+        staticField.setAccessible(true);
+
+        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+        field.set(staticFinal, "fluent");
+        System.out.println(staticFinal.s);
+
+        staticField.set(null, "DYNAMIC");
+        System.out.println(StaticFinal.STATIC);
+    }
+
+    private static void forEachReturn() {
+        var values = List.of(1, 2, 3, 4, 5, 6, 7);
+        System.out.println("start");
+        values.forEach(n -> {
+            if (n % 2 == 0) {
+                return;
+            }
+            System.out.println(n);
+        });
+        System.out.println("end");
+    }
+
+    @SneakyThrows
+    private static void staticInit() {
+        System.out.println("main");
+        Thread.sleep(2000);
+        new StaticInit();
+    }
+
+    private static void treeMap() {
+        try {
+            Map<String, String> map1 = new TreeMap<>();
+            map1.put(null, "String");
+            map1.get(null);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        Map<String, String> map = new TreeMap<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                if (o1 == null || o2 == null) {
+                    return 0;
+                } else {
+                    return new StringEncoderComparator().compare(o1, o2);
+                }
+            }
+        });
+        map.put(null, "String");
+        System.out.println("1");
+        map.put(null, "String");
+        System.out.println("2");
+        map.put(null, "String");
+        System.out.println("3");
+        System.out.println(map.get(null));
     }
 
     @SneakyThrows
@@ -312,8 +413,8 @@ public class Main extends Student {
 
                 String s = "";
                 if (j == 0 || j == side ||
-                        i == 0 || i == side ||
-                        i == j || i + j == side) {
+                    i == 0 || i == side ||
+                    i == j || i + j == side) {
                     s += (i * j);
                     for (int k = 0; k < space.length(); k++) {
                         if (s.length() < space.length()) {
@@ -402,11 +503,14 @@ public class Main extends Student {
 
         System.out.println("a.value = " + a.value); // Fields, being called, taken from variable type.
         System.out.println("a.getValue = " + a.getValue()); // Methods, being called, invoked from real object type.
-        System.out.println("a.getPrivateValue = " + a.getPrivateValue()); // Private methods, being called, called from variable type (later bounding doesn't work with private methods)
+        System.out.println("a.getPrivateValue = " +
+            a.getPrivateValue()); // Private methods, being called, called from variable type (later bounding doesn't work with private methods)
 
         System.out.println("(Descendant1) a).value = " + ((Descendant1) a).value);  // Fields, being called, taken from variable type.
-        System.out.println("(Descendant1) a).getValue = " + ((Descendant1) a).getValue());  // Methods, being called, invoked from real object type.
-        System.out.println("(Descendant1) a).getPrivateValue = " + ((Descendant1) a).getPrivateValue());    // CASTING MATTERS!! If this private method would not be overridden in descendant, it could not be invoked!
+        System.out.println(
+            "(Descendant1) a).getValue = " + ((Descendant1) a).getValue());  // Methods, being called, invoked from real object type.
+        System.out.println("(Descendant1) a).getPrivateValue = " +
+            ((Descendant1) a).getPrivateValue());    // CASTING MATTERS!! If this private method would not be overridden in descendant, it could not be invoked!
 
         System.out.println("=============");
         Descendant1 d = new Descendant1();
@@ -416,8 +520,10 @@ public class Main extends Student {
         System.out.println("d.getPrivateValue = " + d.getPrivateValue());
 
         System.out.println("(Ancestor) d).value = " + ((Ancestor) d).value);  // Fields, being called, taken from variable type.
-        System.out.println("(Ancestor) d).getValue = " + ((Ancestor) d).getValue());  // Methods, being called, invoked from real object type.
-        System.out.println("(Ancestor) d).getPrivateValue = " + ((Ancestor) d).getPrivateValue());    // CASTING MATTERS!! Here we invoke ancestor's private method.
+        System.out.println(
+            "(Ancestor) d).getValue = " + ((Ancestor) d).getValue());  // Methods, being called, invoked from real object type.
+        System.out.println("(Ancestor) d).getPrivateValue = " +
+            ((Ancestor) d).getPrivateValue());    // CASTING MATTERS!! Here we invoke ancestor's private method.
 
         try {
             Ancestor a2 = new Ancestor();

@@ -1,9 +1,6 @@
 import supportClasses.Man;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,6 +11,28 @@ import static java.util.stream.Collectors.*;
  * 02.09.2019
  */
 public class Streams {
+
+    private static class Data{
+
+        static int actions = 0;
+        private int value;
+
+        public Data(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            actions++;
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return "Data{" +
+                    "value=" + value +
+                    '}';
+        }
+    }
 
     private static List<Man> list;
 
@@ -113,39 +132,64 @@ public class Streams {
 //        GROUPING BY
 
 
-        System.out.println(list.stream()
-                .flatMap(man -> Arrays.stream(man.getSkills()))
-                .distinct()
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll).toString());   //  grouping example with lambdas.
+        final var x = list.stream()
+            .flatMap(man -> Arrays.stream(man.getSkills()))
+            .distinct()
+            .collect(ArrayList::new, ArrayList::add, ArrayList::addAll).toString();
+        System.out.println(x);   //  grouping example with lambdas.
         //  here you should specify a class and it's 3 functions for new, addOne and addAll functions
 
-        System.out.println(list.stream()
-                .flatMap(man -> Arrays.stream(man.getSkills()))
-                .distinct()
-                .collect(Collectors.groupingBy(String::length)));   //  Simple Grouping by a Single Column
+        final var collect = list.stream()
+            .flatMap(man -> Arrays.stream(man.getSkills()))
+            .distinct()
+            .collect(groupingBy(String::length));
+        System.out.println(collect);   //  Simple Grouping by a Single Column
 
-        System.out.println(list.stream()
-                .flatMap(man -> Arrays.stream(man.getSkills()))
-                .distinct()
-                .collect(Collectors.groupingBy(skill -> skill.charAt(0))));   //  Grouping by with a Complex Map Key Type
+        final var collect1 = list.stream()
+            .flatMap(man -> Arrays.stream(man.getSkills()))
+            .distinct()
+            .collect(groupingBy(skill -> skill.charAt(0)));
+        System.out.println(collect1);   //  Grouping by with a Complex Map Key Type
 
-        System.out.println(list.stream()
-                .flatMap(man -> Arrays.stream(man.getSkills()))
-                .distinct()
-                .collect(Collectors.groupingBy(skill -> skill.charAt(0), toSet())));   //  Modifying the Returned Map Value Type
+        final var collect2 = list.stream()
+            .flatMap(man -> Arrays.stream(man.getSkills()))
+            .distinct()
+            .collect(groupingBy(skill -> skill.charAt(0), toSet()));
+        System.out.println(collect2);   //  Modifying the Returned Map Value Type
 
-        System.out.println(list.stream()
-                .flatMap(man -> Arrays.stream(man.getSkills()))
-                .distinct()
-                .collect(Collectors.groupingBy(String::length, groupingBy(s -> s.charAt(0)))));   //  Grouping By Multiple Fields
+        final var collect3 = list.stream()
+            .flatMap(man -> Arrays.stream(man.getSkills()))
+            .distinct()
+            .collect(groupingBy(String::length, groupingBy(s -> s.charAt(0))));
+        System.out.println(collect3);   //  Grouping By Multiple Fields
 
-        System.out.println(list.stream()
-                .flatMap(man -> Arrays.stream(man.getSkills()))
-                .distinct()
-                .collect(Collectors.groupingBy(skill -> skill.charAt(0), summarizingInt(String::length))));   //  Getting the Statistics from Grouped Results
+        final var collect4 = list.stream()
+            .flatMap(man -> Arrays.stream(man.getSkills()))
+            .distinct()
+            .collect(groupingBy(skill -> skill.charAt(0), summarizingInt(String::length)));
+        System.out.println(collect4);   //  Getting the Statistics from Grouped Results
 
+        final var concat = Stream.of("aaa", "bbb", "ccc").collect(Collectors.joining(", "));
+        System.out.println(concat);
 
+        // ALSO
 
+        System.out.println("");
+        System.out.println("_____");
+        System.out.println("");
+
+        int size = 10000;
+        var random = new Random(31);
+        List<Data> data = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            data.add(new Data(random.nextInt(100000)));
+        }
+        System.out.println("Data list size: " + data.size());
+        final Optional<Data> first = data.stream().sorted(Comparator.comparingInt(Data::getValue)).findFirst();
+        System.out.println("'findFirst()' result: " + first + " Actions: " + Data.actions);
+        Data.actions = 0;
+        final Optional<Data> min = data.stream().min(Comparator.comparingInt(Data::getValue));
+        System.out.println("'min()' result: " + min + " Actions: " + Data.actions);
 
     }
 }
