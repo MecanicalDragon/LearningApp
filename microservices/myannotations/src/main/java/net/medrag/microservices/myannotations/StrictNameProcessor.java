@@ -37,7 +37,8 @@ public class StrictNameProcessor extends AbstractProcessor {
                 final var simpleName = annotatedElement.getSimpleName().toString();
                 final var requiredName = annotatedElement.getAnnotation(StrictName.class).value();
                 if (!simpleName.equals(requiredName)) {
-                    final var message = String.format("Field <%s> must have @StrictName <%s>!", simpleName, requiredName);
+                    final var type = annotatedElement.getKind().name();
+                    final var message = String.format("Compilation failed! %s <%s> must have @StrictName <%s>!", type, simpleName, requiredName);
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, message);
                     throw new RuntimeException(message);
                 }

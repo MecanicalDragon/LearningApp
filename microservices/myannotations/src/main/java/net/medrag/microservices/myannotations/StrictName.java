@@ -13,7 +13,14 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  * 11.07.2022
  */
 @Retention(SOURCE)
-@Target(ElementType.FIELD)
+@Target(
+    value = {
+        ElementType.TYPE,
+        ElementType.FIELD,
+        ElementType.METHOD,
+        ElementType.PARAMETER
+    }
+)
 public @interface StrictName {
     String value();
 }
