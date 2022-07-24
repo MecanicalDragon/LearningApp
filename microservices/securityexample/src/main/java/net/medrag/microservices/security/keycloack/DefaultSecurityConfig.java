@@ -1,4 +1,4 @@
-package net.medrag.microservices.misc.keycloack;
+package net.medrag.microservices.security.keycloack;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

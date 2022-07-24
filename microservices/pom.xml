@@ -18,6 +18,7 @@
         <module>aspectjexample</module>
         <module>jpaexample</module>
         <module>myannotations</module>
+        <module>securityexample</module>
     </modules>
 
 </project>

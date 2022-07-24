@@ -1,4 +1,4 @@
-package net.medrag.microservices.misc.keycloack;
+package net.medrag.microservices.security.keycloack;
 
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;

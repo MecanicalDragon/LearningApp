@@ -1,4 +1,4 @@
-package net.medrag.microservices.misc.keycloack;
+package net.medrag.microservices.security.keycloack;
 
 import com.nimbusds.jose.shaded.json.JSONArray;
 import org.springframework.context.annotation.Bean;
