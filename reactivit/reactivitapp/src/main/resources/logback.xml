@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="HOME_LOG" value="logs/reactivit.log"/>
+    <property name="LOG_PATTERN" value="%thread %-5level mdc:[%X] %logger{36}:: %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <if condition='property("USE_JSON_CONSOLE_APPENDER").equals("true")'>
+            <then>
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <includeContext>false</includeContext>
+                    <timeZone>UTC</timeZone>
+                    <fieldNames>
+                        <message>[ignore]</message>
+                    </fieldNames>
+
+                    <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
+                        <pattern>{"message":"%0.-8000message"}</pattern>
+                    </provider>
+
+                    <!-- Using solution from logback docs: https://github.com/logstash/logstash-logback-encoder/blob/master/README.md#customizing-stack-traces -->
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <!-- Not 8K but 7800 because there are some truncation issues in ShortenedThrowableConverter's truncating code when result message has length of 8K + some more chars, usually from 20-30 to 100-150 -->
+                        <maxLength>7800</maxLength>
+                    </throwableConverter>
+                </encoder>
+            </then>
+            <else>
+                <encoder>
+                    <pattern>${LOG_PATTERN}</pattern>
+                </encoder>
+            </else>
+        </if>
+    </appender>
+
+    <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+    </appender>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/reactivit.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <totalSizeCap>2GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ROLLING_FILE"/>
+    </appender>
+
+    <root level="INFO">
+        <if condition='property("LOGGING_LOGSTASH_ENABLED").equals("true")'>
+            <then>
+                <appender name="LOG_STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                    <destination>${LOGGING_LOGSTASH_ADDRESS:-logstash:1888}</destination>
+                    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                        <level>${LOGGING_LOGSTASH_LOGGING_LEVEL_THRESHOLD:-INFO}</level>
+                    </filter>
+                    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                        <includeContext>false</includeContext>
+                        <timeZone>UTC</timeZone>
+                        <fieldNames>
+                            <message>[ignore]</message>
+                        </fieldNames>
+
+                        <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
+                            <pattern>{"message":"%0.-8000message"}</pattern>
+                        </provider>
+
+                        <!-- Using solution from logback docs: https://github.com/logstash/logstash-logback-encoder/blob/master/README.md#customizing-stack-traces -->
+                        <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                            <!-- Not 8K but 7800 because there are some truncation issues in ShortenedThrowableConverter's truncating code when result message has length of 8K + some more chars, usually from 20-30 to 100-150 -->
+                            <maxLength>7800</maxLength>
+                        </throwableConverter>
+
+                        <customFields>
+                            {"log_mode": "LOGSTASH", "component_type":"reactivit_component", "log_type":"main_reactivit_log", "hostname":"reactivit_host", "log_format": "json", "app_name":"reactivit"}
+                        </customFields>
+                    </encoder>
+                </appender>
+            </then>
+        </if>
+        <appender-ref ref="ASYNC_STDOUT" />
+        <appender-ref ref="ASYNC_FILE" />
+    </root>
+
+</configuration>
