@@ -59,7 +59,7 @@ public class MdcService {
 
     private Mono<String> doRequest() {
         return webClient.post()
-            .uri("http://localhost:8081/sleep", uriBuilder -> uriBuilder
+            .uri("http://localhost:34343/sleep", uriBuilder -> uriBuilder
                 .queryParam("time", 1000)
                 .build())
             .contentType(MediaType.APPLICATION_JSON)
@@ -71,12 +71,8 @@ public class MdcService {
     private Mono<String> doSecondRequest(String name) {
         log.info(">>>9[{}]", name);
 
-        if (Math.random() < 1){
-            return Mono.error(new RuntimeException("fuck"));
-        }
-
         var result = webClient.post()
-            .uri("http://localhost:8081/sleep", uriBuilder -> uriBuilder
+            .uri("http://localhost:34343/sleep", uriBuilder -> uriBuilder
                 .queryParam("time", 1000)
                 .build())
             .contentType(MediaType.APPLICATION_JSON)

@@ -26,6 +26,8 @@
         <module>reactivitapp</module>
         <module>bombarder</module>
         <module>dto</module>
+        <module>gatling</module>
+        <module>gatlingkt</module>
     </modules>
 
 </project>
