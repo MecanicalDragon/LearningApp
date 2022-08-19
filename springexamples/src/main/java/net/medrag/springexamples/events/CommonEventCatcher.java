@@ -15,7 +15,6 @@ public class CommonEventCatcher {
 
     @EventListener(ApplicationEvent.class)
     public void listen(ApplicationEvent event) {
-        System.out.println("ApplicationEvent caught: " + event.getClass().getSimpleName());
-        System.out.println();
+        System.out.println("ApplicationEvent has caught: " + event.getClass().getSimpleName());
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * 11.07.2022
  */
 @Configuration
-@EnableConfigurationProperties(SimpleConfig.class)
+@EnableConfigurationProperties(value = {SimpleConfig.class, ComplexConfig.class})
 public class AppConfig {
 }

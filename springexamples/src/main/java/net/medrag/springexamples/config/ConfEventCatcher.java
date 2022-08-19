@@ -14,11 +14,13 @@ import org.springframework.stereotype.Component;
 public class ConfEventCatcher {
 
     private final SimpleConfig config;
+    private final ComplexConfig config2;
 
     @EventListener(ApplicationReadyEvent.class)
     public void listen() {
         System.out.println("ConfigurationProperties:");
         System.out.println(config);
+        System.out.println(config2);
         System.out.println();
     }
 }
