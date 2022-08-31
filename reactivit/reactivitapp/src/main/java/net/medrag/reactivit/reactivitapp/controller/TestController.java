@@ -25,7 +25,7 @@ public class TestController {
     /**
      * Test {@link Mono#thenReturn(Object)}.
      */
-    @GetMapping("/")
+    @GetMapping
     public Mono<ResponseEntity<Void>> executeCallback() {
         return Mono.deferContextual(ctx -> Mono.empty())
             .contextWrite(ctx -> ctx.put("aaa", "bbb"))

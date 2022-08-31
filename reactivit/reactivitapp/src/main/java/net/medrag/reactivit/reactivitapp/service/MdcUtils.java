@@ -66,6 +66,18 @@ public final class MdcUtils {
         return mdcKey != null && mdcValue != null ? context.put(mdcKey, mdcValue) : context;
     }
 
+    /**
+     * Enrich Mdc context with specified key and object value if both of them are not null, do nothing otherwise.
+     *
+     * @param context  mdc context to enrich.
+     * @param mdcKey   key
+     * @param mdcValue value, will be transformed to string if null
+     * @return enriched mdc context.
+     */
+    public static Context enrichContext(Context context, String mdcKey, Object mdcValue) {
+        return mdcKey != null && mdcValue != null ? context.put(mdcKey, String.valueOf(mdcValue)) : context;
+    }
+
     public static Context enrichContext(Context context, RequestDto dto) {
         if (dto != null) {
             context = enrichContext(context, "name", dto.getName());
