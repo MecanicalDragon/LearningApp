@@ -18,8 +18,9 @@
 
     <properties>
         <java.version>11</java.version>
-        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <reactivit-version>0.0.1-SNAPSHOT</reactivit-version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+        <resilience4j.version>1.7.1</resilience4j.version>
     </properties>
 
     <modules>
