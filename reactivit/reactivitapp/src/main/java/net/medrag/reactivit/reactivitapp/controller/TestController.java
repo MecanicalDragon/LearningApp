@@ -12,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 
 @Slf4j
@@ -27,8 +28,11 @@ public class TestController {
      */
     @GetMapping
     public Mono<ResponseEntity<Void>> executeCallback() {
-        return Mono.deferContextual(ctx -> Mono.empty())
+        return Mono.deferContextual(ctx -> Mono.delay(Duration.ofSeconds(15)))
             .contextWrite(ctx -> ctx.put("aaa", "bbb"))
+            .then(Mono.defer(() -> {
+                throw new RuntimeException();
+            }))
             .thenReturn(ResponseEntity.noContent().build());
     }
 
