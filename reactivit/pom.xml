@@ -31,4 +31,14 @@
         <module>gatlingkt</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>bombarder-container-build</id>
+            <modules>
+                <module>bombarder</module>
+                <module>dto</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>

@@ -1,0 +1,4 @@
+FROM openjdk:11.0.16-jre AS deployment
+COPY bombarder/target/*.jar /application.jar
+EXPOSE 34343
+ENTRYPOINT ["java","-jar","/application.jar"]
