@@ -4,8 +4,8 @@ services:
 
   bombarder-app:
     labels:
-      - personal
-      - template
+      purpose: personal
+      build: template
     image: 'reactivit-bombarder-app:latest'
     container_name: "bombarder-app"
     ports:
