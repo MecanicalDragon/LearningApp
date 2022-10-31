@@ -38,6 +38,16 @@
             <version>${resilience4j.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.projectreactor.tools</groupId>
+            <artifactId>blockhound</artifactId>
+            <version>${blockhound.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-tools</artifactId>
+        </dependency>
+
         <!--log -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

@@ -20,6 +20,7 @@
         <java.version>11</java.version>
         <reactivit-version>0.0.1-SNAPSHOT</reactivit-version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+        <blockhound.version>1.0.6.RELEASE</blockhound.version>
         <resilience4j.version>1.7.1</resilience4j.version>
     </properties>
 
