@@ -12,4 +12,5 @@ import org.springframework.stereotype.Component
 class MasterProps {
     lateinit var token: String
     lateinit var master: String
+    lateinit var trusted: List<String>
 }

@@ -88,6 +88,7 @@ class MedragBot(
     }
 
     private fun isMessageFromMaster(update: Update) = update.message?.from?.userName == masterProps.master
+            || masterProps.trusted.contains(update.message?.from?.userName)
 
     private fun executeCallbackUpdate(update: Update) {
         callbacks[update.callbackPrefix()]?.executeCallback(update)?.getExecutable()?.let {
