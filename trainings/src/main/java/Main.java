@@ -5,13 +5,12 @@ import supportClasses.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.URI;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -25,7 +24,9 @@ public class Main extends Student {
 
     public static void main(String[] args) {
 
-        testMutableLong();
+//        cast();
+//        bigDecimals();
+//        testMutableLong();
 //        checkStaticFinal();
 //        forEachReturn();
 //        staticInit();
@@ -53,6 +54,39 @@ public class Main extends Student {
 
     }
 
+    private static void cast() {
+        List<Number> l1 = new ArrayList<>();
+        l1.add(1);
+        l1.add(0.5);
+        List<?> list = l1;
+        var list1 = (List<String>) list;
+        list1.add("OK");
+        var list2 = (List<Integer>) list;
+        System.out.println(list2.size());
+        final int integer = list2.get(0);
+        System.out.println(list2.get(0));
+        System.out.println(list2.get(1));
+        String ok = ((List<String>) list).get(2);
+        System.out.println(list2.get(2));
+    }
+
+    private static void bigDecimals() {
+        double d = 0.3;
+        System.out.println("double: " + d);
+        Double d2 = Double.valueOf(d);
+        System.out.println("Double: " + d2);
+        final var d3 = new BigDecimal(d);
+        final var d4 = new BigDecimal(d2);
+        final var d5 = new BigDecimal("0.3");
+        final var d6 = new BigDecimal(String.valueOf(d));
+        final var d7 = new BigDecimal(String.valueOf(d2));
+        System.out.println("BigDecimal: " + d3);
+        System.out.println("BigDecimal: " + d4);
+        System.out.println("BigDecimal: " + d5);
+        System.out.println("BigDecimal: " + d6);
+        System.out.println("BigDecimal: " + d7);
+    }
+
     @SneakyThrows
     private static void testMutableLong() {
         final MutableLong l = new MutableLong(10_000);
@@ -66,7 +100,7 @@ public class Main extends Student {
             });
         }
 
-        while (l2.get() > 0){
+        while (l2.get() > 0) {
             Thread.sleep(1000);
         }
         Thread.sleep(1000);
@@ -98,7 +132,7 @@ public class Main extends Student {
         var values = List.of(1, 2, 3, 4, 5, 6, 7);
         System.out.println("start");
         values.forEach(n -> {
-            if (n % 2 == 0) {
+            if (n % 2==0) {
                 return;
             }
             System.out.println(n);
@@ -115,6 +149,12 @@ public class Main extends Student {
 
     private static void treeMap() {
         try {
+            Map<Object, String> map1 = new TreeMap<>();
+            map1.put(new Object(), "String");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
             Map<String, String> map1 = new TreeMap<>();
             map1.put(null, "String");
             map1.get(null);
@@ -125,7 +165,7 @@ public class Main extends Student {
         Map<String, String> map = new TreeMap<>(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                if (o1 == null || o2 == null) {
+                if (o1==null || o2==null) {
                     return 0;
                 } else {
                     return new StringEncoderComparator().compare(o1, o2);
@@ -267,7 +307,7 @@ public class Main extends Student {
 
     private static void listsRuntime() {
         for (int i = 0; i < 40; i++) {
-            List<Integer> list = i % 2 == 0 ? new ArrayList<>() : new LinkedList<>();
+            List<Integer> list = i % 2==0 ? new ArrayList<>():new LinkedList<>();
             getListRuntime(list, 1000000);
         }
     }
@@ -384,13 +424,13 @@ public class Main extends Student {
 
         for (int i = 0; i < side; i++) {
             for (int j = 0; j < side; j++) {
-                if (i == 0 || i == limit) {
+                if (i==0 || i==limit) {
                     System.out.print("# ");
-                } else if (j == 0 || j == limit) {
+                } else if (j==0 || j==limit) {
                     System.out.print("# ");
-                } else if (i == j) {
+                } else if (i==j) {
                     System.out.print("# ");
-                } else if (i + j == limit) {
+                } else if (i + j==limit) {
                     System.out.print("# ");
                 } else {
                     System.out.print("  ");
@@ -412,9 +452,9 @@ public class Main extends Student {
             for (int j = 0; j < side + 1; j++) {
 
                 String s = "";
-                if (j == 0 || j == side ||
-                    i == 0 || i == side ||
-                    i == j || i + j == side) {
+                if (j==0 || j==side ||
+                        i==0 || i==side ||
+                        i==j || i + j==side) {
                     s += (i * j);
                     for (int k = 0; k < space.length(); k++) {
                         if (s.length() < space.length()) {
@@ -504,13 +544,13 @@ public class Main extends Student {
         System.out.println("a.value = " + a.value); // Fields, being called, taken from variable type.
         System.out.println("a.getValue = " + a.getValue()); // Methods, being called, invoked from real object type.
         System.out.println("a.getPrivateValue = " +
-            a.getPrivateValue()); // Private methods, being called, called from variable type (later bounding doesn't work with private methods)
+                a.getPrivateValue()); // Private methods, being called, called from variable type (later bounding doesn't work with private methods)
 
         System.out.println("(Descendant1) a).value = " + ((Descendant1) a).value);  // Fields, being called, taken from variable type.
         System.out.println(
-            "(Descendant1) a).getValue = " + ((Descendant1) a).getValue());  // Methods, being called, invoked from real object type.
+                "(Descendant1) a).getValue = " + ((Descendant1) a).getValue());  // Methods, being called, invoked from real object type.
         System.out.println("(Descendant1) a).getPrivateValue = " +
-            ((Descendant1) a).getPrivateValue());    // CASTING MATTERS!! If this private method would not be overridden in descendant, it could not be invoked!
+                ((Descendant1) a).getPrivateValue());    // CASTING MATTERS!! If this private method would not be overridden in descendant, it could not be invoked!
 
         System.out.println("=============");
         Descendant1 d = new Descendant1();
@@ -521,9 +561,9 @@ public class Main extends Student {
 
         System.out.println("(Ancestor) d).value = " + ((Ancestor) d).value);  // Fields, being called, taken from variable type.
         System.out.println(
-            "(Ancestor) d).getValue = " + ((Ancestor) d).getValue());  // Methods, being called, invoked from real object type.
+                "(Ancestor) d).getValue = " + ((Ancestor) d).getValue());  // Methods, being called, invoked from real object type.
         System.out.println("(Ancestor) d).getPrivateValue = " +
-            ((Ancestor) d).getPrivateValue());    // CASTING MATTERS!! Here we invoke ancestor's private method.
+                ((Ancestor) d).getPrivateValue());    // CASTING MATTERS!! Here we invoke ancestor's private method.
 
         try {
             Ancestor a2 = new Ancestor();
