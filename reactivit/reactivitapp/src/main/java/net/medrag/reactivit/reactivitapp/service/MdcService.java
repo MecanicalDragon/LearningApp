@@ -92,10 +92,7 @@ public class MdcService {
 
     public Disposable doAsync(String name) {
         return Mono.deferContextual(ctx -> {
-                MdcUtils.logWithMdc(ctx, () -> log.info(
-                    "CHECK OLOLO for name {}",
-                    name
-                ));
+                MdcUtils.logWithMdc(ctx, () -> log.info("CHECK OLOLO for name {}", name));
                 return Mono.just("OLOLO")
                     .subscribeOn(Schedulers.boundedElastic());
             })

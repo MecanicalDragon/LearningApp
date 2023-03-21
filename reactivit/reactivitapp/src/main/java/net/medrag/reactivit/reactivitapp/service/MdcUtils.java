@@ -13,7 +13,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * Utils to wrap code for MDC logging. Functions, presented here, fill MDC with values from {@link ContextView}, execute accepted functional
+ * Utils to wrap code for MDC logging.
+ * Functions, presented here, fill MDC with values from {@link ContextView}, execute accepted functional
  * interface, and then clear MDC. To make this utils work, code must be wrapped with {@link Mono#deferContextual(Function)} function.
  * <p>
  * Template for Intellij IDEA: `return Mono.deferContextual(ctx -> { $SELECTION$ });`
@@ -29,28 +30,38 @@ public final class MdcUtils {
     private static final String REACTOR_ON_DISCARD_LOCAL = "reactor.onDiscard.local";
 
     public static <T> Consumer<Signal<T>> logOnNext(Consumer<T> consumer) {
+        return logOnNext(Boolean.TRUE::booleanValue, consumer);
+    }
+
+    public static <T> Consumer<Signal<T>> logOnNext(BooleanSupplier level, Consumer<T> consumer) {
         return signal -> {
-            if (signal.isOnNext()) {
-                try {
-                    fillMdcContext(signal.getContextView());
-                    consumer.accept(signal.get());
-                } finally {
-                    MDC.clear();
-                }
+            if (signal.isOnNext() && level.getAsBoolean()) {
+                acceptConsumer(signal.getContextView(), signal.get(), consumer);
             }
         };
     }
 
     public static <T> Consumer<Signal<T>> logOnError(Consumer<Throwable> consumer) {
+        return logOnError(Boolean.TRUE::booleanValue, consumer);
+    }
+
+    public static <T> Consumer<Signal<T>> logOnError(BooleanSupplier level, Consumer<Throwable> consumer) {
         return signal -> {
-            if (signal.isOnError()) {
-                try {
-                    fillMdcContext(signal.getContextView());
-                    consumer.accept(signal.getThrowable());
-                } finally {
-                    MDC.clear();
-                }
+            if (signal.isOnError() && level.getAsBoolean()) {
+                acceptConsumer(signal.getContextView(), signal.getThrowable(), consumer);
             }
+        };
+    }
+
+    public static <T> Consumer<Signal<T>> logOnEach(
+        BooleanSupplier onNextLevel,
+        Consumer<T> onNextConsumer,
+        BooleanSupplier onErrorLevel,
+        Consumer<Throwable> onErrorConsumer
+    ) {
+        return signal -> {
+            logOnNext(onNextLevel, onNextConsumer);
+            logOnError(onErrorLevel, onErrorConsumer);
         };
     }
 
@@ -76,6 +87,21 @@ public final class MdcUtils {
      */
     public static Context enrichContext(Context context, String mdcKey, Object mdcValue) {
         return mdcKey != null && mdcValue != null ? context.put(mdcKey, String.valueOf(mdcValue)) : context;
+    }
+
+    public static Context enrichContext(final Context context, final String... keysAndValues) {
+        if (keysAndValues == null || keysAndValues.length % 2 != 0) {
+            return context;
+        }
+        var appendableContext = context;
+        for (int i = 0; i < keysAndValues.length; i += 2) {
+            Object mdcKey = keysAndValues[i];
+            Object mdcValue = keysAndValues[i + 1];
+            if (mdcKey != null && mdcValue != null) {
+                appendableContext = appendableContext.put(String.valueOf(mdcKey), String.valueOf(mdcValue));
+            }
+        }
+        return appendableContext;
     }
 
     public static Context enrichContext(Context context, RequestDto dto) {
@@ -126,12 +152,7 @@ public final class MdcUtils {
      */
     public static void logWithMdc(ContextView context, BooleanSupplier level, Runnable runnable) {
         if (level.getAsBoolean()) {
-            try {
-                fillMdcContext(context);
-                runnable.run();
-            } finally {
-                MDC.clear();
-            }
+            logWithMdc(context, runnable);
         }
     }
 
@@ -220,12 +241,7 @@ public final class MdcUtils {
      * </pre>
      */
     public static <R> R valueWithMdc(ContextView context, Supplier<R> supplier) {
-        try {
-            fillMdcContext(context);
-            return supplier.get();
-        } finally {
-            MDC.clear();
-        }
+        return getFromSupplier(context, supplier);
     }
 
     /**
@@ -246,12 +262,7 @@ public final class MdcUtils {
      * </pre>
      */
     public static <R> Mono<R> monoWithMdc(ContextView context, Supplier<Mono<R>> supplier) {
-        try {
-            fillMdcContext(context);
-            return supplier.get();
-        } finally {
-            MDC.clear();
-        }
+        return getFromSupplier(context, supplier);
     }
 
     /**
@@ -310,6 +321,15 @@ public final class MdcUtils {
         try {
             fillMdcContext(context);
             consumer.accept(t);
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    private static <T> T getFromSupplier(ContextView context, Supplier<? extends T> supplier) {
+        try {
+            fillMdcContext(context);
+            return supplier.get();
         } finally {
             MDC.clear();
         }
