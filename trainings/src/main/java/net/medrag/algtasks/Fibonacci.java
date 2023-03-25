@@ -1,13 +1,12 @@
 package net.medrag.algtasks;
 
 /**
- * //Implement the function that calculates nth Fibonacci number
- * //f(n) = f(n-1) + f(n-2)
- * //f(0) = 0
- * //f(1) = 1
- * //f(2) = 1
- * //f(3) = 2
- * //0,1,1,2,3,5,8,13,...
+ * Implement the function that calculates nth Fibonacci number.
+ * <p>
+ * f(n) = f(n-1) + f(n-2)
+ * f(0) = 0; f(1) = 1; f(2) = 1; f(3) = 2 ... f(10) = 55
+ * Fibonacci row:
+ * 0,1,1,2,3,5,8,13,21,34,55...
  *
  * @author Stanislav Tretyakov
  * 05.04.2022
@@ -15,7 +14,7 @@ package net.medrag.algtasks;
 public class Fibonacci {
 
     public static void main(String[] args) {
-        int n = 30;
+        int n = 15;
 
         System.out.println(fibonacciRecursive(n));
         System.out.println(fibonacciInt(n));

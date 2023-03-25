@@ -53,13 +53,13 @@ fun findCelebrity(people: List<Person>): Person? {
     // remove from consideration people, who can't be celebrity (if person knows another one - he's not a celebrity.
     // If person doesn't know another one - another one can not be celebrity.) - O(n)
     while (i != j) {
-        if (people[i]?.doesKnow(people[j])) {
+        if (people[i].doesKnow(people[j])) {
             i++
         } else {
             j--
         }
     }
-    // check the last remaining candidate for for celebrity conditions - O(n)
+    // check the last remaining candidate for celebrity conditions - O(n)
     for (k in 0..people.lastIndex) {
         if (k != i && (!people[k].doesKnow(people[i]) || people[i].doesKnow(people[k]))) {
             return null
