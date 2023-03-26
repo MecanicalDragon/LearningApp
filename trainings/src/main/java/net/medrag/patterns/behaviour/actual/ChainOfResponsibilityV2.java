@@ -1,4 +1,4 @@
-package net.medrag.patterns.behaviour;
+package net.medrag.patterns.behaviour.actual;
 
 /**
  * {@author} Stanislav Tretyakov

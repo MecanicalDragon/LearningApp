@@ -1,4 +1,4 @@
-package net.medrag.patterns.behaviour;
+package net.medrag.patterns.behaviour.actual;
 
 /**
  * {@author} Stanislav Tretyakov
@@ -34,53 +34,72 @@ package net.medrag.patterns.behaviour;
  * Клиенты контекста должны подавать в него соответствующий объект-стратегию, когда хотят, чтобы контекст вёл себя
  * определённым образом.
  */
-public class StrategyV2 {
+public class Strategy {
+
     public static void main(String[] args) {
-
-        int a = 30, b = 6;
-
-        int result1 = new CalculatorClass().calculate(a, b,new Adder());
-        int result2 = new CalculatorClass().calculate(a, b,new Divider());
-
-        System.out.println(result1);
-        System.out.println(result2);
+        Navigator navigator = new Navigator();
+        navigator.findTheWay("Piter", "Moscow", new RailRoadPathFinder());
     }
 }
 
-class CalculatorClass {
-    int calculate(int x, int y, Calculator calculator) {
-        return calculator.doTheCalculation(x, y);
+class Navigator {
+    void findTheWay(String departure, String destination, PathFinder strategy) {
+        Path path = strategy.find();
+        path.travel(departure, destination);
     }
 }
 
-interface Calculator {
-    int doTheCalculation(int x, int y);
+interface Path {
+    void travel(String departure, String destination);
 }
 
-class Adder implements Calculator {
+class SeaPath implements Path {
     @Override
-    public int doTheCalculation(int x, int y) {
-        return x + y;
+    public void travel(String departure, String destination) {
+        System.out.println(String.format("Travelling form %s to %s by the sea", departure, destination));
     }
 }
 
-class Divider implements Calculator {
+class RoadPath implements Path {
     @Override
-    public int doTheCalculation(int x, int y) {
-        return x / y;
+    public void travel(String departure, String destination) {
+        System.out.println(String.format("Travelling form %s to %s by the roads", departure, destination));
     }
 }
 
-class Multiplier implements Calculator {
+class RailRoadPath implements Path {
     @Override
-    public int doTheCalculation(int x, int y) {
-        return x + y;
+    public void travel(String departure, String destination) {
+        System.out.println(String.format("Travelling form %s to %s by the railroads", departure, destination));
     }
 }
 
-class Substractor implements Calculator {
+/**
+ * Strategy interface
+ */
+interface PathFinder {
+    Path find();
+}
+
+class SeaPathFinder implements PathFinder {
     @Override
-    public int doTheCalculation(int x, int y) {
-        return x - y;
+    public Path find() {
+        return new SeaPath();
     }
 }
+
+class RoadPathFinder implements PathFinder {
+    @Override
+    public Path find() {
+        return new RoadPath();
+    }
+}
+
+class RailRoadPathFinder implements PathFinder {
+    @Override
+    public Path find() {
+        return new RailRoadPath();
+    }
+}
+
+

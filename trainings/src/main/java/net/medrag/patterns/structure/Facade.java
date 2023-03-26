@@ -56,8 +56,6 @@ class TextGrammarChecker {
 class ImageDecorator {
     void decorateImage(Image image) {
     }
-
-    ;
 }
 
 class TheWall {

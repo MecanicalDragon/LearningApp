@@ -1,10 +1,11 @@
-package net.medrag.patterns.behaviour;
+package net.medrag.patterns.behaviour.actual;
 
 /**
  * {@author} Stanislav Tretyakov
  * 29.01.2020
  * <p>
  * Allows to do some action with different ways, basing on implementor class.
+ * It especially makes sense it different strategies depend on different parameters.
  * Use it when:
  * > you need to apply different algorithm implementations within single object.
  * > you've got a lot of similar classes, that differ with some behaviour.
@@ -34,72 +35,70 @@ package net.medrag.patterns.behaviour;
  * Клиенты контекста должны подавать в него соответствующий объект-стратегию, когда хотят, чтобы контекст вёл себя
  * определённым образом.
  */
-public class Strategy {
-
+public class StrategyV2 {
     public static void main(String[] args) {
-        Navigator navigator = new Navigator();
-        navigator.findTheWay("Piter", "Moscow", new RailRoadPathFinder());
+
+        int result1 = new CalculatorClass().calculate(new Adder(30, 6));
+        int result2 = new CalculatorClass().calculate(new FactorialFinder(5));
+
+        System.out.println(result1);
+        System.out.println(result2);
     }
 }
 
-class Navigator {
-    void findTheWay(String departure, String destination, PathFinder strategy) {
-        Path path = strategy.find();
-        path.travel(departure, destination);
+class CalculatorClass {
+    int calculate(Calculator calculator) {
+        return calculator.doTheCalculation();
     }
 }
 
-interface Path {
-    void travel(String departure, String destination);
+interface Calculator {
+    int doTheCalculation();
 }
 
-class SeaPath implements Path {
+class Adder implements Calculator {
+    int addendum1;
+    int addendum2;
+
+    public Adder(int addendum1, int addendum2) {
+        this.addendum1 = addendum1;
+        this.addendum2 = addendum2;
+    }
+
     @Override
-    public void travel(String departure, String destination) {
-        System.out.println(String.format("Travelling form %s to %s by the sea", departure, destination));
+    public int doTheCalculation() {
+        return addendum1 + addendum2;
     }
 }
 
-class RoadPath implements Path {
+class Divider implements Calculator {
+    int dividend;
+    int divider;
+
+    public Divider(int dividend, int divider) {
+        this.dividend = dividend;
+        this.divider = divider;
+    }
+
     @Override
-    public void travel(String departure, String destination) {
-        System.out.println(String.format("Travelling form %s to %s by the roads", departure, destination));
+    public int doTheCalculation() {
+        return dividend / divider;
     }
 }
 
-class RailRoadPath implements Path {
+class FactorialFinder implements Calculator {
+    int number;
+
+    public FactorialFinder(int number) {
+        this.number = number;
+    }
+
     @Override
-    public void travel(String departure, String destination) {
-        System.out.println(String.format("Travelling form %s to %s by the railroads", departure, destination));
+    public int doTheCalculation() {
+        int result = 1;
+        for (int i = 2; i <= number; i++) {
+            result *= i;
+        }
+        return result;
     }
 }
-
-/**
- * Strategy interface
- */
-interface PathFinder {
-    Path find();
-}
-
-class SeaPathFinder implements PathFinder {
-    @Override
-    public Path find() {
-        return new SeaPath();
-    }
-}
-
-class RoadPathFinder implements PathFinder {
-    @Override
-    public Path find() {
-        return new RoadPath();
-    }
-}
-
-class RailRoadPathFinder implements PathFinder {
-    @Override
-    public Path find() {
-        return new RailRoadPath();
-    }
-}
-
-

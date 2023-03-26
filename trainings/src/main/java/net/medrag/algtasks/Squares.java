@@ -3,6 +3,9 @@ package net.medrag.algtasks;
 import java.util.Arrays;
 
 /**
+ * The objective is to build an array of squares in ascending order.
+ * The task is solved for O(n) runtime complexity.
+ *
  * @author Stanislav Tretyakov
  * 31.03.2022
  */
@@ -18,9 +21,8 @@ public class Squares {
             return new long[0];
         }
 
-        int leftPointer = 0, rightPointer = source.length - 1;
+        int leftPointer = 0, rightPointer = source.length - 1, resultPointer = source.length - 1;
         long[] result = new long[source.length];
-        int resultPointer = source.length - 1;
         while (leftPointer <= rightPointer) {
             int currentLeft = source[leftPointer];
             int currentRight = source[rightPointer];

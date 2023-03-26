@@ -120,7 +120,7 @@ public class StringMultiplier {
                 while (i >= 0 && Character.isDigit(chars[i])) {
                     numberBuilder.insert(0, chars[i--]);
                 }
-                multiplier = numberBuilder.isEmpty() ? 1:Integer.parseInt(numberBuilder.toString());
+                multiplier = numberBuilder.isEmpty() ? 1 : Integer.parseInt(numberBuilder.toString());
                 if (i >= 0) {
                     i++;
                 }
@@ -150,9 +150,12 @@ public class StringMultiplier {
         System.out.println();
     }
 
+    //TODO: must be fixed to return char[] with result.
     public static void printRecursively(String string) {
-        printChars(string.toCharArray(), 0, 1);
-        System.out.println();
+        final var result = new char[1][0];
+        result[0] = new char[0];
+        transform(string.toCharArray(), 0, 1, result, new int[1]);
+        System.out.println(String.valueOf(result[0]));
     }
 
     /**
@@ -161,18 +164,17 @@ public class StringMultiplier {
      * @param chars      - char array.
      * @param start      - starting index in char array.
      * @param multiplier - how many times to process this array.
-     * @return - index of last processed char in char array.
      */
-    private static int printChars(char[] chars, int start, int multiplier) {
-        int toReturn = 0;
+    private static void transform(char[] chars, int start, int multiplier, char[][] result, int[] index) {
         for (int m = 0; m < multiplier; m++) {
+            //TODO: must be cached and then just multiplied.
             for (int i = start; i < chars.length; i++) {
                 char currentChar = chars[i];
                 if (currentChar == ')') {
                     // we met closing parenthesis, that means, we should not process char array further.
                     // we need to return it to invocation place to proceed with next char.
                     // but first we need to process this chunk <multiplier> times.
-                    toReturn = i;
+                    index[0] = i;
                     break;
                 } else if (Character.isDigit(currentChar)) {
                     // build multi-digit number
@@ -185,20 +187,32 @@ public class StringMultiplier {
                     final int m2 = Integer.parseInt(numBuilder.toString());
                     if (chars[i] == '(') {
                         // we need to multiply chunk <m2> times. Do recursive call.
-                        i = printChars(chars, i + 1, m2);
+                        transform(chars, i + 1, m2, result, index);
+                        i = index[0];
                     } else {
                         // we need to multiply digit. Just process it <m2> times.
+                        char[] temp = new char[m2];
                         for (int k = 0; k < m2; k++) {
-                            System.out.print(chars[i]); // process output
+                            temp[k] = chars[i];
                         }
+                        result[0] = concat(result[0], temp);
                     }
                 } else {
-                    // char is letter. We can just process it.
-                    System.out.print(currentChar); // process output
+                    result[0] = concat(result[0], new char[]{currentChar});
                 }
             }
         }
-        return toReturn;
+    }
+
+    private static char[] concat(char[] a, char[] b) {
+        char[] result = new char[a.length + b.length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = a[i];
+        }
+        for (int i2 = a.length, i3 = 0; i2 < a.length + b.length; i2++, i3++) {
+            result[i2] = b[i3];
+        }
+        return result;
     }
 
     public static void printRecursively2(String string) {

@@ -4,10 +4,8 @@ package net.medrag.algtasks
  * In this task we have a field of cells and a point on it with coordinates(m,n).
  * Also, we have a robot, that can move over this field, but only in top or right directions.
  * Initially, robot stands in cell with coordinates(0,0).
- * This task is about to find number of unique paths which robot can reach the point.
- */
-
-/**
+ * The objective is to find number of unique paths which robot can reach the point.
+ *
  * Solution implies that for every cell(m:n) following is true:
  * - paths(m,n) = paths(m-1,n) + paths(m,n-1)
  * - paths(x,0) = paths(0,x) = 1
@@ -34,13 +32,32 @@ fun cachedPaths(m: Int, n: Int, cache: Array<IntArray>): Int {
     return cache[m - 1][n - 1]
 }
 
+/**
+ * To avoid recursive calls we can do it in the stack. Runtime complexity is O(n*m)
+ */
+fun pathsInCycle(m: Int, n: Int): Int {
+    val cache = Array(m) { IntArray(n) }
+    for (i in 0..m - 1) {
+        cache[i][0] = 1
+    }
+    for (i in 0..n - 1) {
+        cache[0][i] = 1
+    }
+    for (i in 1..m - 1) {
+        for (j in 1..n - 1) {
+            cache[i][j] = cache[i - 1][j] + cache[i][j - 1]
+            cycled++
+        }
+    }
+    return cache[m - 1][n - 1]
+}
+
 fun main(args: Array<String>) {
     val m = 5
     val n = 5
     println("Number of paths for O(2^n+m) is ${pathsToCoordinates(m, n)}, computations = $plainComputations}.")
-    println(
-        "Number of paths for O(n*m) is ${cachedPaths(m, n, Array(m) { IntArray(n) })}, computations = $computations}."
-    )
+    println("Number of paths for O(n*m) is ${cachedPaths(m, n, Array(m) { IntArray(n) })}, computations = $computations}.")
+    println("Number of paths in cycle is ${pathsInCycle(m, n)}, computations = $cycled}.")
     val x = (Math.random() * 100).toInt() - 50
     val y = (Math.random() * 100).toInt() - 50
     Robot(x, y).computePathsTo(x + m, y + n)
@@ -48,6 +65,7 @@ fun main(args: Array<String>) {
 
 var plainComputations = 0
 var computations = 0
+var cycled = 0
 
 class Robot(val x: Int, val y: Int) {
     fun computePathsTo(x: Int, y: Int) {

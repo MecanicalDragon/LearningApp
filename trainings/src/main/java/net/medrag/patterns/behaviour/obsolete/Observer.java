@@ -1,4 +1,4 @@
-package net.medrag.patterns.behaviour;
+package net.medrag.patterns.behaviour.obsolete;
 
 import java.util.ArrayList;
 import java.util.List;
