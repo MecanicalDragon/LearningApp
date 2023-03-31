@@ -18,7 +18,7 @@ import java.util.Deque;
  * @author Stanislav Tretyakov
  * 09.02.2022
  */
-public class StringMultiplier {
+public class StringDecompression {
 
     private static String[] STRINGS = {
             "ag",

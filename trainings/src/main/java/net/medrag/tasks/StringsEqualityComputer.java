@@ -10,11 +10,13 @@ package net.medrag.tasks;
 public class StringsEqualityComputer {
 
     boolean compute(String a, String b) {
+        if (a == b) return true;
         if (a == null || b == null) return false;
-        if (a.length() == b.length()) {
+        int difference = Math.abs(a.length() - b.length());
+        if (difference > 1) return false;
+        if (difference == 0) {
             return computeForEqualLength(a, b);
         } else {
-            if (Math.abs(a.length() - b.length()) > 1) return false;
             if (a.length() < b.length()) {
                 return computeForNonEqualLength(a, b);
             } else return computeForNonEqualLength(b, a);

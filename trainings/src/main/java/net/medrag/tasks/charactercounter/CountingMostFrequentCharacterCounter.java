@@ -5,6 +5,9 @@ package net.medrag.tasks.charactercounter;
  * 07.02.2022
  */
 public class CountingMostFrequentCharacterCounter extends MostFrequentCharacterCounter{
+
+    private final int[] abc = new int[26];
+
     public CountingMostFrequentCharacterCounter(String string) {
         super(string);
     }

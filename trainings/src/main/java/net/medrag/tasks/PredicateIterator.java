@@ -1,6 +1,7 @@
 package net.medrag.tasks;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 /**
@@ -12,6 +13,7 @@ public class PredicateIterator<E> implements Iterator<E> {
     private final Iterator<E> iterator;
     private final Predicate<E> predicate;
     private E next;
+    private boolean nextComputed = false;
 
     public PredicateIterator(Iterable<E> innerCollection, Predicate<E> predicate) {
         this.iterator = innerCollection.iterator();
@@ -20,18 +22,34 @@ public class PredicateIterator<E> implements Iterator<E> {
 
     @Override
     public boolean hasNext() {
-        while (iterator.hasNext()) {
-            E e = iterator.next();
-            if (predicate.test(e)) {
-                this.next = e;
-                return true;
-            }
+        if (nextComputed) {
+            return this.next != null;
         }
-        return false;
+        computeNext();
+        return this.next != null;
     }
 
     @Override
     public E next() {
-        return next;
+        if (!nextComputed) {
+            computeNext();
+        }
+        if (this.next == null) {
+            throw new NoSuchElementException();
+        }
+        this.nextComputed = false;
+        return this.next;
+    }
+
+    private void computeNext() {
+        this.nextComputed = true;
+        while (iterator.hasNext()) {
+            E e = iterator.next();
+            if (predicate.test(e)) {
+                this.next = e;
+                return;
+            }
+        }
+        this.next = null;
     }
 }
