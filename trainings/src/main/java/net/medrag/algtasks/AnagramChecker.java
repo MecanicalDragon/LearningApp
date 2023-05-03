@@ -21,6 +21,12 @@ public class AnagramChecker {
         }
     }
 
+    /**
+     * Counting sort usage.
+     * <p>
+     * Runtime complexity: O(n)
+     * Memory consumption: O(1) (O(k), but since k is constant = 26, O(n))
+     */
     private static boolean isAnagram(String a, String b) {
         if (a == b) return true;
         if (a == null || b == null) return false;

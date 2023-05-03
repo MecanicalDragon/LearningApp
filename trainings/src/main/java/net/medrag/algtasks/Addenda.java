@@ -23,6 +23,8 @@ public class Addenda {
     }
 
     /**
+     * HashMap usage.
+     * <p>
      * O(n) runtime complexity
      * O(n) memory complexity
      */
@@ -39,7 +41,7 @@ public class Addenda {
     }
 
     /**
-     * Works for sorted array only.
+     * Binary search usage. Works for sorted array only.
      * <p>
      * O(n*log_n) runtime complexity
      * O(1) memory complexity
@@ -64,7 +66,7 @@ public class Addenda {
     }
 
     /**
-     * Works for sorted array only.
+     * Two pointers usage. Works for sorted array only.
      * <p>
      * O(n) runtime complexity
      * O(1) memory complexity

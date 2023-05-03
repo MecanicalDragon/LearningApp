@@ -15,12 +15,17 @@ public class Fibonacci {
 
     public static void main(String[] args) {
         int n = 15;
-
         System.out.println(fibonacciRecursive(n));
         System.out.println(fibonacciInt(n));
     }
 
-    //O(2^n) + O(2^n)
+    /**
+     * Using brute force recursive approach.
+     * <p>
+     * Runtime complexity: O(2^n).
+     * Since leaves of each tree work for O(1), the real runtime complexity is O(1.6^2)
+     * Memory consumption: O(n).
+     */
     static int fibonacciRecursive(int n) {
         if (n <= 0) {
             return 0;
@@ -31,7 +36,12 @@ public class Fibonacci {
         }
     }
 
-    //O(n) + O(1)
+    /**
+     * Using dynamic programming (caching).
+     * <p>
+     * Runtime complexity: O(n).
+     * Memory consumption: O(1).
+     */
     static int fibonacciInt(int n) {
         if (n <= 0) {
             return 0;

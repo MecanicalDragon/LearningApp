@@ -1,10 +1,21 @@
 package net.medrag.algtasks;
 
 /**
+ * Find unique number (symbol) in an array of paired numbers (symbols).
+ * <p>
+ * XOR of number and 0 gives the same number.
+ * XOR of number and the same number gives 0.
+ * XOR is commutative and associative.
+ * <p>
+ * A commutative operation is a mathematical operation that can be applied to two operands,
+ * and the order of the operands does not affect the final result.
+ * An associative operation is a mathematical operation that can be applied to three or more operands,
+ * and the order of the grouping of the operands does not affect the final result.
+ *
  * @author Stanislav Tretyakov
  * 30.03.2023
  */
-public class UniqueLookup {
+public class BitwiseUniqueLookup {
     private static int[] SOURCE_1 = new int[]{1, 0, 3, 42, 7, 8, 16, 845, 0, 845, 8, 16, 7, 3, 1}; // 42
     private static String SOURCE_2 = "abxceqxcqxaeb"; // x
     private static String[] SOURCE_3 = new String[]{"abba", "cat", "chunk", "cat", "bolt", "chunk", "abba"};
@@ -15,6 +26,12 @@ public class UniqueLookup {
         System.out.println(unique(SOURCE_3));
     }
 
+    /**
+     * Using XOR approach.
+     * <p>
+     * Runtime complexity: O(n).
+     * Memory consumption: O(1).
+     */
     private static int unique(int[] source) {
         int temp = source[0];
         for (int i = 1; i < source.length; i++) {
@@ -23,6 +40,12 @@ public class UniqueLookup {
         return temp;
     }
 
+    /**
+     * Using XOR approach.
+     * <p>
+     * Runtime complexity: O(n).
+     * Memory consumption: O(1).
+     */
     private static char unique(String string) {
         final var source = string.toCharArray();
         int temp = source[0];
@@ -32,8 +55,10 @@ public class UniqueLookup {
         return (char) temp;
     }
 
-    /*
-    For strings this approach is useless: it takes O(n*k) of Runtime complexity. It is much easier to brute force this array for O(n^2).
+    /**
+     * For strings this approach is considerable: it takes O(n*k) of Runtime complexity and O(k) of memory consumption where k is max String length.
+     * So, if k is significantly smaller than n, it makes sense to use this approach.
+     * If not, hash map usage with O(n) of runtime and memory consumption is preferable.
      */
     private static String unique(String[] source) {
         var cache = source[0].toCharArray();
