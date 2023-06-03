@@ -17,8 +17,8 @@
     <description>Telegram Bot Template</description>
 
     <properties>
-        <java.version>11</java.version>
-        <kotlin.version>1.5.21</kotlin.version>
+        <java.version>17</java.version>
+        <kotlin.version>1.8.21</kotlin.version>
         <telegram.version>5.3.0</telegram.version>
     </properties>
 
@@ -155,6 +155,14 @@
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

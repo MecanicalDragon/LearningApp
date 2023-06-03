@@ -76,6 +76,7 @@ class MedragBot(
             logger.info("downloaded: ${file.absolutePath}")
         } catch (e: TelegramApiRequestException) {
             logger.error { "Media file failed to download. Reason: $e" }
+            throw e
         }
     }
 

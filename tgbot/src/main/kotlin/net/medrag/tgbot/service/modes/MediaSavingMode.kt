@@ -25,8 +25,13 @@ class MediaSavingMode(
             logger.info { "Save location has been set to <$it>." }
         }
         saveMediaHandlingService.handleMedia(update.message)?.let {
-            botInteractor.downloadMedia(it)
-            botInteractor.respond(update, "downloaded")
+            val respMessage = try {
+                botInteractor.downloadMedia(it)
+                "downloaded"
+            } catch (e: Exception) {
+                e.message ?: "error"
+            }
+            botInteractor.respond(update, respMessage)
         }
     }
 

@@ -5,6 +5,7 @@ import net.medrag.tgbot.service.BotInteractor
 import net.medrag.tgbot.util.chatIdFromMessage
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto
 import org.telegram.telegrambots.meta.api.objects.InputFile
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -12,7 +13,7 @@ import java.nio.file.Files
 import java.nio.file.NoSuchFileException
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
-import kotlin.streams.toList
+import kotlin.io.path.name
 
 /**
  * @author Stanislav Tretyakov
@@ -59,11 +60,20 @@ class SortingMode(
                 current = iterator.next()
             }
             if (!current.isDirectory()) {
-                SendPhoto().apply {
-                    chatId = update.chatIdFromMessage()
-                    photo = InputFile(current.toFile())
-                }.also {
-                    botInteractor.getSender().execute(it)
+                if (current.name.endsWith(".gif")) {
+                    SendAnimation().apply {
+                        chatId = update.chatIdFromMessage()
+                        animation = InputFile(current.toFile())
+                    }.also {
+                        botInteractor.getSender().execute(it)
+                    }
+                } else {
+                    SendPhoto().apply {
+                        chatId = update.chatIdFromMessage()
+                        photo = InputFile(current.toFile())
+                    }.also {
+                        botInteractor.getSender().execute(it)
+                    }
                 }
             }
         }
