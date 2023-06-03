@@ -12,7 +12,13 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Stanislav Tretiakov
  * 05.05.2023
  */
-public final class MaxStack<T extends Comparable<T>> {
+public interface MaxStack<T extends Comparable<T>>{
+    T pop();
+    void push(T element);
+    T max();
+}
+
+class SimpleMaxStack<T extends Comparable<T>> implements MaxStack<T> {
 
     private static class Node<T> {
         private final T element;
@@ -60,7 +66,7 @@ public final class MaxStack<T extends Comparable<T>> {
     }
 }
 
-final class ConcurrentMaxStack<T extends Comparable<T>> {
+class ConcurrentMaxStack<T extends Comparable<T>> implements MaxStack<T> {
 
     private static class Node<T> {
         private final T element;

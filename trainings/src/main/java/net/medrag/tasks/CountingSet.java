@@ -18,7 +18,13 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Stanislav Tretiakov
  * 02.05.2023
  */
-public final class CountingSet<T> {
+public interface CountingSet<T>{
+    void add(T element);
+    void delete(T element);
+    T getUnique();
+}
+
+class SimpleCountingSet<T> implements CountingSet<T> {
     private final Map<T, Counter> innerStorage = new HashMap<>();
     private final Set<T> unique = new HashSet<>();
 
@@ -90,11 +96,10 @@ public final class CountingSet<T> {
     }
 }
 
-final class ConcurrentCountingSet<T> {
+class ConcurrentCountingSet<T> implements CountingSet<T> {
     private final ConcurrentMap<T, Integer> innerStorage = new ConcurrentHashMap<>();
     private final ConcurrentMap<T, T> unique = new ConcurrentHashMap<>();
-
-    private AtomicReference<T> cachedUnique = new AtomicReference<>(null);
+    private final AtomicReference<T> cachedUnique = new AtomicReference<>(null);
 
     public void add(T element) {
         innerStorage.compute(element, (key, counter) -> {
