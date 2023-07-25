@@ -29,7 +29,7 @@ class MediaSavingMode(
                 botInteractor.downloadMedia(it)
                 "downloaded"
             } catch (e: Exception) {
-                e.message ?: "error"
+                e.message ?: e.toString()
             }
             botInteractor.respond(update, respMessage)
         }
