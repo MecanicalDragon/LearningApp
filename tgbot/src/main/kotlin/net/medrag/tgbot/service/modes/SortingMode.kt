@@ -22,11 +22,13 @@ import kotlin.io.path.name
 @Component
 class SortingMode(
     @Value("\${net.medrag.tg.bot.sorting.dir}")
-    private val sortingDir: String
+    private val sortingDir: String,
+    @Value("\${net.medrag.tg.bot.preservation.dir}")
+    private val preservationDir: String
 ) : BotMode {
 
-    private val source: Path = Path.of(sortingDir + "source/")
-    private val output: Path = Path.of(sortingDir + "output/")
+    private val source: Path = Path.of(sortingDir)
+    private val output: Path = Path.of(preservationDir)
     lateinit var media: List<Path>
     lateinit var current: Path
     lateinit var iterator: Iterator<Path>

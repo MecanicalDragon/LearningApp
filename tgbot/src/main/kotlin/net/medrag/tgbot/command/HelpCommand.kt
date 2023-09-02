@@ -1,5 +1,6 @@
 package net.medrag.tgbot.command
 
+import jakarta.annotation.PostConstruct
 import net.medrag.tgbot.util.idString
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -7,7 +8,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Chat
 import org.telegram.telegrambots.meta.api.objects.User
 import org.telegram.telegrambots.meta.bots.AbsSender
-import javax.annotation.PostConstruct
 
 /**
  * @author Stanislav Tretyakov

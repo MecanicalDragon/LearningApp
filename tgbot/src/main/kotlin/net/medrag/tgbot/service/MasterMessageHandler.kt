@@ -1,11 +1,11 @@
 package net.medrag.tgbot.service
 
+import jakarta.annotation.PostConstruct
 import mu.KotlinLogging
 import net.medrag.tgbot.service.modes.BotMode
 import net.medrag.tgbot.service.modes.MasterMode
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.objects.Update
-import javax.annotation.PostConstruct
 
 /**
  * @author Stanislav Tretyakov

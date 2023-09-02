@@ -1,5 +1,6 @@
 package net.medrag.tgbot.service
 
+import jakarta.annotation.PostConstruct
 import mu.KotlinLogging
 import net.medrag.tgbot.callback.CallbackExecutor
 import net.medrag.tgbot.command.AbstractCommand
@@ -16,7 +17,6 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.bots.AbsSender
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
-import javax.annotation.PostConstruct
 
 /**
  * @author Stanislav Tretyakov

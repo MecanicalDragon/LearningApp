@@ -1,11 +1,11 @@
 package net.medrag.tgbot.service.mediasaving
 
+import jakarta.annotation.PostConstruct
 import net.medrag.tgbot.model.mediasaving.SaveMediaInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.objects.Message
 import java.util.concurrent.atomic.AtomicReference
-import javax.annotation.PostConstruct
 
 /**
  * @author Stanislav Tretyakov
