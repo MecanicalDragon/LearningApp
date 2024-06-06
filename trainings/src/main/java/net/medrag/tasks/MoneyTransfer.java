@@ -35,6 +35,8 @@ public class MoneyTransfer {
                 if (reference.get() != null) {
                     ACTIVE_TRANSACTIONS.remove(transaction);
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             } catch (Exception ignored) {
             }
         }
@@ -79,17 +81,17 @@ public class MoneyTransfer {
         }
         return true;
     }
-}
 
-final class Reference<T> {
-    private T object = null;
+    private static final class Reference<T> {
+        private T object = null;
 
-    T get() {
-        return object;
-    }
+        T get() {
+            return object;
+        }
 
-    void set(T object) {
-        this.object = object;
+        void set(T object) {
+            this.object = object;
+        }
     }
 }
 
